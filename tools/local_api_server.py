@@ -615,8 +615,14 @@ def salla_checkout_by_sku_enabled() -> bool:
 
 
 def resolve_salla_checkout_id(product_id: int | str, mapped_salla_id: str | None) -> str | None:
-    # An import SKU alone is not evidence of a successfully published remote product.
-    return str(mapped_salla_id or "").strip() or None
+    mapped = str(mapped_salla_id or "").strip()
+    if mapped:
+        return mapped
+    # Guest Checkout identifies imported products by QETAA-{id} when no Partners token exists.
+    cfg = salla_config()
+    if salla_checkout_by_sku_enabled() and (cfg.get("store_id") or cfg.get("store_domain")):
+        return salla_checkout_sku(product_id)
+    return None
 
 
 def salla_item_identifier(salla_ref: str) -> tuple[str, str]:
@@ -959,6 +965,15 @@ def handle_salla_checkout(con: sqlite3.Connection, body: dict) -> dict:
             (local_pid,),
         ).fetchone()
         if not mapped or not mapped["salla_product_id"]:
+            if salla_checkout_by_sku_enabled() and salla_config().get("store_id"):
+                published = con.execute(
+                    "SELECT status FROM parts WHERE id=? AND status='published'",
+                    (local_pid,),
+                ).fetchone()
+                if published is None:
+                    raise RuntimeError("أحد المنتجات غير منشور ولا يمكن إتمام الدفع.")
+                items.append({"salla_product_id": salla_checkout_sku(local_pid), "quantity": qty})
+                continue
             raise RuntimeError("أحد المنتجات غير متزامن مع سلة ولا يمكن إتمام الدفع.")
         stock = mapped["last_known_quantity"]
         if stock is None or int(stock) < qty:
@@ -2656,6 +2671,7 @@ def checkout_truth_state(
     zid_id: str | None,
     zid_stock,
     zid_price,
+    allow_unverified_sku: bool = False,
 ) -> dict:
     provider = "zid" if zid_id else ("salla" if salla_id else None)
     stock_qty = zid_stock if zid_id else (salla_stock if salla_id else None)
@@ -2678,6 +2694,23 @@ def checkout_truth_state(
         blockers.append("سعر منصة الدفع غير متحقق")
     elif not price_verified:
         blockers.append("سعر منصة الدفع لا يطابق سعر المتجر")
+    sku_guest = (
+        allow_unverified_sku
+        and str(salla_id or "").upper().startswith("QETAA-")
+        and stock_qty is None
+        and remote_price is None
+        and not zid_id
+    )
+    if sku_guest:
+        return {
+            "provider": "salla",
+            "stock_quantity": None,
+            "in_stock": None,
+            "price_verified": False,
+            "can_checkout": True,
+            "blockers": [],
+            "checkout_mode": "salla_guest_sku",
+        }
     can_checkout = bool(provider and in_stock is True and price_verified)
     return {
         "provider": provider if can_checkout else None,
@@ -2686,6 +2719,7 @@ def checkout_truth_state(
         "price_verified": price_verified,
         "can_checkout": can_checkout,
         "blockers": blockers,
+        "checkout_mode": "verified" if can_checkout else None,
     }
 
 
@@ -2768,6 +2802,7 @@ def product_payload(con: sqlite3.Connection, row: sqlite3.Row, detailed: bool = 
         zid_id=zid_id,
         zid_stock=zid_stock,
         zid_price=zid_price,
+        allow_unverified_sku=salla_checkout_by_sku_enabled(),
     )
     stock_qty = checkout_truth["stock_quantity"]
     in_stock = checkout_truth["in_stock"]
@@ -2978,6 +3013,7 @@ def product_payloads_batch(con: sqlite3.Connection, rows: list, detailed: bool =
             zid_id=zid_id,
             zid_stock=zid_stock,
             zid_price=zid_price,
+            allow_unverified_sku=salla_checkout_by_sku_enabled(),
         )
         stock_qty = checkout_truth["stock_quantity"]
         in_stock = checkout_truth["in_stock"]

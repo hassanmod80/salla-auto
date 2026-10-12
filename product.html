@@ -728,7 +728,7 @@
 
     <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
     <script src="ads-tracker.js?v=ads2" defer></script>
-    <script src="app.js?v=copy231" defer></script>
+    <script src="app.js?v=copy232" defer></script>
     <script>
         function setSeoTag(selector, attribute, value) {
             if (!value) return;
@@ -1041,9 +1041,9 @@
                 const canBuyOnline = Boolean(
                     p.checkout_enabled === true
                     && p.can_checkout === true
-                    && p.in_stock === true
+                    && p.in_stock !== false
                     && (
-                        (window.ZID_LIVE && p.zid_product_id)
+                        (window.ZID_LIVE && p.zid_product_id && p.in_stock === true)
                         || (window.SALLA_LIVE && p.salla_product_id)
                     )
                 );

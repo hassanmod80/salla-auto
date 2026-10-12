@@ -749,9 +749,9 @@ function isSallaReadyForCart(cartItems = cart) {
     // Prefer Zid when both are live.
     if (ZID_LIVE && cartItems.some(item => item.zid_product_id)) return false;
     return cartItems.length > 0 && cartItems.every(item => (
-        item.in_stock === true
-        && item.checkout_enabled === true
+        item.checkout_enabled === true
         && item.salla_product_id
+        && item.in_stock !== false
     ));
 }
 
@@ -1767,10 +1767,10 @@ function createProductCardHtml(p) {
     const wishlistTooltip = getTranslation('tooltip_wishlist');
     const compareTooltip = getTranslation('tooltip_compare');
     const canBuy = Boolean(
-        p.in_stock === true
-        && p.checkout_enabled === true
+        p.checkout_enabled === true
+        && p.in_stock !== false
         && (
-            (ZID_LIVE && p.zid_product_id)
+            (ZID_LIVE && p.zid_product_id && p.in_stock === true)
             || (SALLA_LIVE && p.salla_product_id)
         )
     );
@@ -4022,6 +4022,8 @@ async function startOnlineCheckout() {
                 quantity: item.quantity,
             }))
             : cart.map(item => ({
+                id: item.id,
+                product_id: item.id,
                 salla_product_id: item.salla_product_id,
                 quantity: item.quantity,
             }));
