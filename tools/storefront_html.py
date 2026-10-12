@@ -43,6 +43,31 @@ def product_page(template, product, seo):
         preload='<link rel="preload" as="image" href="'+html.escape(product['image_url'],quote=True)+'" fetchpriority="high">'
         source=source.replace('</head>',preload+'\n</head>',1)
     source=source.replace('id="product-details" style="display:none;"','id="product-details" style="display:block;"')
+    source=source.replace(
+        '<div id="loading-spinner" class="text-center" style="padding: 100px;">',
+        '<div id="loading-spinner" class="text-center" style="display:none; padding: 100px;" hidden>',
+    )
+    crumbs=seo.get('breadcrumbs') or []
+    if crumbs:
+        trail=[]
+        for crumb in crumbs[:-1]:
+            trail.append('<a href="'+html.escape(crumb['path'], quote=True)+'">'+html.escape(crumb['name'])+'</a><span class="sep">/</span>')
+        trail.append('<span id="p-crumb">'+html.escape(crumbs[-1]['name'])+'</span>')
+        source=re.sub(
+            r'<div class="page-breadcrumb"[^>]*>.*?</div>',
+            '<div class="page-breadcrumb" id="page-breadcrumb" style="justify-content:flex-start; margin-bottom:22px;">'+''.join(trail)+'</div>',
+            source,
+            count=1,
+            flags=re.S,
+        )
+    brand_crumb=next((crumb for crumb in crumbs if str(crumb.get('path') or '').startswith('/brands/')), None)
+    brand_name=(product.get('brand') or {}).get('name_ar') if isinstance(product.get('brand'), dict) else ''
+    if brand_crumb and brand_name:
+        source=source.replace(
+            '<span id="p-brand">ماركة السيارة</span>',
+            '<a id="p-brand" href="'+html.escape(brand_crumb['path'], quote=True)+'">'+html.escape(brand_name)+'</a>',
+            1,
+        )
     # No-JavaScript visitors also get truthful product details and navigation.
     panel='<noscript><section class="container product-section-card"><h2>'+html.escape(product['name_ar'])+'</h2><p>'+html.escape(product['description'] or '')+'</p><p>'+html.escape(product['price_label'])+' — '+html.escape(product['availability_label'])+'</p><a class="btn btn-primary" href="contact.html">استفسر عن هذه القطعة</a></section></noscript>'
     bootstrap='<script id="storefront-product-data" type="application/json">'+safe_json({'data':product,'seo':seo})+'</script>'

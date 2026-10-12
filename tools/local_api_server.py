@@ -1506,7 +1506,44 @@ def default_share_image() -> str:
     return f"{_resolve_base_url()}/images/brand/china-parts-mark.png"
 
 
-def product_seo_payload(product: dict) -> dict:
+def product_internal_crumbs(con: sqlite3.Connection, product: dict) -> list[dict]:
+    """Crawlable brand/section links only when that landing is eligible."""
+    crumbs = []
+    brand = product.get("brand") if isinstance(product.get("brand"), dict) else {}
+    slug = str(brand.get("slug") or "").strip().lower()
+    name = str(brand.get("name_ar") or brand.get("name_en") or "").strip()
+    if slug and slug not in {"generic", "brand"} and name not in {"", "عام", "عامة"}:
+        ready = con.execute(
+            f"""
+            SELECT 1
+            FROM brands b
+            WHERE lower(b.slug)=?
+              AND COALESCE(b.is_active,1)=1
+              AND EXISTS (
+                SELECT 1 FROM parts p
+                WHERE p.brand_id = b.id AND {READY_WHERE}
+              )
+            LIMIT 1
+            """,
+            (slug,),
+        ).fetchone()
+        if ready:
+            crumbs.append({"name": name, "path": brand_landing_path(slug)})
+    category = product.get("category") if isinstance(product.get("category"), dict) else {}
+    key = str(category.get("slug") or "").strip().lower()
+    labels = FEATURED_CATEGORY_LANDINGS.get(key)
+    if labels:
+        key_sql, key_params = category_key_clause(key)
+        ready_category = con.execute(
+            f"SELECT 1 FROM parts p WHERE {READY_WHERE} AND {key_sql} LIMIT 1",
+            key_params,
+        ).fetchone() if key_sql else None
+        if ready_category:
+            crumbs.append({"name": labels["name_ar"], "path": category_landing_path(key)})
+    return crumbs
+
+
+def product_seo_payload(product: dict, extra_crumbs: list[dict] | None = None) -> dict:
     title = f"{product.get('name_ar') or product.get('name_en') or 'قطعة غيار'} | CHINA PARTS"
     raw_desc = product.get("short_description_ar") or product.get("description") or title
     desc = re.sub(r"\s+", " ", str(raw_desc)).strip()[:160]
@@ -1546,26 +1583,32 @@ def product_seo_payload(product: dict) -> dict:
                 "itemListElement": [
                     {
                         "@type": "ListItem",
-                        "position": 1,
-                        "name": "الرئيسية",
-                        "item": f"{_resolve_base_url()}/",
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "الكتالوج",
-                        "item": f"{_resolve_base_url()}/collection.html",
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": product.get("name_ar") or product.get("name_en"),
-                        "item": url,
-                    },
+                        "position": index,
+                        "name": crumb["name"],
+                        "item": crumb["item"],
+                    }
+                    for index, crumb in enumerate(
+                        [
+                            {"name": "الرئيسية", "item": f"{_resolve_base_url()}/"},
+                            {"name": "الكتالوج", "item": f"{_resolve_base_url()}/collection.html"},
+                            *[
+                                {"name": crumb["name"], "item": f"{_resolve_base_url()}{crumb['path']}"}
+                                for crumb in (extra_crumbs or [])
+                            ],
+                            {"name": product.get("name_ar") or product.get("name_en"), "item": url},
+                        ],
+                        start=1,
+                    )
                 ],
             },
         ],
     }
+    visible_crumbs = [
+        {"name": "الرئيسية", "path": "/"},
+        {"name": "الكتالوج", "path": "/collection.html"},
+        *[{"name": crumb["name"], "path": crumb["path"]} for crumb in (extra_crumbs or [])],
+        {"name": product.get("name_ar") or product.get("name_en") or "تفاصيل القطعة", "path": f"/product.html?id={product['id']}"},
+    ]
     return {
         "title": title,
         "meta_title_ar": title,
@@ -1575,6 +1618,7 @@ def product_seo_payload(product: dict) -> dict:
         "og_image": image,
         "open_graph": {"title": title, "description": desc, "image": image, "url": url},
         "structured_data": structured,
+        "breadcrumbs": visible_crumbs,
     }
 
 
@@ -3414,7 +3458,8 @@ def render_storefront_document(con: sqlite3.Connection, path: str, qs: dict) -> 
             )
             return missing.encode("utf-8"), 404
         product = product_payload(con, row, detailed=True)
-        seo = product_seo_payload(product)
+        crumbs = product_internal_crumbs(con, product)
+        seo = product_seo_payload(product, crumbs)
         return product_page(template, product, seo).encode("utf-8"), 200
 
     landing = parse_storefront_landing(path)
@@ -4523,7 +4568,7 @@ class Handler(BaseHTTPRequestHandler):
                     self.json({"message": "Not found"}, status=404)
                     return
                 p = product_payload(con, row, detailed=False)
-                self.json({"data": product_seo_payload(p)})
+                self.json({"data": product_seo_payload(p, product_internal_crumbs(con, p))})
                 return
 
             # --- Admin API GET Endpoints ---

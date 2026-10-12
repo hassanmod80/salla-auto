@@ -107,6 +107,11 @@ class StorefrontTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn(b'product-jsonld', product_html)
         self.assertNotIn(b'"mpn":""', product_html)
+        self.assertIn(b'id="loading-spinner" class="text-center" style="display:none;', product_html)
+        brand = product.get('brand') or {}
+        brand_slug = str(brand.get('slug') or '')
+        if brand_slug and brand_slug not in {'generic', 'brand'}:
+            self.assertIn(('/brands/' + brand_slug + '/').encode(), product_html)
         self.assertEqual(self.request('/api/storefront/products/999999999')[0], 404)
         for path in ['/api/brands','/api/categories','/api/models/1','/api/search?q=PC201132-1301-CH',
                      '/api/storefront/products?brand=1&sort=price_asc',
