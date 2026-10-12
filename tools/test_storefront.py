@@ -113,6 +113,12 @@ class StorefrontTests(unittest.TestCase):
         if brand_slug and brand_slug not in {'generic', 'brand'}:
             self.assertIn(('/brands/' + brand_slug + '/').encode(), product_html)
         self.assertEqual(self.request('/api/storefront/products/999999999')[0], 404)
+        with closing(sqlite3.connect(app.DB_PATH)) as con:
+            hidden = con.execute(
+                "SELECT p.id FROM parts p WHERE NOT (" + app.READY_WHERE + ") LIMIT 1"
+            ).fetchone()
+        self.assertIsNotNone(hidden)
+        self.assertEqual(self.request('/api/storefront/products/' + str(hidden[0]))[0], 404)
         for path in ['/api/brands','/api/categories','/api/models/1','/api/search?q=PC201132-1301-CH',
                      '/api/storefront/products?brand=1&sort=price_asc',
                      '/api/storefront/products?category_key=brakes&in_stock=true']:

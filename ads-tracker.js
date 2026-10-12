@@ -263,7 +263,10 @@
             return { search_term: 'catalog_search' };
         }
         if (name === 'generate_lead' || name === 'whatsapp_click' || name === 'phone_click') {
-            const method = name === 'phone_click' || source.contact_method === 'phone' ? 'phone' : 'whatsapp';
+            const requested = cleanText(source.contact_method || source.content_name, 20).toLowerCase();
+            const method = name === 'phone_click' || requested === 'phone'
+                ? 'phone'
+                : (requested === 'form' || requested === 'contact_form' ? 'form' : 'whatsapp');
             return { contact_method: method };
         }
         if (!COMMERCE_EVENTS.has(name)) return null;

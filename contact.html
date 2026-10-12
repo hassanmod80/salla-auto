@@ -358,7 +358,7 @@
                     feedback.className = 'form-feedback success';
                     feedback.textContent = data.message || 'تم إرسال رسالتك بنجاح.';
                     if (typeof window.trackAdsEvent === 'function') {
-                        window.trackAdsEvent('generate_lead', { content_name: 'contact_form' });
+                        window.trackAdsEvent('generate_lead', { contact_method: 'form' });
                     }
                     form.reset();
                 } catch (err) {

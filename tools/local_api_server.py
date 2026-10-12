@@ -4288,7 +4288,16 @@ class Handler(BaseHTTPRequestHandler):
 
             if path.startswith("/api/storefront/products/"):
                 key = path.rsplit("/", 1)[-1]
-                row = con.execute("SELECT * FROM parts WHERE id=?", (int(key),)).fetchone() if key.isdigit() else con.execute("SELECT * FROM parts WHERE slug=?", (key,)).fetchone()
+                if key.isdigit():
+                    row = con.execute(
+                        f"SELECT * FROM parts p WHERE p.id=? AND {READY_WHERE}",
+                        (int(key),),
+                    ).fetchone()
+                else:
+                    row = con.execute(
+                        f"SELECT * FROM parts p WHERE p.slug=? AND {READY_WHERE}",
+                        (key,),
+                    ).fetchone() if key else None
                 if row is None:
                     self.json({"message": "Not found"}, status=404)
                     return
@@ -4563,7 +4572,13 @@ class Handler(BaseHTTPRequestHandler):
 
             if path.startswith("/api/seo-products/"):
                 key = path.rsplit("/", 1)[-1]
-                row = con.execute("SELECT * FROM parts WHERE id=?", (int(key),)).fetchone() if key.isdigit() else con.execute("SELECT * FROM parts WHERE slug=?", (key,)).fetchone()
+                row = con.execute(
+                    f"SELECT * FROM parts p WHERE p.id=? AND {READY_WHERE}",
+                    (int(key),),
+                ).fetchone() if key.isdigit() else con.execute(
+                    f"SELECT * FROM parts p WHERE p.slug=? AND {READY_WHERE}",
+                    (key,),
+                ).fetchone()
                 if row is None:
                     self.json({"message": "Not found"}, status=404)
                     return
