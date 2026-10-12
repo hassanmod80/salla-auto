@@ -408,5 +408,30 @@ class StorefrontTests(unittest.TestCase):
         )
 
 
+    def test_salla_webhook_signature_and_status_redaction(self):
+        import hashlib
+        import hmac
+        import salla_connect
+
+        secret = 'unit-test-webhook-secret'
+        body = json.dumps({
+            'event': 'product.updated',
+            'data': {'id': 555001, 'sku': 'NO-MATCH-SKU', 'name': 'قطعة اختبار', 'price': {'amount': 12}, 'quantity': 3},
+        }).encode('utf-8')
+        signature = hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+        self.assertFalse(salla_connect.verify_webhook({'SALLA_WEBHOOK_SECRET': secret}, body, 'bad'))
+        self.assertTrue(salla_connect.verify_webhook({'SALLA_WEBHOOK_SECRET': secret}, body, signature))
+        with closing(sqlite3.connect(app.DB_PATH)) as con:
+            con.row_factory = sqlite3.Row
+            result = salla_connect.accept_webhook(con, {'SALLA_WEBHOOK_SECRET': secret}, body, signature)
+            self.assertTrue(result['ok'])
+            again = salla_connect.accept_webhook(con, {'SALLA_WEBHOOK_SECRET': secret}, body, signature)
+            self.assertTrue(again['duplicate'])
+            status = salla_connect.integration_status(con, {}, self.base)
+            self.assertNotIn('access_token', json.dumps(status))
+            self.assertIn('redirect_uri', status)
+            self.assertTrue(status['redirect_uri'].endswith('/api/salla/oauth/callback'))
+
+
 if __name__ == '__main__':
     unittest.main()

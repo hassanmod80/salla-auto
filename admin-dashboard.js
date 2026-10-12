@@ -164,6 +164,9 @@ function renderApp() {
                     <button id="nav-brands" type="button" onclick="switchTab('brands')">
                         <i class="fa-solid fa-tags"></i> الماركات
                     </button>
+                    <button id="nav-salla" type="button" onclick="switchTab('salla')">
+                        <i class="fa-solid fa-link"></i> تكامل سلة
+                    </button>
                     <button id="nav-settings" type="button" onclick="switchTab('settings')">
                         <i class="fa-solid fa-gear"></i> الإعدادات
                     </button>
@@ -265,6 +268,21 @@ function renderApp() {
                     </div>
                 </section>
 
+                <section id="tab-salla" class="section">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2>تكامل سلة | Salla Integration</h2>
+                            <span id="salla-state" class="badge">...</span>
+                        </div>
+                        <div id="salla-status" class="simple-box">جارٍ فحص الاتصال.</div>
+                        <div class="toolbar">
+                            <button class="btn" type="button" onclick="probeSalla()">فحص الاتصال</button>
+                            <button class="btn" type="button" onclick="syncSalla()">إعادة المزامنة</button>
+                            <a class="btn btn-ghost" href="/api/salla/oauth/start">إعادة ربط الحساب</a>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="tab-settings" class="section">
                     <div class="admin-head">
                         <div>
@@ -328,7 +346,7 @@ function renderApp() {
 
 function switchTab(tab) {
     currentTab = tab;
-    ['orders', 'products', 'messages', 'brands', 'settings', 'home'].forEach((name) => {
+    ['orders', 'products', 'messages', 'brands', 'salla', 'settings', 'home'].forEach((name) => {
         document.getElementById(`tab-${name}`)?.classList.toggle('active', name === tab);
         document.getElementById(`nav-${name}`)?.classList.toggle('active', name === tab);
     });
@@ -336,7 +354,56 @@ function switchTab(tab) {
     if (tab === 'products') loadProducts();
     if (tab === 'messages') loadMessages();
     if (tab === 'brands') loadBrands();
+    if (tab === 'salla') loadSallaIntegration();
     if (tab === 'home') loadStats();
+}
+
+function renderSallaStatus(data) {
+    const state = document.getElementById('salla-state');
+    const box = document.getElementById('salla-status');
+    if (!state || !box || !data) return;
+    state.textContent = data.connected ? 'متصل' : 'غير متصل';
+    state.className = data.connected ? 'badge ok' : 'badge';
+    const last = data.last_sync || {};
+    box.innerHTML = `
+        <strong>المتجر:</strong> ${escapeHtml(data.store_domain || '-')} · رقم الإعداد: ${data.store_id_configured ? 'موجود' : 'غير موجود'}<br>
+        <strong>آخر نجاح:</strong> ${escapeHtml(data.last_success_at || 'لا يوجد')}<br>
+        <strong>انتهاء التفويض:</strong> ${escapeHtml(data.access_expires_at || 'غير متصل')}<br>
+        <strong>منتجات منشورة:</strong> ${data.published_products} · <strong>مرتبطة:</strong> ${data.linked_products} · <strong>غير مرتبطة:</strong> ${data.unlinked_products}<br>
+        <strong>تعارض سعر:</strong> ${data.price_conflicts} · <strong>مخزون نفد في الربط:</strong> ${data.out_of_stock_linked} · <strong>من سلة بلا مقابل:</strong> ${data.unmatched_remote_products}<br>
+        <strong>آخر مزامنة:</strong> ${escapeHtml(last.status || 'لم تبدأ')} ${escapeHtml(last.finished_at || '')}<br>
+        <strong>رابط العودة المطلوب في شركاء سلة:</strong> ${escapeHtml(data.redirect_uri || '')}<br>
+        <strong>السبب:</strong> ${escapeHtml(data.reason || data.last_error || 'لا يوجد')}
+    `;
+}
+
+async function loadSallaIntegration() {
+    try {
+        const res = await fetchJson('/admin/salla/status');
+        renderSallaStatus(res.data);
+    } catch (error) {
+        toast(error.message || 'تعذر قراءة حالة سلة');
+    }
+}
+
+async function probeSalla() {
+    try {
+        const res = await fetchJson('/admin/salla/probe', { method: 'POST', body: '{}' });
+        toast(res.data && res.data.ok ? 'الاتصال ناجح' : 'الاتصال غير مكتمل');
+    } catch (error) {
+        toast(error.message || 'تعذر فحص سلة');
+    }
+    loadSallaIntegration();
+}
+
+async function syncSalla() {
+    try {
+        const res = await fetchJson('/admin/salla/sync', { method: 'POST', body: '{}' });
+        toast(res.started ? 'بدأت المزامنة' : 'تعذر بدء المزامنة');
+    } catch (error) {
+        toast(error.message || 'تعذر بدء المزامنة');
+    }
+    setTimeout(loadSallaIntegration, 1500);
 }
 
 function formatDate(value) {

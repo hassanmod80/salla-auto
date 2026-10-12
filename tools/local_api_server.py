@@ -28,6 +28,16 @@ import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+from salla_connect import (
+    accept_webhook,
+    authorization_url,
+    consume_oauth_state,
+    create_oauth_state,
+    exchange_authorization_code,
+    integration_status,
+    probe_connection,
+    sync_catalog,
+)
 from storefront_html import collection_page, metadata as html_metadata, product_page
 
 ROOT = Path(os.environ.get("APP_ROOT") or Path(__file__).resolve().parents[1]).resolve()
@@ -4197,7 +4207,48 @@ class Handler(BaseHTTPRequestHandler):
                 return
 
             if path == "/api/salla/status":
-                self.json(salla_status_payload())
+                payload = salla_status_payload()
+                payload["integration"] = integration_status(con, load_env_map(), _resolve_base_url())
+                self.json(payload)
+                return
+
+            if path == "/api/salla/oauth/start":
+                try:
+                    state = create_oauth_state(con)
+                    target = authorization_url(load_env_map(), _resolve_base_url(), state)
+                except RuntimeError as exc:
+                    self.json({"message": str(exc)}, status=503)
+                    return
+                self.send_redirect(target, status=302)
+                return
+
+            if path == "/api/salla/oauth/callback":
+                code = str((qs.get("code") or [""])[0]).strip()
+                state = str((qs.get("state") or [""])[0]).strip()
+                if not code or not consume_oauth_state(con, state):
+                    self.send_bytes(
+                        "تعذر تأكيد طلب الربط. أعد المحاولة من لوحة الإدارة.".encode("utf-8"),
+                        "text/plain; charset=utf-8",
+                        status=400,
+                    )
+                    return
+                try:
+                    exchange_authorization_code(con, load_env_map(), _resolve_base_url(), code)
+                except RuntimeError:
+                    self.send_bytes(
+                        "لم يكتمل تفويض سلة. حدّث رابط العودة في لوحة شركاء سلة ثم أعد الربط.".encode("utf-8"),
+                        "text/plain; charset=utf-8",
+                        status=502,
+                    )
+                    return
+                self.send_bytes(
+                    "تم حفظ ربط سلة على الخادم. يمكنك إغلاق هذه الصفحة والعودة إلى لوحة الإدارة.".encode("utf-8"),
+                    "text/plain; charset=utf-8",
+                )
+                return
+
+            if path == "/api/admin/salla/status":
+                self.json({"success": True, "data": integration_status(con, load_env_map(), _resolve_base_url())})
                 return
 
             if path in {"/api/salla/sync-batch", "/api/admin/salla/sync-batch"}:
@@ -4908,8 +4959,32 @@ class Handler(BaseHTTPRequestHandler):
             con.close()
         self.json({"success": True, "data": {"tracking_confirmation": confirmation}})
 
+    def _handle_salla_webhook(self) -> None:
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+        except (TypeError, ValueError):
+            self.json({"message": "طول الطلب غير صالح."}, status=400)
+            return
+        if length < 0 or length > MAX_JSON_BODY_BYTES:
+            self.json({"message": "حجم الطلب أكبر من الحد المسموح."}, status=413)
+            return
+        raw = self.rfile.read(length) if length else b""
+        signature = str(self.headers.get("X-Salla-Signature") or "")
+        con = connect()
+        try:
+            result = accept_webhook(con, load_env_map(), raw, signature)
+        finally:
+            con.close()
+        self.json(
+            {"success": bool(result.get("ok")), "duplicate": bool(result.get("duplicate"))},
+            status=200 if result.get("ok") else int(result.get("status") or 401),
+        )
+
     def do_POST(self) -> None:
         path, _ = self._get_clean_path()
+        if path == "/api/salla/webhook":
+            self._handle_salla_webhook()
+            return
         if path != "/api/internal/payment-webhook" and not self._write_origin_allowed():
             self.json({"message": "مصدر الطلب غير مسموح."}, status=403)
             return
@@ -4926,6 +5001,30 @@ class Handler(BaseHTTPRequestHandler):
 
         if path == "/api/internal/payment-webhook":
             self._handle_payment_webhook(body)
+            return
+        if path == "/api/admin/salla/probe":
+            con = connect()
+            try:
+                self.json({"success": True, "data": probe_connection(con, load_env_map())})
+            finally:
+                con.close()
+            return
+        if path == "/api/admin/salla/sync":
+            from salla_connect import _SYNC_RUNNING
+
+            if _SYNC_RUNNING:
+                self.json({"success": False, "reason": "sync_already_running"}, status=409)
+                return
+
+            def run_sync() -> None:
+                db = connect()
+                try:
+                    sync_catalog(db, load_env_map())
+                finally:
+                    db.close()
+
+            threading.Thread(target=run_sync, daemon=True).start()
+            self.json({"success": True, "started": True})
             return
         if path == "/api/storefront/favorites":
             self._add_interaction("favorites", body, max_items=100)
