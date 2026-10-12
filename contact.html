@@ -1,0 +1,377 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>تواصل معنا | CHINA PARTS</title>
+    <meta name="description" content="تواصل مع CHINA PARTS عبر واتساب أو نموذج التواصل للمساعدة في البحث عن قطعة ومراجعة رقمها وتوافقها وتوفرها قبل الطلب.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://chinapartsksa.com/contact.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CHINA PARTS">
+    <meta property="og:locale" content="ar_SA">
+    <meta property="og:url" content="https://chinapartsksa.com/contact.html">
+    <meta property="og:title" content="تواصل معنا | CHINA PARTS">
+    <meta property="og:description" content="دعم فني وواتساب لاختيار قطعة الغيار المناسبة.">
+    <meta property="og:image" content="https://chinapartsksa.com/images/brand/china-parts-mark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
+    <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
+    <link rel="stylesheet" href="style.css?v=copy230">
+    <style>
+        .contact-page {
+            padding: 40px 20px 90px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 24px;
+            align-items: start;
+        }
+        .contact-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            padding: 28px;
+        }
+        .contact-card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-card h2 i { color: var(--color-primary); }
+        .form-group {
+            margin-bottom: 16px;
+            text-align: right;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(31,95,214,.55);
+            box-shadow: 0 0 0 3px rgba(31,95,214,.12);
+        }
+        .form-group textarea { min-height: 140px; resize: vertical; }
+        .form-feedback {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            display: none;
+        }
+        .form-feedback.success {
+            display: block;
+            background: rgba(76,175,80,.12);
+            border: 1px solid rgba(76,175,80,.4);
+            color: #4CAF50;
+        }
+        .form-feedback.error {
+            display: block;
+            background: rgba(244,67,54,.12);
+            border: 1px solid rgba(244,67,54,.4);
+            color: #F44336;
+        }
+        .contact-info-list {
+            list-style: none;
+            display: grid;
+            gap: 14px;
+        }
+        .contact-info-list li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--color-border);
+        }
+        .contact-info-list i {
+            color: var(--color-primary);
+            margin-top: 4px;
+        }
+        @media (max-width: 860px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="96" height="96" alt="">
+                </span>
+                <span class="logo-text">
+                    <strong data-translate="logo_text">CHINA PARTS</strong>
+                    <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                </span>
+            </a>
+            <div class="global-search-container">
+                <div class="global-search-input" style="position: relative;">
+                    <input type="text" id="global-search-input" placeholder="ابحث برقم القطعة (OEM)، الاسم، أو رقم الهيكل (VIN)..." data-translate-placeholder="search_placeholder" autocomplete="off">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div id="global-search-results" class="global-search-results" hidden>
+                    <div id="global-search-loading" class="global-search-loading" hidden>
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري البحث...
+                    </div>
+                    <div id="global-search-vin-notice" class="global-search-vin-notice" hidden>
+                        <i class="fa-solid fa-car"></i> <span id="vin-vehicle-name"></span>
+                    </div>
+                    <div id="global-search-list"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>واتساب</span>
+                </a>
+                <button class="btn-icon cart-trigger" type="button" aria-label="السلة">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge cart-badge" style="display:none">0</span>
+                </button>
+                <button class="mobile-menu-btn" type="button" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <nav class="header-nav" aria-label="القائمة الرئيسية">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link" data-translate="home">الرئيسية</a>
+                    <div class="dropdown">
+                        <a href="#" class="nav-link"><span data-translate="brands">الماركات</span> <i class="fa-solid fa-chevron-down"></i></a>
+                        <div class="dropdown-menu" id="brands-dropdown-menu"></div>
+                    </div>
+                    <a href="collection.html" class="nav-link" data-translate="all_parts">جميع القطع</a>
+                    <a href="about.html" class="nav-link" data-translate="about">عن المتجر</a>
+                    <a href="contact.html" class="nav-link active" data-translate="contact">تواصل معنا</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="contact-page">
+        <div class="content-page-header" style="margin-bottom:28px;">
+            <div class="page-breadcrumb">
+                <a href="index.html">الرئيسية</a>
+                <span class="sep">/</span>
+                <span>تواصل معنا</span>
+            </div>
+            <h1 data-translate="contact_title">تواصل معنا</h1>
+            <p data-translate="contact_desc1">أرسل بيانات القطعة والسيارة لنساعدك في البحث والمراجعة قبل الطلب.</p>
+        </div>
+
+        <section class="contact-concierge"><div><span class="service-kicker">قطعتك علينا… والاختيار معك</span><h2>مش لاقي قطعة سيارتك الصينية؟</h2><p>أرسل صورة القطعة أو رقمها مع الماركة والموديل. نبحث عنها ونوضح السعر ومدة التوفير قبل تأكيد طلبك.</p><a class="btn btn-primary" href="https://wa.me/966563156460?text=مرحباً%20CHINA%20PARTS،%20أحتاج%20مساعدة%20في%20توفير%20قطعة.%0Aالقطعة:%0Aالسيارة%20والموديل:%0Aرقم%20الهيكل%20إن%20توفر:" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب القطعة عبر واتساب</a></div><ol class="concierge-steps"><li><span>01</span><div><strong>أرسل بيانات القطعة</strong><small>الرقم أو الصورة وبيانات السيارة</small></div></li><li><span>02</span><div><strong>نبحث ونراجع معك</strong><small>توضيح المواصفات والتوفر</small></div></li><li><span>03</span><div><strong>تأكد قبل الطلب</strong><small>السعر ومدة التوفير قبل التأكيد</small></div></li></ol></section><div class="contact-grid">
+            <div class="contact-card">
+                <h2><i class="fa-solid fa-paper-plane"></i> أرسل رسالة</h2>
+                <form id="contact-form" novalidate>
+                    <div class="form-group">
+                        <label for="contact-name" data-translate="contact_form_name">الاسم الكامل</label>
+                        <input type="text" id="contact-name" name="name" required minlength="2" maxlength="120" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email" data-translate="contact_form_email">البريد الإلكتروني</label>
+                        <input type="email" id="contact-email" name="email" required maxlength="190" autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message" data-translate="contact_form_msg">رسالتك</label>
+                        <textarea placeholder="اكتب اسم القطعة، ماركة السيارة، الموديل والسنة، ورقم القطعة إن توفر…" id="contact-message" name="message" required minlength="10" maxlength="5000"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="contact-submit" style="width:100%;">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span data-translate="contact_send_btn">إرسال الرسالة</span>
+                    </button>
+                    <div id="contact-feedback" class="form-feedback" role="status" aria-live="polite"></div>
+                </form>
+            </div>
+
+            <div class="contact-card">
+                <h2><i class="fa-solid fa-headset"></i> وسائل التواصل المباشر</h2>
+                <ul class="contact-info-list">
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <strong data-translate="contact_email">البريد الإلكتروني</strong><br>
+                            info@chinapartsksa.com
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <div>
+                            <strong data-translate="contact_whatsapp">واتساب</strong><br>
+                            0563156460
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-clock"></i>
+                        <div>
+                            <strong>قنوات الدعم</strong><br>
+                            واتساب ونموذج التواصل في هذه الصفحة
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <strong>التغطية</strong><br>
+                            المملكة العربية السعودية — تُؤكد إمكانية الشحن حسب المدينة والطلب
+                        </div>
+                    </li>
+                </ul>
+                <a class="btn btn-outline" style="width:100%; margin-top:20px;" href="https://wa.me/966563156460?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20CHINA%20PARTS" target="_blank" rel="noopener">
+                    <i class="fa-brands fa-whatsapp"></i> تواصل عبر واتساب
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+                <div class="container footer-shell">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-block">
+                        <a href="index.html" class="logo">
+                            <span class="logo-mark" aria-hidden="true">
+                                <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="48" height="48" alt="CHINA PARTS">
+                            </span>
+                            <span class="logo-text">
+                                <strong data-translate="logo_text">CHINA PARTS</strong>
+                                <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                            </span>
+                        </a>
+                        <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
+                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>تسوق</h3>
+                    <ul>
+                        <li><a href="collection.html" data-translate="all_parts">جميع القطع</a></li>
+                        <li><a href="index.html#brands-section">الماركات</a></li>
+                        <li><a href="index.html#categories-section">الأقسام</a></li>
+                        <li><a href="index.html#offers-section">العروض</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>خدمة العملاء</h3>
+                    <ul>
+                        <li><a href="about.html" data-translate="about">عن المتجر</a></li>
+                        <li><a href="contact.html" data-translate="contact">تواصل معنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                        <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">الشروط والشحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تواصل</h3>
+                    <ul>
+                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
+                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-copy" data-translate="copyright">&copy; 2026 CHINA PARTS — جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> <span data-translate="cart_title">سلة المشتريات</span></h3>
+            <button class="close-drawer"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span data-translate="total">المجموع:</span><span id="cart-total-price">0.00 ر.س</span></div>
+            <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()" data-translate="checkout_btn">إرسال طلب التحقق</button>
+        </div>
+    </div>
+
+    <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
+    <script src="ads-tracker.js?v=ads1"></script>
+    <script src="app.js?v=copy230"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contact-form');
+            const feedback = document.getElementById('contact-feedback');
+            const submitBtn = document.getElementById('contact-submit');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                feedback.className = 'form-feedback';
+                feedback.textContent = '';
+
+                const payload = {
+                    name: document.getElementById('contact-name').value.trim(),
+                    email: document.getElementById('contact-email').value.trim(),
+                    message: document.getElementById('contact-message').value.trim(),
+                };
+
+                if (!payload.name || !payload.email || !payload.message) {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = 'يرجى تعبئة جميع الحقول المطلوبة.';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                const original = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الإرسال...';
+
+                try {
+                    const res = await fetch(`${API_BASE}/contact`, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+                    const data = await res.json().catch(() => ({}));
+                    if (!res.ok) {
+                        throw new Error(data.message || 'تعذر إرسال الرسالة.');
+                    }
+
+                    feedback.className = 'form-feedback success';
+                    feedback.textContent = data.message || 'تم إرسال رسالتك بنجاح.';
+                    if (typeof window.trackAdsEvent === 'function') {
+                        window.trackAdsEvent('generate_lead', { content_name: 'contact_form' });
+                    }
+                    form.reset();
+                } catch (err) {
+                    feedback.className = 'form-feedback error';
+                    feedback.textContent = err.message || 'تعذر إرسال الرسالة. حاول مرة أخرى.';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = original;
+                }
+            });
+        });
+    </script>
+<script src="store-experience.js?v=1" defer></script>
+<script src="store-motion.js?v=1" defer></script>
+</body>
+</html>

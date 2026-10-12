@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title id="seo-title">صفحة متقاعدة | CHINA PARTS</title>
+    <meta name="description" id="seo-desc" content="هذه الصفحة لم تعد صفحة هبوط قابلة للفهرسة. استخدم الكتالوج أو صفحات الماركات.">
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Premium Styles -->
+    <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
+    <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
+    <link rel="stylesheet" href="style.css?v=ux206">
+    
+    <script id="schema-script" type="application/ld+json"></script>
+    <style>
+        .seo-header {
+            background: linear-gradient(135deg, var(--color-surface) 0%, rgba(255,87,34,0.1) 100%);
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .seo-h1 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+        .seo-h2 {
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+        .seo-breadcrumb {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .seo-breadcrumb a {
+            color: var(--color-text-main);
+        }
+        .seo-breadcrumb a:hover {
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="96" height="96" alt="">
+                </span>
+                <span class="logo-text">
+                    <strong data-translate="logo_text">CHINA PARTS</strong>
+                    <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                </span>
+            </a>
+            <div class="global-search-container">
+                <div class="global-search-input" style="position: relative;">
+                    <input type="text" id="global-search-input" placeholder="ابحث برقم القطعة (OEM)، الاسم، أو رقم الهيكل (VIN)..." data-translate-placeholder="search_placeholder" autocomplete="off">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div id="global-search-results" class="global-search-results" hidden>
+                    <div id="global-search-loading" class="global-search-loading" hidden>
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري البحث...
+                    </div>
+                    <div id="global-search-vin-notice" class="global-search-vin-notice" hidden>
+                        <i class="fa-solid fa-car"></i> <span id="vin-vehicle-name"></span>
+                    </div>
+                    <div id="global-search-list"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>واتساب</span>
+                </a>
+                <button class="btn-icon cart-trigger" type="button" aria-label="السلة">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge cart-badge" style="display:none">0</span>
+                </button>
+                <button class="mobile-menu-btn" type="button" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <nav class="header-nav" aria-label="القائمة الرئيسية">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link" data-translate="home">الرئيسية</a>
+                    <div class="dropdown">
+                        <a href="#" class="nav-link"><span data-translate="brands">الماركات</span> <i class="fa-solid fa-chevron-down"></i></a>
+                        <div class="dropdown-menu" id="brands-dropdown-menu"></div>
+                    </div>
+                    <a href="collection.html" class="nav-link" data-translate="all_parts">جميع القطع</a>
+                    <a href="about.html" class="nav-link" data-translate="about">عن المتجر</a>
+                    <a href="contact.html" class="nav-link" data-translate="contact">تواصل معنا</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="loading-spinner" class="text-center" style="padding: 100px;">
+        <i class="fa-solid fa-spinner fa-spin fa-3x text-muted"></i>
+    </div>
+    
+    <div id="error-message" class="text-center text-error" style="display:none; padding: 100px;">
+        <h2>الصفحة غير موجودة أو لم يتم العثور على أجزاء</h2>
+        <a href="index.html" class="btn btn-outline mt-2">العودة للرئيسية</a>
+    </div>
+
+    <div id="seo-content" style="display: none;">
+        <!-- Dynamic SEO Header -->
+        <div class="seo-header">
+            <div class="container">
+                <div class="seo-breadcrumb" id="seo-breadcrumb">
+                    <!-- Injected via JS -->
+                </div>
+                <h1 class="seo-h1" id="page-h1"></h1>
+                <h2 class="seo-h2" id="page-h2"></h2>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <section class="container mt-3 mb-3">
+            <div class="section-header">
+                <h2 class="section-title">القطع المتاحة</h2>
+            </div>
+            
+            <div class="products-grid" id="seo-products-grid">
+                <!-- Products loaded via API -->
+            </div>
+        </section>
+        
+        <!-- Auto Generated SEO Content / FAQ -->
+        <section class="container mt-3 mb-3" style="background: var(--color-surface); padding: 40px; border-radius: var(--border-radius-lg);">
+            <h3 style="margin-bottom: 20px; color: var(--color-primary);">معلومات تهمك</h3>
+            <div id="seo-extra-content" style="color: var(--color-text-muted); line-height: 1.8;">
+                راجع رقم القطعة والمواصفات المتاحة، وتواصل معنا لتأكيد التوافق والتوفر والسعر النهائي والشحن قبل الطلب.
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+                <div class="container footer-shell">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-block">
+                        <a href="index.html" class="logo">
+                            <span class="logo-mark" aria-hidden="true">
+                                <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="48" height="48" alt="CHINA PARTS">
+                            </span>
+                            <span class="logo-text">
+                                <strong data-translate="logo_text">CHINA PARTS</strong>
+                                <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                            </span>
+                        </a>
+                        <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
+                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>تسوق</h3>
+                    <ul>
+                        <li><a href="collection.html" data-translate="all_parts">جميع القطع</a></li>
+                        <li><a href="index.html#brands-section">الماركات</a></li>
+                        <li><a href="index.html#categories-section">الأقسام</a></li>
+                        <li><a href="index.html#offers-section">العروض</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>خدمة العملاء</h3>
+                    <ul>
+                        <li><a href="about.html" data-translate="about">عن المتجر</a></li>
+                        <li><a href="contact.html" data-translate="contact">تواصل معنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                        <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">الشروط والشحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تواصل</h3>
+                    <ul>
+                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
+                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-copy" data-translate="copyright">&copy; 2026 CHINA PARTS — جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> <span data-translate="cart_title">سلة المشتريات</span></h3>
+            <button class="close-drawer"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-translate="total">المجموع:</span>
+                <span id="cart-total-price">0.00 ر.س</span>
+            </div>
+            <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()" data-translate="checkout_btn">إرسال طلب التحقق</button>
+        </div>
+    </div>
+
+    <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
+    <script src="ads-tracker.js?v=ads1"></script>
+    <script src="app.js?v=ux204"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Determine slugs from the URL path or hash
+            // Since this is a static site without a real router (like Next.js),
+            // We use Hash based routing or Query params for the SEO page.
+            // Example: seo_landing.html?path=changan/cs95/2024
+            const urlParams = new URLSearchParams(window.location.search);
+            const path = urlParams.get('path'); // e.g., "changan/cs95/2024"
+            
+            if (!path) {
+                document.getElementById('loading-spinner').style.display = 'none';
+                document.getElementById('error-message').style.display = 'block';
+                return;
+            }
+
+            try {
+                // Call the Laravel SEO API
+                // /api/seo/{brand_slug}/{model_slug?}/{year?}/{category_slug?}
+                const apiUrl = `${API_BASE}/seo/${path}`;
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) throw new Error('Not found');
+                const data = await response.json();
+                
+                // Inject SEO Meta
+                document.getElementById('seo-title').innerText = data.seo.title;
+                document.getElementById('seo-desc').content = data.seo.meta_description;
+                document.getElementById('schema-script').textContent = JSON.stringify(data.seo.schema);
+                
+                // Inject Content
+                document.getElementById('page-h1').innerText = data.seo.h1;
+                document.getElementById('page-h2').innerText = data.seo.meta_description;
+                
+                // Breadcrumb
+                let bc = `<a href="index.html">الرئيسية</a>`;
+                if (data.brand) bc += ` / <a href="seo_landing.html?path=${data.brand.slug}">${data.brand.name_ar}</a>`;
+                if (data.model) bc += ` / <a href="seo_landing.html?path=${data.brand.slug}/${data.model.slug}">${data.model.name_ar}</a>`;
+                if (data.year) bc += ` / <span>${data.year.year}</span>`;
+                document.getElementById('seo-breadcrumb').innerHTML = bc;
+                
+                // Render Products
+                const grid = document.getElementById('seo-products-grid');
+                if (data.products.length === 0) {
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted);">لم يتم العثور على قطع متطابقة حالياً.</div>';
+                } else {
+                    grid.innerHTML = data.products.map(p => `
+                        <div class="product-card">
+                            <div class="product-brand">${p.brand ? p.brand.name_ar : 'قطع غيار'}</div>
+                            <a href="product.html?id=${p.id}" class="product-card-img-wrap">
+                                <img src="https://via.placeholder.com/300x300/1a1d24/ffffff?text=${encodeURIComponent(p.name_ar)}" alt="${p.name_ar}">
+                            </a>
+                            <div class="product-card-body">
+                                <a href="product.html?id=${p.id}" class="product-title">${p.name_ar}</a>
+                                <div class="product-meta">
+                                    <span><i class="fa-solid fa-layer-group"></i> ${p.category ? p.category.name_ar : '-'}</span>
+                                    <span><i class="fa-solid fa-barcode"></i> ${p.oem_number || '-'}</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="product-price">${parseFloat(p.price || 0).toFixed(2)} ر.س</div>
+                                    <button class="btn-add-cart" onclick='addToCart(${JSON.stringify(p).replace(/'/g, "&#39;")})' title="أضف للسلة">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                
+                document.getElementById('loading-spinner').style.display = 'none';
+                document.getElementById('seo-content').style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading-spinner').style.display = 'none';
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

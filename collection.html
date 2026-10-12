@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <base href="/">
+    <title>جميع القطع | CHINA PARTS</title>
+    <meta name="description" content="تصفح قطع غيار السيارات الصينية وابحث بالاسم أو رقم القطعة أو الماركة والموديل، ثم راجع التوافق والتوفر قبل الطلب.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://chinapartsksa.com/collection.html">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chinapartsksa.com/collection.html">
+    <meta property="og:site_name" content="CHINA PARTS">
+    <meta property="og:locale" content="ar_SA">
+    <meta property="og:title" content="جميع القطع | CHINA PARTS">
+    <meta property="og:description" content="كتالوج قطع غيار السيارات الصينية مع بحث بالاسم ورقم القطعة وبيانات المركبة.">
+    <meta property="og:image" content="https://chinapartsksa.com/images/brand/china-parts-mark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
+    <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
+    <link rel="stylesheet" href="style.css?v=copy230">
+    <style>
+        .page-header {
+            padding: 60px 0 40px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255,87,34,0.05) 0%, transparent 100%);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .page-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+        .page-desc { color: var(--color-text-muted); font-size: 1.1rem; }
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+            margin: 40px auto;
+        }
+        .sidebar {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 18px;
+            padding: 18px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+        .filter-group { margin-bottom: 20px; }
+        .filter-group:last-of-type { margin-bottom: 14px; }
+        .filter-group-title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--color-text-main);
+            letter-spacing: 0.01em;
+        }
+        .filter-list {
+            list-style: none;
+            max-height: 260px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 0;
+            padding: 2px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(31,95,214,0.45) transparent;
+        }
+        .filter-list li { margin: 0; }
+        #filter-brands { max-height: 300px; }
+
+        /* Selectable option cards */
+        .filter-option {
+            position: relative;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: #0c0f16;
+            cursor: pointer;
+            color: var(--color-text-main);
+            transition: border-color .18s ease, background .18s ease, transform .18s ease;
+            min-height: 52px;
+        }
+        .filter-option:hover {
+            border-color: rgba(31,95,214,0.35);
+            background: #121722;
+        }
+        .filter-option:has(input:checked) {
+            border-color: rgba(31,95,214,0.55);
+            background: rgba(31,95,214,0.12);
+        }
+        .filter-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .filter-option-check {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            border: 1.5px solid rgba(255,255,255,0.28);
+            display: grid;
+            place-items: center;
+            color: transparent;
+            background: transparent;
+            flex-shrink: 0;
+            transition: background .18s ease, border-color .18s ease, color .18s ease;
+        }
+        .filter-option-check i { font-size: 0.65rem; }
+        .filter-option:has(input:checked) .filter-option-check {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: #fff;
+        }
+        .filter-option-copy {
+            min-width: 0;
+            display: grid;
+            gap: 2px;
+        }
+        .filter-option-copy strong {
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .filter-option-copy small {
+            color: var(--color-text-muted);
+            font-size: 0.72rem;
+            line-height: 1.3;
+        }
+        .filter-option .brand-mini-logo,
+        .filter-option-icon {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            border-radius: 9px;
+            background: #fff;
+            padding: 5px;
+            box-sizing: border-box;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
+        }
+        .filter-option .brand-mini-logo img {
+            width: 26px;
+            height: 26px;
+            max-width: 26px;
+            max-height: 26px;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+            filter: contrast(1.15) saturate(1.06);
+        }
+        .filter-option-icon {
+            background: rgba(31, 95, 214, 0.1);
+            border: 1px solid rgba(31, 95, 214, 0.16);
+            color: #6b9dff;
+            padding: 0;
+            border-radius: 10px;
+        }
+        .filter-option-icon svg {
+            width: 18px;
+            height: 18px;
+            display: block;
+            opacity: 0.92;
+        }
+
+        /* Segmented controls */
+        .filter-segment {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            padding: 4px;
+            border-radius: 12px;
+            background: #0a0d13;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .filter-segment-item {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 40px;
+            padding: 8px 6px;
+            border-radius: 9px;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-align: center;
+            transition: background .18s ease, color .18s ease;
+        }
+        .filter-segment-item input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .filter-segment-item:hover { color: #fff; }
+        .filter-segment-item:has(input:checked) {
+            background: rgba(31,95,214,0.18);
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(31,95,214,0.35);
+        }
+
+        .filter-input {
+          width: 100%;
+          padding: 12px 14px;
+          border-radius: 11px;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: #0a0d13;
+          color: var(--color-text-main);
+          outline: none;
+          transition: border-color .18s ease;
+        }
+        .filter-input:focus {
+          border-color: rgba(31,95,214,0.45);
+        }
+        /* Price filter — premium range control */
+        .price-filter {
+          display: grid;
+          gap: 14px;
+          padding: 14px;
+          border-radius: 14px;
+          background: #0a0d13;
+          border: 1px solid rgba(255,255,255,0.08);
+        }
+        .price-summary {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: 10px;
+        }
+        .price-summary-label {
+          font-size: 0.75rem;
+          color: var(--color-text-muted);
+          font-weight: 700;
+        }
+        .price-summary-value {
+          font-family: var(--font-en);
+          font-size: 0.98rem;
+          font-weight: 800;
+          color: #fff;
+          letter-spacing: 0.01em;
+          text-align: end;
+          direction: ltr;
+          unicode-bidi: isolate;
+        }
+        .price-summary-value em {
+          font-style: normal;
+          color: var(--color-primary);
+          font-size: 0.82rem;
+          margin-inline-start: 4px;
+        }
+        .price-slider {
+          position: relative;
+          height: 28px;
+          display: grid;
+          place-items: center;
+          margin: 2px 4px 0;
+        }
+        .price-slider-track {
+          position: absolute;
+          inset-inline: 0;
+          height: 5px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.1);
+          overflow: hidden;
+        }
+        .price-slider-range {
+          position: absolute;
+          height: 100%;
+          background: linear-gradient(90deg, #6b9dff, var(--color-primary));
+          border-radius: inherit;
+        }
+        .price-slider input[type="range"] {
+          position: absolute;
+          inset-inline: 0;
+          width: 100%;
+          appearance: none;
+          background: transparent;
+          pointer-events: none;
+          margin: 0;
+          height: 28px;
+        }
+        .price-slider input[type="range"]#price-max-range { z-index: 3; }
+        .price-slider input[type="range"]#price-min-range { z-index: 4; }
+        .price-slider input[type="range"]::-webkit-slider-thumb {
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #fff;
+          border: 3px solid var(--color-primary);
+          box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+          cursor: pointer;
+          pointer-events: auto;
+          position: relative;
+          z-index: 2;
+        }
+        .price-slider input[type="range"]::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #fff;
+          border: 3px solid var(--color-primary);
+          box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+          cursor: pointer;
+          pointer-events: auto;
+        }
+        .price-values {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .price-value {
+          display: grid;
+          gap: 6px;
+          min-width: 0;
+        }
+        .price-value-label {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: var(--color-text-muted);
+        }
+        .price-value-box {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          gap: 6px;
+          min-height: 48px;
+          padding: 0 12px;
+          border-radius: 12px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: #10141d;
+          overflow: hidden;
+          transition: border-color .18s ease, box-shadow .18s ease;
+        }
+        .price-value-box:focus-within {
+          border-color: rgba(31,95,214,0.55);
+          box-shadow: 0 0 0 3px rgba(31,95,214,0.12);
+        }
+        .price-value-box input {
+          width: 100%;
+          border: 0;
+          outline: none;
+          background: transparent;
+          color: #fff;
+          text-align: start;
+          font-family: var(--font-en);
+          font-weight: 800;
+          font-size: 1.05rem;
+          padding: 10px 0;
+          direction: ltr;
+          -moz-appearance: textfield;
+        }
+        .price-value-box input::-webkit-outer-spin-button,
+        .price-value-box input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .price-value-box em {
+          font-style: normal;
+          color: var(--color-text-muted);
+          font-size: 0.8rem;
+          font-weight: 700;
+          white-space: nowrap;
+        }
+        .price-presets {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .price-preset {
+          border: 1px solid rgba(255,255,255,0.1);
+          background: #10141d;
+          color: var(--color-text-muted);
+          border-radius: 999px;
+          padding: 8px 12px;
+          font-size: 0.78rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background .15s ease, color .15s ease, border-color .15s ease;
+        }
+        .price-preset:hover {
+          color: #fff;
+          border-color: rgba(31,95,214,0.35);
+        }
+        .price-preset.is-active {
+          color: #fff;
+          background: rgba(31,95,214,0.16);
+          border-color: rgba(31,95,214,0.45);
+        }
+
+        .filter-actions {
+            display: grid;
+            gap: 8px;
+            padding-top: 4px;
+        }
+        .mobile-filter-toggle {
+            display: none;
+            width: 100%;
+            margin-bottom: 16px;
+            min-height: 48px;
+        }
+        .filters-sheet-head {
+            display: none;
+        }
+        .filters-overlay {
+            display: none;
+        }
+        .filters-sheet-body {
+            display: contents;
+        }
+        @media (max-width: 992px) {
+            .filters-sheet-body {
+                display: block;
+            }
+        }
+        .products-grid.is-loading {
+            opacity: 1;
+            pointer-events: none;
+        }
+        .products-grid.is-loading .product-card {
+            display: none;
+        }
+        .pagination-bar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+        .pagination-bar button,
+        .pagination-bar a.pagination-link {
+            min-width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text-main);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .pagination-bar button.active,
+        .pagination-bar button:hover,
+        .pagination-bar a.pagination-link.active,
+        .pagination-bar a.pagination-link:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+        #sort-select {
+            padding: 10px 14px;
+            border-radius: 11px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: #fff;
+            min-width: 180px;
+        }
+        .collection-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .collection-toolbar #results-count {
+            flex: 1 1 auto;
+            min-width: 0;
+            font-size: 0.9rem;
+        }
+        .collection-toolbar #sort-select {
+            flex: 0 0 auto;
+        }
+        .mobile-filter-toggle {
+            display: none;
+        }
+        @media (max-width: 992px) {
+            .page-header {
+                padding: 12px 0 6px;
+            }
+            .page-header .page-breadcrumb {
+                display: none;
+            }
+            .page-title { font-size: 1.25rem; margin-bottom: 0; }
+            .page-desc { display: none; }
+            .layout-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 8px auto 24px;
+            }
+            .collection-toolbar {
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            .collection-toolbar #results-count {
+                font-size: 0.78rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .collection-toolbar #sort-select {
+                min-width: 0;
+                width: auto;
+                max-width: 118px;
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+            .mobile-filter-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                min-height: 40px;
+                padding: 8px 12px;
+                font-size: 0.82rem;
+                position: static;
+                z-index: 1;
+                background: #121722;
+                white-space: nowrap;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+            .products-grid .product-card-img-wrap {
+                aspect-ratio: 4 / 3;
+            }
+            .products-grid .product-card-body {
+                padding: 10px 10px 12px;
+                gap: 4px;
+            }
+            .products-grid .product-card-tools.is-under-card {
+                display: none;
+            }
+            .filters-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 1290;
+                background: rgba(0, 0, 0, 0.55);
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity .2s ease, visibility .2s ease;
+            }
+            .filters-overlay.is-open {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            .sidebar {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: auto;
+                z-index: 1300;
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                max-width: none;
+                max-height: min(88dvh, 880px);
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background: #0e1118;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-bottom: none;
+                border-radius: 22px 22px 0 0;
+                box-shadow: 0 -18px 48px rgba(0,0,0,0.45);
+                transform: translateY(110%);
+                visibility: hidden;
+                pointer-events: none;
+                transition: transform .28s ease, visibility .28s ease;
+            }
+            .sidebar.open {
+                display: flex;
+                transform: translateY(0);
+                visibility: visible;
+                pointer-events: auto;
+                height: auto;
+                max-height: min(88dvh, 880px);
+            }
+            .sidebar::before { display: none !important; content: none; }
+            .filters-sheet-head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                flex-shrink: 0;
+                padding: 14px 16px;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                background: #0e1118;
+            }
+            .filters-sheet-head strong {
+                font-size: 1.05rem;
+                font-weight: 800;
+                color: #fff;
+            }
+            .filters-sheet-close {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+                border: 1px solid rgba(255,255,255,0.1);
+                background: rgba(255,255,255,0.04);
+                color: #fff;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 1.05rem;
+            }
+            .filters-sheet-body {
+                flex: 1 1 auto;
+                min-height: 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 14px 14px 8px;
+                overscroll-behavior: contain;
+            }
+            .filter-actions {
+                flex-shrink: 0;
+                display: grid;
+                grid-template-columns: 1fr 1.4fr;
+                gap: 8px;
+                padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+                border-top: 1px solid rgba(255,255,255,0.08);
+                background: #0e1118;
+            }
+            .filter-actions .btn {
+                min-height: 48px;
+                width: 100%;
+            }
+        }
+        @media (max-width: 576px) {
+            .page-title { font-size: 1.2rem; }
+            .page-header { padding-block: 8px; }
+            .filter-option {
+                min-height: 52px;
+                padding: 10px 12px;
+            }
+            .filter-segment-item { font-size: 0.8rem; min-height: 42px; }
+            .filter-input, .price-field input {
+                min-height: 48px;
+                font-size: 16px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+            .mobile-filter-toggle span { display: none; }
+            .collection-toolbar {
+                grid-template-columns: 44px 1fr auto;
+            }
+        }
+        .pagination-ellipsis {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            color: var(--color-text-muted);
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="96" height="96" alt="">
+                </span>
+                <span class="logo-text">
+                    <strong data-translate="logo_text">CHINA PARTS</strong>
+                    <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                </span>
+            </a>
+            <div class="global-search-container">
+                <div class="global-search-input" style="position: relative;">
+                    <input type="text" id="global-search-input" placeholder="ابحث برقم القطعة (OEM)، الاسم، أو رقم الهيكل (VIN)..." data-translate-placeholder="search_placeholder" autocomplete="off">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div id="global-search-results" class="global-search-results" hidden>
+                    <div id="global-search-loading" class="global-search-loading" hidden>
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري البحث...
+                    </div>
+                    <div id="global-search-vin-notice" class="global-search-vin-notice" hidden>
+                        <i class="fa-solid fa-car"></i> <span id="vin-vehicle-name"></span>
+                    </div>
+                    <div id="global-search-list"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>واتساب</span>
+                </a>
+                <button class="btn-icon cart-trigger" type="button" aria-label="السلة">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge cart-badge" style="display:none">0</span>
+                </button>
+                <button class="mobile-menu-btn" type="button" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <nav class="header-nav" aria-label="القائمة الرئيسية">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link" data-translate="home">الرئيسية</a>
+                    <div class="dropdown">
+                        <a href="#" class="nav-link"><span data-translate="brands">الماركات</span> <i class="fa-solid fa-chevron-down"></i></a>
+                        <div class="dropdown-menu" id="brands-dropdown-menu"></div>
+                    </div>
+                    <a href="collection.html" class="nav-link active" data-translate="all_parts">جميع القطع</a>
+                    <a href="about.html" class="nav-link" data-translate="about">عن المتجر</a>
+                    <a href="contact.html" class="nav-link" data-translate="contact">تواصل معنا</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <div class="page-breadcrumb">
+                <a href="index.html">الرئيسية</a>
+                <span class="sep">/</span>
+                <span id="page-crumb">جميع القطع</span>
+            </div>
+            <h1 class="page-title" id="page-title">جميع القطع</h1>
+            <p class="page-desc" id="page-desc">تصفح أحدث قطع الغيار المتوفرة لدينا</p>
+        </div>
+    </div>
+
+    <div class="container layout-grid">
+        <div class="filters-overlay" id="filters-overlay" hidden></div>
+
+        <aside class="sidebar" id="filters-sidebar" aria-label="فلاتر المنتجات">
+            <div class="filters-sheet-head">
+                <strong>الفلاتر</strong>
+                <button type="button" class="filters-sheet-close" id="filters-sheet-close" aria-label="إغلاق الفلاتر">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="filters-sheet-body">
+            <div class="filter-group">
+                <div class="filter-group-title" data-translate="search_title">البحث</div>
+                <input type="text" id="filter-query" class="filter-input" placeholder="اسم القطعة أو OEM" data-translate-placeholder="search_placeholder">
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title" data-translate="brands">الماركات</div>
+                <ul class="filter-list" id="filter-brands">
+                    <li data-translate="loading_msg">جاري التحميل...</li>
+                </ul>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">الأقسام</div>
+                <ul class="filter-list" id="filter-categories">
+                    <li data-translate="loading_msg">جاري التحميل...</li>
+                </ul>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title" data-translate="filter_by_price">نطاق السعر</div>
+                <div class="price-filter">
+                    <div class="price-summary">
+                        <span class="price-summary-label">النطاق المحدد</span>
+                        <span class="price-summary-value" id="price-summary-value">كل الأسعار</span>
+                    </div>
+                    <div class="price-slider" aria-hidden="true">
+                        <div class="price-slider-track">
+                            <div class="price-slider-range" id="price-range-fill"></div>
+                        </div>
+                        <input type="range" id="price-min-range" min="0" max="10000" step="50" value="0">
+                        <input type="range" id="price-max-range" min="0" max="10000" step="50" value="10000">
+                    </div>
+                    <div class="price-values">
+                        <label class="price-value" for="filter-min-price">
+                            <span class="price-value-label">من</span>
+                            <div class="price-value-box">
+                                <input type="number" id="filter-min-price" min="0" max="10000" step="50" value="0" inputmode="numeric" aria-label="السعر من">
+                                <em>ر.س</em>
+                            </div>
+                        </label>
+                        <label class="price-value" for="filter-max-price">
+                            <span class="price-value-label">إلى</span>
+                            <div class="price-value-box">
+                                <input type="number" id="filter-max-price" min="0" max="10000" step="50" value="10000" inputmode="numeric" aria-label="السعر إلى">
+                                <em>ر.س</em>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="price-presets" id="price-presets">
+                        <button type="button" class="price-preset is-active" data-min="0" data-max="10000">الكل</button>
+                        <button type="button" class="price-preset" data-min="0" data-max="200">حتى 200</button>
+                        <button type="button" class="price-preset" data-min="200" data-max="500">من 200 لـ 500</button>
+                        <button type="button" class="price-preset" data-min="500" data-max="1000">من 500 لـ 1000</button>
+                        <button type="button" class="price-preset" data-min="1000" data-max="10000">أكثر من 1000</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">حالة المخزون</div>
+                <div class="filter-segment" role="radiogroup" aria-label="حالة المخزون">
+                    <label class="filter-segment-item">
+                        <input type="radio" name="stock" value="" checked>
+                        <span>الكل</span>
+                    </label>
+                    <label class="filter-segment-item">
+                        <input type="radio" name="stock" value="1">
+                        <span>متوفر</span>
+                    </label>
+                    <label class="filter-segment-item">
+                        <input type="radio" name="stock" value="0">
+                        <span>غير متوفر</span>
+                    </label>
+                </div>
+            </div>
+
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-outline" type="button" onclick="resetFilters()" data-translate="reset_filters">إعادة ضبط</button>
+                <button class="btn btn-primary" type="button" onclick="applyFilters()" data-translate="btn_apply_filters">تطبيق الفلاتر</button>
+            </div>
+        </aside>
+
+        <main>
+            <div class="collection-toolbar">
+                <button class="btn btn-outline mobile-filter-toggle" id="mobile-filter-toggle" type="button" aria-controls="filters-sidebar" aria-expanded="false">
+                    <i class="fa-solid fa-sliders"></i> <span>الفلاتر</span>
+                </button>
+                <div id="results-count" class="text-muted" data-translate="loading_msg">جاري البحث...</div>
+                <select id="sort-select">
+                    <option value="latest" data-translate="sort_latest">الأحدث</option>
+                    <option value="price_asc" data-translate="sort_price_asc">السعر: من الأقل للأعلى</option>
+                    <option value="price_desc" data-translate="sort_price_desc">السعر: من الأعلى للأقل</option>
+                    <option value="name_asc">الاسم</option>
+                    <option value="brand_asc">الماركة</option>
+                </select>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <div class="text-center text-muted" style="grid-column: 1 / -1; padding: 60px;">
+                    <i class="fa-solid fa-spinner fa-spin fa-3x"></i>
+                </div>
+            </div>
+            <div class="pagination-bar" id="pagination-bar"></div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+                <div class="container footer-shell">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-block">
+                        <a href="index.html" class="logo">
+                            <span class="logo-mark" aria-hidden="true">
+                                <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="48" height="48" alt="CHINA PARTS">
+                            </span>
+                            <span class="logo-text">
+                                <strong data-translate="logo_text">CHINA PARTS</strong>
+                                <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                            </span>
+                        </a>
+                        <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
+                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>تسوق</h3>
+                    <ul>
+                        <li><a href="collection.html" data-translate="all_parts">جميع القطع</a></li>
+                        <li><a href="index.html#brands-section">الماركات</a></li>
+                        <li><a href="index.html#categories-section">الأقسام</a></li>
+                        <li><a href="index.html#offers-section">العروض</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>خدمة العملاء</h3>
+                    <ul>
+                        <li><a href="about.html" data-translate="about">عن المتجر</a></li>
+                        <li><a href="contact.html" data-translate="contact">تواصل معنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                        <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">الشروط والشحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تواصل</h3>
+                    <ul>
+                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
+                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-copy" data-translate="copyright">&copy; 2026 CHINA PARTS — جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> <span data-translate="cart_title">سلة المشتريات</span></h3>
+            <button class="close-drawer"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-translate="total">المجموع:</span>
+                <span id="cart-total-price">0.00 ر.س</span>
+            </div>
+            <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()" data-translate="checkout_btn">إرسال طلب التحقق</button>
+        </div>
+    </div>
+
+        <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
+    <script src="ads-tracker.js?v=ads2" defer></script>
+    <script src="app.js?v=copy231" defer></script>
+    <script>
+        let currentCollectionProducts = [];
+        let currentCollectionMeta = null;
+        let currentPage = 1;
+        let filterDebounceTimer = null;
+        let brandsCache = [];
+        let categoriesCache = [];
+        const PRICE_SLIDER_MAX = 10000;
+        const PRICE_SLIDER_STEP = 50;
+        let priceSyncLock = false;
+
+        function readCollectionBootstrap() {
+            const node = document.getElementById('storefront-collection-data');
+            if (!node || !node.textContent) return {};
+            try { return JSON.parse(node.textContent); } catch (err) { return {}; }
+        }
+
+        function parseLandingFromPath() {
+            const path = window.location.pathname.replace(/\/+$/, '') || '/';
+            let match = path.match(/^\/brands\/([a-z0-9][a-z0-9-]{0,80})(?:\/page\/(\d+))?$/i);
+            if (match) return { kind: 'brand', slug: match[1].toLowerCase(), page: parseInt(match[2] || '1', 10) || 1 };
+            match = path.match(/^\/categories\/([a-z0-9][a-z0-9-]{0,80})(?:\/page\/(\d+))?$/i);
+            if (match) return { kind: 'category', key: match[1].toLowerCase(), page: parseInt(match[2] || '1', 10) || 1 };
+            match = path.match(/^\/models\/(\d+)(?:\/page\/(\d+))?$/);
+            if (match) return { kind: 'model', id: match[1], page: parseInt(match[2] || '1', 10) || 1 };
+            return { kind: 'catalog', page: 1 };
+        }
+
+        function setCollectionRobots(indexable) {
+            let tag = document.querySelector('meta[name="robots"]');
+            if (!tag) {
+                tag = document.createElement('meta');
+                tag.setAttribute('name', 'robots');
+                document.head.appendChild(tag);
+            }
+            tag.setAttribute('content', indexable ? 'index,follow' : 'noindex,follow');
+        }
+
+        function collectionHref(state) {
+            const cleanState = { ...state };
+            const page = Number(cleanState.page || 1) || 1;
+            const extra = Boolean(
+                cleanState.q
+                || cleanState.min_price
+                || cleanState.max_price
+                || cleanState.in_stock !== ''
+                || (cleanState.sort && cleanState.sort !== 'latest')
+                || (cleanState.brand && cleanState.category)
+                || cleanState.year
+                || cleanState.vehicle_id
+            );
+            if (!extra && cleanState.brand && !cleanState.category && !cleanState.model) {
+                const brand = brandsCache.find((item) => String(item.id) === String(cleanState.brand));
+                if (brand && brand.slug) {
+                    return page > 1 ? `/brands/${brand.slug}/page/${page}/` : `/brands/${brand.slug}/`;
+                }
+            }
+            if (!extra && cleanState.category && !cleanState.brand && !cleanState.model && !/^\d+$/.test(String(cleanState.category))) {
+                return page > 1 ? `/categories/${cleanState.category}/page/${page}/` : `/categories/${cleanState.category}/`;
+            }
+            if (!extra && cleanState.model && !cleanState.brand && !cleanState.category) {
+                return page > 1 ? `/models/${cleanState.model}/page/${page}/` : `/models/${cleanState.model}/`;
+            }
+            const params = new URLSearchParams();
+            Object.entries(cleanState).forEach(([key, value]) => {
+                if (value !== '' && value !== null && value !== undefined && !(key === 'page' && Number(value) === 1) && !(key === 'sort' && value === 'latest')) {
+                    params.set(key, value);
+                }
+            });
+            return params.toString() ? `collection.html?${params.toString()}` : 'collection.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bootstrap = readCollectionBootstrap();
+            const landing = bootstrap.landing || parseLandingFromPath();
+            currentPage = parseInt(urlParams.get('page') || landing.page || bootstrap.page || '1', 10) || 1;
+
+            document.getElementById('mobile-filter-toggle').addEventListener('click', () => {
+                const sidebar = document.getElementById('filters-sidebar');
+                const willOpen = !sidebar.classList.contains('open');
+                setFiltersOpen(willOpen);
+            });
+
+            document.getElementById('filters-sheet-close')?.addEventListener('click', () => setFiltersOpen(false));
+            document.getElementById('filters-overlay')?.addEventListener('click', () => setFiltersOpen(false));
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') setFiltersOpen(false);
+            });
+
+            try {
+                const [resBrands, resCats] = await Promise.all([
+                    fetch(`${API_BASE}/brands`),
+                    fetch(`${API_BASE}/categories`)
+                ]);
+
+                brandsCache = await resBrands.json();
+                categoriesCache = await resCats.json();
+
+                const brandId = urlParams.get('brand');
+                const brandSlug = (urlParams.get('brand_slug') || landing.slug || '').toLowerCase();
+                const catId = urlParams.get('category') || (landing.kind === 'category' ? landing.key : '');
+                if (landing.kind === 'model' && landing.id) {
+                    urlParams.set('model', String(landing.id));
+                }
+
+                document.getElementById('filter-query').value = urlParams.get('q') || '';
+                document.getElementById('sort-select').value = urlParams.get('sort') || 'latest';
+
+                const stock = urlParams.get('in_stock');
+                if (stock === '1' || stock === '0') {
+                    const stockInput = document.querySelector(`input[name="stock"][value="${stock}"]`);
+                    if (stockInput) stockInput.checked = true;
+                }
+
+                const icons = window.CATEGORY_ICONS || {};
+                const resolvedBrandId = brandId || (
+                    brandSlug
+                        ? (brandsCache.find(b => String(b.slug || '').toLowerCase() === brandSlug)?.id || '')
+                        : ''
+                );
+                document.getElementById('filter-brands').innerHTML = brandsCache.map(b => {
+                    const slug = String(b.slug || '').toLowerCase();
+                    const logo = window.brandLogoMarkup
+                        ? window.brandLogoMarkup(slug, { sizeClass: 'is-list' })
+                        : '';
+                    const en = b.name_en ? `<small>${escapeFilterHtml(b.name_en)}</small>` : '';
+                    return `
+                    <li>
+                        <label class="filter-option">
+                            <input type="checkbox" class="chk-brand" value="${b.id}" ${String(b.id) === String(resolvedBrandId) ? 'checked' : ''}>
+                            ${logo}
+                            <span class="filter-option-copy">
+                                <strong>${escapeFilterHtml(b.name_ar)}</strong>
+                                ${en}
+                            </span>
+                            <span class="filter-option-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                        </label>
+                    </li>`;
+                }).join('');
+
+                const featuredDefs = window.HOME_FEATURED_CATEGORIES || [];
+                let filterCats = [];
+                if (featuredDefs.length) {
+                    featuredDefs.forEach(featured => {
+                        filterCats.push({
+                            id: featured.key,
+                            key: featured.key,
+                            name_ar: featured.name_ar,
+                            hint: featured.name_en || '',
+                        });
+                    });
+                }
+                if (!filterCats.length) {
+                    filterCats = categoriesCache
+                        .filter(c => Number(c.id) <= 27)
+                        .slice(0, 12)
+                        .map(c => ({ id: c.id, name_ar: c.name_ar, hint: '', key: '' }));
+                }
+                const catKey = urlParams.get('category_key') || (
+                    catId && !/^\d+$/.test(String(catId)) ? String(catId) : ''
+                );
+                const selectedCatValue = catKey || catId || '';
+                if (selectedCatValue && !filterCats.some(c => String(c.id) === String(selectedCatValue) || String(c.key) === String(selectedCatValue))) {
+                    const selected = categoriesCache.find(c => String(c.id) === String(selectedCatValue));
+                    if (selected) {
+                        filterCats.unshift({ id: selected.id, name_ar: selected.name_ar, hint: '', key: '' });
+                    }
+                }
+
+                document.getElementById('filter-categories').innerHTML = filterCats.map(c => {
+                    const icon = (c.key && icons[c.key]) ? icons[c.key] : '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L6.04,7.5L12,10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V9.21L13,12.58V19.29L19,15.91Z"/></svg>';
+                    const hint = c.hint ? `<small>${escapeFilterHtml(c.hint)}</small>` : '';
+                    const value = c.key || c.id;
+                    const checked = String(value) === String(selectedCatValue) ? 'checked' : '';
+                    return `
+                    <li>
+                        <label class="filter-option">
+                            <input type="checkbox" class="chk-cat" value="${escapeFilterHtml(value)}" data-category-key="${escapeFilterHtml(c.key || '')}" ${checked}>
+                            <span class="filter-option-icon">${icon}</span>
+                            <span class="filter-option-copy">
+                                <strong>${escapeFilterHtml(c.name_ar)}</strong>
+                                ${hint}
+                            </span>
+                            <span class="filter-option-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                        </label>
+                    </li>`;
+                }).join('');
+
+                initPriceFilter(urlParams.get('min_price'), urlParams.get('max_price'));
+                updatePageHeading(urlParams);
+                bindFilterEvents();
+                await fetchProductsAjax(false);
+            } catch (err) {
+                console.error('API Error:', err);
+                document.getElementById('products-grid').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-plug-circle-xmark"></i>
+                        <h3>تعذر الاتصال بالخادم</h3>
+                        <p>تحقق من تشغيل واجهة الـ API ثم أعد المحاولة.</p>
+                        <button class="btn btn-primary" type="button" onclick="location.reload()">إعادة المحاولة</button>
+                    </div>`;
+            }
+        });
+
+        function escapeFilterHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function formatPrice(value) {
+            return Number(value).toLocaleString('en-US');
+        }
+
+        function updatePriceSummary(minVal, maxVal) {
+            const el = document.getElementById('price-summary-value');
+            if (!el) return;
+            if (minVal <= 0 && maxVal >= PRICE_SLIDER_MAX) {
+                el.textContent = 'كل الأسعار';
+            } else if (minVal <= 0) {
+                el.innerHTML = `حتى <span dir="ltr">${formatPrice(maxVal)}</span><em>ر.س</em>`;
+            } else if (maxVal >= PRICE_SLIDER_MAX) {
+                el.innerHTML = `من <span dir="ltr">${formatPrice(minVal)}</span><em>ر.س</em>`;
+            } else {
+                el.innerHTML = `<span dir="ltr">${formatPrice(minVal)} – ${formatPrice(maxVal)}</span><em>ر.س</em>`;
+            }
+
+            document.querySelectorAll('.price-preset').forEach(btn => {
+                const pMin = Number(btn.dataset.min);
+                const pMax = Number(btn.dataset.max);
+                btn.classList.toggle('is-active', pMin === minVal && pMax === maxVal);
+            });
+        }
+
+        function clampPrice(value, fallback = 0) {
+            const num = Number(value);
+            if (!Number.isFinite(num) || num < 0) return fallback;
+            return Math.min(PRICE_SLIDER_MAX, Math.round(num / PRICE_SLIDER_STEP) * PRICE_SLIDER_STEP);
+        }
+
+        function updatePriceRangeFill(minVal, maxVal) {
+            const fill = document.getElementById('price-range-fill');
+            if (!fill) return;
+            const left = (minVal / PRICE_SLIDER_MAX) * 100;
+            const right = (maxVal / PRICE_SLIDER_MAX) * 100;
+            fill.style.insetInlineStart = `${left}%`;
+            fill.style.width = `${Math.max(0, right - left)}%`;
+        }
+
+        function setPriceInputs(minVal, maxVal, { syncFields = true, syncRanges = true } = {}) {
+            let min = clampPrice(minVal, 0);
+            let max = clampPrice(maxVal, PRICE_SLIDER_MAX);
+            if (min > max) [min, max] = [max, min];
+
+            priceSyncLock = true;
+            const minRange = document.getElementById('price-min-range');
+            const maxRange = document.getElementById('price-max-range');
+            const minInput = document.getElementById('filter-min-price');
+            const maxInput = document.getElementById('filter-max-price');
+
+            if (syncRanges && minRange && maxRange) {
+                minRange.value = String(min);
+                maxRange.value = String(max);
+            }
+            if (syncFields && minInput && maxInput) {
+                minInput.value = String(min);
+                maxInput.value = String(max);
+            }
+            updatePriceRangeFill(min, max);
+            updatePriceSummary(min, max);
+            priceSyncLock = false;
+            return { min, max };
+        }
+
+        function readPriceState() {
+            const min = clampPrice(document.getElementById('filter-min-price').value, 0);
+            const max = clampPrice(document.getElementById('filter-max-price').value, PRICE_SLIDER_MAX);
+            return {
+                min,
+                max,
+                minRaw: min <= 0 ? '' : String(min),
+                maxRaw: max >= PRICE_SLIDER_MAX ? '' : String(max),
+            };
+        }
+
+        function initPriceFilter(minParam, maxParam) {
+            const min = minParam === null || minParam === undefined || minParam === '' ? 0 : clampPrice(minParam, 0);
+            const max = maxParam === null || maxParam === undefined || maxParam === '' ? PRICE_SLIDER_MAX : clampPrice(maxParam, PRICE_SLIDER_MAX);
+            setPriceInputs(min, max);
+        }
+
+        function enforceSingleCheck(groupSelector, changedInput) {
+            if (!changedInput.checked) return;
+            document.querySelectorAll(groupSelector).forEach(input => {
+                if (input !== changedInput) input.checked = false;
+            });
+        }
+
+        function bindFilterEvents() {
+            const queryInput = document.getElementById('filter-query');
+            queryInput.addEventListener('input', () => {
+                clearTimeout(filterDebounceTimer);
+                filterDebounceTimer = setTimeout(() => {
+                    currentPage = 1;
+                    fetchProductsAjax(true);
+                }, 400);
+            });
+            queryInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    currentPage = 1;
+                    fetchProductsAjax(true);
+                }
+            });
+
+            document.getElementById('sort-select').addEventListener('change', () => {
+                currentPage = 1;
+                fetchProductsAjax(true);
+            });
+
+            const minRange = document.getElementById('price-min-range');
+            const maxRange = document.getElementById('price-max-range');
+            const minInput = document.getElementById('filter-min-price');
+            const maxInput = document.getElementById('filter-max-price');
+
+            const onRangeInput = () => {
+                if (priceSyncLock) return;
+                let min = Number(minRange.value);
+                let max = Number(maxRange.value);
+                if (min > max - PRICE_SLIDER_STEP) {
+                    if (document.activeElement === minRange) min = Math.max(0, max - PRICE_SLIDER_STEP);
+                    else max = Math.min(PRICE_SLIDER_MAX, min + PRICE_SLIDER_STEP);
+                }
+                setPriceInputs(min, max);
+            };
+            const onRangeCommit = () => {
+                onRangeInput();
+                currentPage = 1;
+                fetchProductsAjax(true);
+            };
+            minRange.addEventListener('input', onRangeInput);
+            maxRange.addEventListener('input', onRangeInput);
+            minRange.addEventListener('change', onRangeCommit);
+            maxRange.addEventListener('change', onRangeCommit);
+
+            const onFieldCommit = () => {
+                if (priceSyncLock) return;
+                const { min, max } = readPriceState();
+                setPriceInputs(min, max);
+                currentPage = 1;
+                fetchProductsAjax(true);
+            };
+            minInput.addEventListener('change', onFieldCommit);
+            maxInput.addEventListener('change', onFieldCommit);
+
+            document.getElementById('price-presets')?.addEventListener('click', (event) => {
+                const btn = event.target.closest('.price-preset');
+                if (!btn) return;
+                setPriceInputs(Number(btn.dataset.min), Number(btn.dataset.max));
+                currentPage = 1;
+                fetchProductsAjax(true);
+            });
+
+            document.querySelectorAll('input[name="stock"]').forEach(input => {
+                input.addEventListener('change', () => {
+                    currentPage = 1;
+                    fetchProductsAjax(true);
+                });
+            });
+
+            document.getElementById('filter-brands').addEventListener('change', (event) => {
+                if (event.target.classList.contains('chk-brand')) {
+                    enforceSingleCheck('.chk-brand', event.target);
+                }
+                currentPage = 1;
+                fetchProductsAjax(true);
+            });
+            document.getElementById('filter-categories').addEventListener('change', (event) => {
+                if (event.target.classList.contains('chk-cat')) {
+                    enforceSingleCheck('.chk-cat', event.target);
+                }
+                currentPage = 1;
+                fetchProductsAjax(true);
+            });
+        }
+
+        function collectFilterState() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedBrands = Array.from(document.querySelectorAll('.chk-brand:checked')).map(cb => cb.value);
+            const selectedCats = Array.from(document.querySelectorAll('.chk-cat:checked')).map(cb => cb.value);
+            const stock = document.querySelector('input[name="stock"]:checked')?.value || '';
+            const { minRaw, maxRaw } = readPriceState();
+
+            return {
+                q: document.getElementById('filter-query').value.trim(),
+                brand: selectedBrands[0] || '',
+                category: selectedCats[0] || '',
+                model: urlParams.get('model') || parseLandingFromPath().id || '',
+                year: urlParams.get('year') || '',
+                vehicle_id: urlParams.get('vehicle_id') || '',
+                min_price: minRaw,
+                max_price: maxRaw,
+                in_stock: stock,
+                sort: document.getElementById('sort-select').value || 'latest',
+                page: currentPage,
+            };
+        }
+
+        function syncUrl(state) {
+            const next = collectionHref(state);
+            window.history.replaceState({}, '', next);
+            const params = new URLSearchParams(next.includes('?') ? next.split('?')[1] : '');
+            const indexable = (
+                next === 'collection.html'
+                || /^collection\.html\?page=\d+$/.test(next)
+                || /^\/brands\/[^/]+\/(?:page\/\d+\/)?$/.test(next)
+                || /^\/categories\/[^/]+\/(?:page\/\d+\/)?$/.test(next)
+                || /^\/models\/\d+\/(?:page\/\d+\/)?$/.test(next)
+            );
+            setCollectionRobots(indexable);
+            updatePageHeading(params, state);
+        }
+
+        function updatePageHeading(params, state) {
+            const brandId = (state && state.brand) || params.get('brand');
+            const brandSlug = ((state && state.brand_slug) || params.get('brand_slug') || parseLandingFromPath().slug || '').toLowerCase();
+            const catId = (state && state.category) || params.get('category');
+            const catKey = params.get('category_key') || (
+                catId && !/^\d+$/.test(String(catId)) ? String(catId) : ''
+            );
+            const modelId = params.get('model');
+            const year = params.get('year');
+            const q = params.get('q');
+            const crumb = document.getElementById('page-crumb');
+            if (q) {
+                document.getElementById('page-title').innerText = `نتائج البحث عن ${q}`;
+                document.getElementById('page-desc').innerText = 'نتائج محدثة فورياً بدون إعادة تحميل الصفحة.';
+                if (crumb) crumb.innerText = 'نتائج البحث';
+                return;
+            }
+            const landingName = (readCollectionBootstrap().landing || {}).name_ar;
+            if (brandId || brandSlug || (readCollectionBootstrap().landing || {}).kind === 'brand') {
+                const b = brandsCache.find(x =>
+                    (brandId && String(x.id) === String(brandId))
+                    || (brandSlug && String(x.slug || '').toLowerCase() === brandSlug)
+                );
+                const name = (b && b.name_ar) || landingName;
+                if (name) {
+                    document.getElementById('page-title').innerText = `قطع غيار ${name}`;
+                    document.getElementById('page-desc').innerText = getTranslation('page_all_parts_desc');
+                    if (crumb) crumb.innerText = name;
+                    return;
+                }
+            }
+            if (catKey || (readCollectionBootstrap().landing || {}).kind === 'category') {
+                const featured = (window.HOME_FEATURED_CATEGORIES || []).find(x => x.key === catKey);
+                if (featured) {
+                    document.getElementById('page-title').innerText = featured.name_ar;
+                    document.getElementById('page-desc').innerText = 'تصفح القطع التابعة لهذا القسم مع إمكانية التصفية بالماركة والسعر.';
+                    if (crumb) crumb.innerText = featured.short_ar || featured.name_ar;
+                    return;
+                }
+            }
+            if (catId) {
+                const c = categoriesCache.find(x => String(x.id) === String(catId));
+                if (c) {
+                    document.getElementById('page-title').innerText = c.name_ar || c.name_en || 'قسم القطع';
+                    document.getElementById('page-desc').innerText = 'تصفح القطع التابعة لهذا القسم مع إمكانية التصفية بالماركة والسعر.';
+                    if (crumb) crumb.innerText = c.name_ar || c.name_en || 'القسم';
+                    return;
+                }
+            }
+            if (modelId || year) {
+                document.getElementById('page-title').innerText = year
+                    ? `قطع متوافقة لسنة ${year}`
+                    : 'قطع متوافقة مع المركبة';
+                document.getElementById('page-desc').innerText = 'نتائج مفلترة حسب توافق المركبة من البحث في الصفحة الرئيسية.';
+                if (crumb) crumb.innerText = 'توافق المركبة';
+                return;
+            }
+            document.getElementById('page-title').innerText = getTranslation('page_all_parts');
+            document.getElementById('page-desc').innerText = getTranslation('page_all_parts_desc');
+            if (crumb) crumb.innerText = getTranslation('page_all_parts');
+        }
+
+        async function fetchProductsAjax(updateHistory = true) {
+            const state = collectFilterState();
+            if (updateHistory) syncUrl(state);
+
+            const grid = document.getElementById('products-grid');
+            grid.classList.add('is-loading');
+            grid.innerHTML = Array.from({ length: 8 }).map(() => '<div class="product-skeleton"></div>').join('');
+            document.getElementById('results-count').innerText = getTranslation('loading_msg');
+
+            const params = new URLSearchParams();
+            if (state.brand) params.set('brand_id', state.brand);
+            if (state.category) {
+                if (/^\d+$/.test(String(state.category))) {
+                    params.set('category_id', state.category);
+                } else {
+                    params.set('category_key', state.category);
+                }
+            }
+            if (state.model) params.set('model_id', state.model);
+            if (state.year) params.set('year', state.year);
+            if (state.vehicle_id) params.set('vehicle_id', state.vehicle_id);
+            if (state.q) params.set('q', state.q);
+            if (state.min_price) params.set('min_price', state.min_price);
+            if (state.max_price) params.set('max_price', state.max_price);
+            if (state.in_stock !== '') params.set('in_stock', state.in_stock);
+            if (state.sort) params.set('sort', state.sort);
+            params.set('page', String(state.page || 1));
+            params.set('per_page', '24');
+
+            try {
+                const cacheKey = `qetaa_products_v3_truthful:${params.toString()}`;
+                let payload = null;
+                try {
+                    const cached = sessionStorage.getItem(cacheKey);
+                    if (cached) {
+                        const parsed = JSON.parse(cached);
+                        if (parsed && parsed.ts && (Date.now() - parsed.ts) < 90000) {
+                            payload = parsed.data;
+                        }
+                    }
+                } catch (e) {}
+                if (!payload) {
+                    const res = await fetch(`${API_BASE}/storefront/products?${params.toString()}`);
+                    if (!res.ok) throw new Error('Failed to load products');
+                    payload = await res.json();
+                    try {
+                        sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: payload }));
+                    } catch (e) {}
+                }
+                renderProductsGrid(payload.data || [], payload.meta || null);
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h3>تعذر تحميل المنتجات</h3>
+                        <p>حاول مرة أخرى خلال لحظات.</p>
+                        <button class="btn btn-outline" type="button" onclick="fetchProductsAjax(false)">إعادة المحاولة</button>
+                    </div>`;
+                document.getElementById('pagination-bar').innerHTML = '';
+            } finally {
+                grid.classList.remove('is-loading');
+            }
+        }
+
+        function renderProductsGrid(products, meta = null) {
+            currentCollectionProducts = products;
+            currentCollectionMeta = meta;
+
+            const grid = document.getElementById('products-grid');
+            products = products.filter(p => p.image_url || p.image);
+            document.getElementById('results-count').innerText = `${getTranslation('parts_found')} (${meta ? meta.total : products.length})`;
+
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-box-open"></i>
+                        <h3>${getTranslation('no_parts_found')}</h3>
+                        <p>مش لاقي قطعتك؟ تواصل معنا ونساعدك نجيبها. أرسل اسمها أو صورتها وبيانات السيارة، ونوضح لك السعر ومدة التوفير قبل تأكيد الطلب.</p>
+                        <a class="btn btn-primary" href="https://wa.me/966563156460?text=${encodeURIComponent('مرحباً CHINA PARTS، لم أجد القطعة وأرغب في توفيرها.\nبحثت عن: ' + (new URLSearchParams(location.search).get('q') || '') + '\nالسيارة والموديل:\nرقم الهيكل إن توفر:')}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
+                        <button class="btn btn-outline" type="button" onclick="resetFilters()">إعادة ضبط الفلاتر</button>
+                    </div>`;
+                document.getElementById('pagination-bar').innerHTML = '';
+                return;
+            }
+
+            grid.innerHTML = products.map(createProductCardHtml).join('');
+            refreshInteractionButtons();
+            renderPagination(meta);
+        }
+
+        function renderPagination(meta) {
+            const bar = document.getElementById('pagination-bar');
+            if (!meta || meta.last_page <= 1) {
+                bar.innerHTML = '';
+                return;
+            }
+
+            const current = Number(meta.current_page) || 1;
+            const last = Number(meta.last_page) || 1;
+            const windowSize = 2;
+            const pages = new Set([1, last, current]);
+            for (let i = current - windowSize; i <= current + windowSize; i++) {
+                if (i >= 1 && i <= last) pages.add(i);
+            }
+            const sorted = [...pages].sort((a, b) => a - b);
+
+            const state = collectFilterState();
+            let html = '';
+            if (current > 1) {
+                html += `<a class="pagination-link" href="${collectionHref({ ...state, page: current - 1 })}" rel="prev" aria-label="السابق" onclick="event.preventDefault(); goToPage(${current - 1})">‹</a>`;
+            }
+            let prev = 0;
+            sorted.forEach((page) => {
+                if (prev && page - prev > 1) {
+                    html += `<span class="pagination-ellipsis" aria-hidden="true">…</span>`;
+                }
+                html += `<a class="pagination-link${page === current ? ' active' : ''}" href="${collectionHref({ ...state, page })}"${page === current ? ' aria-current="page"' : ''} onclick="event.preventDefault(); goToPage(${page})">${page}</a>`;
+                prev = page;
+            });
+            if (current < last) {
+                html += `<a class="pagination-link" href="${collectionHref({ ...state, page: current + 1 })}" rel="next" aria-label="التالي" onclick="event.preventDefault(); goToPage(${current + 1})">›</a>`;
+            }
+            bar.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            fetchProductsAjax(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function setFiltersOpen(open) {
+            const sidebar = document.getElementById('filters-sidebar');
+            const overlay = document.getElementById('filters-overlay');
+            const toggle = document.getElementById('mobile-filter-toggle');
+            if (!sidebar) return;
+
+            sidebar.classList.toggle('open', open);
+            document.body.classList.toggle('drawer-open', open);
+            if (overlay) {
+                overlay.hidden = !open;
+                overlay.classList.toggle('is-open', open);
+            }
+            if (toggle) {
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                toggle.innerHTML = open
+                    ? '<i class="fa-solid fa-xmark"></i> <span>إغلاق</span>'
+                    : '<i class="fa-solid fa-sliders"></i> <span>الفلاتر</span>';
+            }
+        }
+
+        function applyFilters() {
+            currentPage = 1;
+            fetchProductsAjax(true);
+            if (window.innerWidth <= 992) {
+                setFiltersOpen(false);
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-query').value = '';
+            setPriceInputs(0, PRICE_SLIDER_MAX);
+            document.getElementById('sort-select').value = 'latest';
+            document.querySelectorAll('.chk-brand, .chk-cat').forEach(cb => { cb.checked = false; });
+            const stockAll = document.querySelector('input[name="stock"][value=""]');
+            if (stockAll) stockAll.checked = true;
+            currentPage = 1;
+            fetchProductsAjax(true);
+            if (window.innerWidth <= 992) {
+                setFiltersOpen(false);
+            }
+        }
+
+        window.renderCurrentPageProducts = () => {
+            if (currentCollectionProducts.length) {
+                renderProductsGrid(currentCollectionProducts, currentCollectionMeta);
+            }
+        };
+
+        window.applyFilters = applyFilters;
+        window.resetFilters = resetFilters;
+        window.goToPage = goToPage;
+    </script>
+<script src="store-motion.js?v=1" defer></script>
+<script src="store-experience.js?v=1" defer></script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>نتائج بحث رقم الهيكل (VIN) | CHINA PARTS</title>
+    <meta name="description" content="مراجعة بيانات المركبة ونتائج البحث المرتبطة برقم الهيكل في CHINA PARTS.">
+    <meta name="robots" content="noindex,follow">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Premium Styles -->
+    <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
+    <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
+    <link rel="stylesheet" href="style.css?v=full220">
+    
+    <style>
+        .vin-success-banner {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.2) 100%);
+            border: 1px solid #4CAF50;
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .vin-success-banner i {
+            color: #4CAF50;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .vin-title {
+            color: #4CAF50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .vin-details {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .vin-badge {
+            background: var(--color-surface);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--color-text-main);
+            border: 1px solid var(--color-border);
+        }
+        
+        #error-banner {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid #F44336;
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+            display: none;
+        }
+        #error-banner i {
+            color: #F44336;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="96" height="96" alt="">
+                </span>
+                <span class="logo-text">
+                    <strong data-translate="logo_text">CHINA PARTS</strong>
+                    <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                </span>
+            </a>
+            <div class="global-search-container">
+                <div class="global-search-input" style="position: relative;">
+                    <input type="text" id="global-search-input" placeholder="ابحث برقم القطعة (OEM)، الاسم، أو رقم الهيكل (VIN)..." data-translate-placeholder="search_placeholder" autocomplete="off">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div id="global-search-results" class="global-search-results" hidden>
+                    <div id="global-search-loading" class="global-search-loading" hidden>
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري البحث...
+                    </div>
+                    <div id="global-search-vin-notice" class="global-search-vin-notice" hidden>
+                        <i class="fa-solid fa-car"></i> <span id="vin-vehicle-name"></span>
+                    </div>
+                    <div id="global-search-list"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>واتساب</span>
+                </a>
+                <button class="btn-icon cart-trigger" type="button" aria-label="السلة">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge cart-badge" style="display:none">0</span>
+                </button>
+                <button class="mobile-menu-btn" type="button" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <nav class="header-nav" aria-label="القائمة الرئيسية">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link" data-translate="home">الرئيسية</a>
+                    <div class="dropdown">
+                        <a href="#" class="nav-link"><span data-translate="brands">الماركات</span> <i class="fa-solid fa-chevron-down"></i></a>
+                        <div class="dropdown-menu" id="brands-dropdown-menu"></div>
+                    </div>
+                    <a href="collection.html" class="nav-link" data-translate="all_parts">جميع القطع</a>
+                    <a href="about.html" class="nav-link" data-translate="about">عن المتجر</a>
+                    <a href="contact.html" class="nav-link" data-translate="contact">تواصل معنا</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center" style="padding: 100px;">
+            <i class="fa-solid fa-microchip fa-spin fa-4x" style="color: var(--color-primary)"></i>
+            <h3 class="mt-2" data-translate="loading_msg">جاري فك تشفير رقم الهيكل والبحث في قاعدة البيانات...</h3>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-banner">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <h2>تعذر تأكيد بيانات السيارة وتوافق القطع</h2>
+            <p id="error-text" class="text-muted mt-1">رقم الهيكل غير صحيح أو غير موجود في قاعدة بياناتنا.</p>
+            <a href="index.html" class="btn btn-outline mt-2" data-translate="back_to_search">العودة للبحث</a>
+        </div>
+
+        <!-- Success State -->
+        <div id="success-content" style="display: none;">
+            
+            <div class="vin-success-banner animate-fade-up">
+                <i class="fa-solid fa-circle-check"></i>
+                <h2 class="vin-title" data-translate="vin_success_title">تم العثور على بيانات مرتبطة برقم الهيكل</h2>
+                <p>راجع تفاصيل كل قطعة ورقمها قبل الطلب؛ نتيجة البحث وحدها لا تغني عن تأكيد التوافق.</p>
+                
+                <div class="vin-details">
+                    <div class="vin-badge"><i class="fa-solid fa-barcode text-muted"></i> <span id="res-vin"></span></div>
+                    <div class="vin-badge"><i class="fa-solid fa-car text-muted"></i> <span data-translate="vin_info_brand">الماركة:</span> <span id="res-brand"></span></div>
+                    <div class="vin-badge"><i class="fa-solid fa-car-side text-muted"></i> <span data-translate="vin_info_model">الموديل:</span> <span id="res-model"></span></div>
+                    <div class="vin-badge"><i class="fa-regular fa-calendar text-muted"></i> <span data-translate="vin_info_year">سنة الصنع:</span> <span id="res-year"></span></div>
+                    <div class="vin-badge"><i class="fa-solid fa-gear text-muted"></i> <span data-translate="vin_info_engine">المحرك:</span> <span id="res-engine"></span></div>
+                    <div class="vin-badge" id="res-match-badge" style="display:none;"></div>
+                </div>
+                <p id="vin-match-note" class="text-muted" style="margin-top:16px; display:none;"></p>
+            </div>
+
+            <!-- Compatible Parts -->
+            <div class="section-header mt-3">
+                <h2 class="section-title" data-translate="all_parts">قطع مرتبطة بنتيجة البحث</h2>
+            </div>
+            
+            <div class="products-grid mb-3" id="vin-products-grid">
+                <!-- Products injected via JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+                <div class="container footer-shell">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-block">
+                        <a href="index.html" class="logo">
+                            <span class="logo-mark" aria-hidden="true">
+                                <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="48" height="48" alt="CHINA PARTS">
+                            </span>
+                            <span class="logo-text">
+                                <strong data-translate="logo_text">CHINA PARTS</strong>
+                                <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                            </span>
+                        </a>
+                        <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
+                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>تسوق</h3>
+                    <ul>
+                        <li><a href="collection.html" data-translate="all_parts">جميع القطع</a></li>
+                        <li><a href="index.html#brands-section">الماركات</a></li>
+                        <li><a href="index.html#categories-section">الأقسام</a></li>
+                        <li><a href="index.html#offers-section">العروض</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>خدمة العملاء</h3>
+                    <ul>
+                        <li><a href="about.html" data-translate="about">عن المتجر</a></li>
+                        <li><a href="contact.html" data-translate="contact">تواصل معنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                        <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">الشروط والشحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تواصل</h3>
+                    <ul>
+                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
+                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-copy" data-translate="copyright">&copy; 2026 CHINA PARTS — جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <!-- Content handled by app.js?v=full220 -->
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> <span data-translate="cart_title">سلة المشتريات</span></h3>
+            <button class="close-drawer"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-translate="total">المجموع:</span>
+                <span id="cart-total-price">0.00 ر.س</span>
+            </div>
+            <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()" data-translate="checkout_btn">إرسال طلب التحقق</button>
+        </div>
+    </div>
+
+    <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
+    <script src="ads-tracker.js?v=ads1"></script>
+    <script src="app.js?v=full220"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const vin = urlParams.get('vin');
+            const loading = document.getElementById('loading-state');
+            const errorBanner = document.getElementById('error-banner');
+            const errorText = document.getElementById('error-text');
+            const successContent = document.getElementById('success-content');
+
+            const showError = (message) => {
+                loading.style.display = 'none';
+                successContent.style.display = 'none';
+                errorBanner.style.display = 'block';
+                errorText.innerText = message || 'رقم الهيكل غير صحيح أو لم نتمكن من فك تشفيره.';
+            };
+
+            if (!vin) {
+                showError('لم يتم تمرير رقم الهيكل. ارجع للصفحة الرئيسية وأدخل الرقم مرة أخرى.');
+                return;
+            }
+
+            if (!/^[A-HJ-NPR-Z0-9]{17}$/i.test(vin.replace(/[^A-Za-z0-9]/g, ''))) {
+                showError('رقم الهيكل غير صحيح. يجب أن يتكون من 17 خانة أبجدية رقمية (بدون الحروف I و O و Q).');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/vin/decode?vin=${encodeURIComponent(vin)}`);
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok) {
+                    throw new Error(data.error || data.message || 'تعذر فك تشفير رقم الهيكل.');
+                }
+
+                if (data.is_valid === false || data.fitment_verified !== true) {
+                    showError(data.message || 'لم يتم تأكيد توافق القطع مع رقم الهيكل من كتالوج الشركة. تواصل معنا للتحقق قبل اختيار القطعة.');
+                    return;
+                }
+
+                const vehicle = data.vehicle || {};
+                const decoded = data.decoded || {};
+
+                document.getElementById('res-vin').innerText = data.vin || vin;
+                document.getElementById('res-brand').innerText = vehicle.brand || decoded.brand || '-';
+                document.getElementById('res-model').innerText = vehicle.model || decoded.model || '-';
+                document.getElementById('res-year').innerText = vehicle.year || decoded.year || '-';
+                document.getElementById('res-engine').innerText = vehicle.engine || decoded.engine || 'غير متوفر';
+
+                const matchBadge = document.getElementById('res-match-badge');
+                const matchNote = document.getElementById('vin-match-note');
+                if (vehicle.matched || data.has_local_fitment) {
+                    matchBadge.style.display = 'inline-flex';
+                    matchBadge.innerHTML = '<i class="fa-solid fa-check"></i> متوافق مع قاعدة بياناتنا';
+                    matchNote.style.display = 'none';
+                } else {
+                    matchBadge.style.display = 'inline-flex';
+                    matchBadge.innerHTML = '<i class="fa-solid fa-circle-info"></i> تم فك التشفير خارجياً';
+                    matchNote.style.display = 'block';
+                    matchNote.innerText = 'تم التعرف على المركبة من خدمة فك التشفير، لكن لم نعثر على تطابق محلي دقيق بعد. نعرض أقرب القطع المتاحة حسب الموديل إن وُجدت.';
+                }
+
+                const normalizeSearchProduct = (product) => ({
+                    id: product.id,
+                    name_ar: product.name_ar,
+                    image_url: product.image || product.image_url,
+                    price: product.price_amount || product.price,
+                    price_label: product.price_label || product.price,
+                    oem_number: product.oem_number,
+                    brand: product.brand ? (typeof product.brand === 'string' ? { name_ar: product.brand } : product.brand) : null,
+                    category: product.category ? (typeof product.category === 'string' ? { name_ar: product.category } : product.category) : null,
+                    can_checkout: product.can_checkout,
+                    salla_product_id: product.salla_product_id,
+                });
+
+                let currentVinParts = [];
+
+                window.renderCurrentPageProducts = () => {
+                    const grid = document.getElementById('vin-products-grid');
+                    if (!grid) return;
+                    if (currentVinParts.length === 0) {
+                        grid.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fa-solid fa-car-on"></i>
+                                <h3>${getTranslation('vin_no_match')}</h3>
+                                <p>جرّب البحث اليدوي بالماركة والموديل من الصفحة الرئيسية.</p>
+                                <a class="btn btn-outline" href="index.html">العودة للبحث</a>
+                            </div>`;
+                    } else {
+                        grid.innerHTML = currentVinParts.map(createProductCardHtml).join('');
+                        refreshInteractionButtons();
+                    }
+                };
+
+                // Only a provider-backed, VIN-specific result may populate this list.
+                const parts = (data.matching_parts || []).map(normalizeSearchProduct);
+
+                currentVinParts = parts.filter(p => p.image_url);
+                window.renderCurrentPageProducts();
+
+                loading.style.display = 'none';
+                successContent.style.display = 'block';
+            } catch (err) {
+                console.error(err);
+                showError(err.message || 'تعذر فك تشفير رقم الهيكل. تحقق من الرقم وحاول مرة أخرى.');
+            }
+        });
+    </script>
+<script src="store-experience.js?v=1" defer></script>
+<script src="store-motion.js?v=1" defer></script>
+</body>
+</html>

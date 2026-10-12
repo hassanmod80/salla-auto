@@ -1,0 +1,49 @@
+# Secrets and local runtime state
+.env
+.env.*
+!.env.example
+core/.env
+tools/*oauth_payload.json
+tools/*authorize_payload.json
+tools/.salla_live_ready
+tools/.storefront_interactions.json
+tools/_*.py
+tools/_*.txt
+tools/*.png
+
+# Customer and catalog databases must never enter source control
+core/database/*.sqlite*
+*.sqlite-wal
+*.sqlite-shm
+core/public/
+
+# Generated caches and dependencies
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/node_modules/
+**/vendor/
+
+# Large local catalogs, reports, imports, and screenshots
+outputs/
+pricing_review_*/
+desktop-tutorial/
+deploy_seed/public/
+deploy_seed/_archives/
+/images/public/
+الصور_المرتبة/
+صور_مرتبة_حسب_الإكسل/
+*.xlsx
+*.csv
+tmp_*.json
+qetaa-image-map.js
+/*.png
+*.log
+zid-mock-pay.html
+zid-store-kit.html
+zid-theme-custom.css
+
+# Editor and OS noise
+.cursor/
+.DS_Store
+Thumbs.db

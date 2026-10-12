@@ -1,0 +1,43 @@
+# Railway CLI upload ignore (railway up respects this)
+.git/
+.cursor/
+**/__pycache__/
+**/*.pyc
+**/.venv/
+**/node_modules/
+**/vendor/
+core/vendor/
+core/database/*.sqlite*
+
+# Multi-GB local working sets
+الصور_المرتبة/
+صور_مرتبة_حسب_الإكسل/
+desktop-tutorial/
+pricing_review_*/
+outputs/
+# Keep brand/category logos for the storefront; ignore other root image dumps
+/images/public/
+
+# Product images uploaded separately / seeded lightly
+core/public/
+core/storage/
+
+# Product image bulk seed is uploaded to the volume separately (too large for CLI build upload)
+deploy_seed/public/
+
+# Large source catalogs
+*.xlsx
+*.csv
+
+# Local secrets / noise
+core/.env
+tools/_salla_authorize_payload.json
+tools/_zid_oauth_payload.json
+tools/.storefront_interactions.json
+tools/.salla_live_ready
+**/*.log
+tmp_*.json
+/*.png
+*.md
+
+deploy_seed/_archives/

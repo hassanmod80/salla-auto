@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin-dashboard.html
+Disallow: /account.html
+Disallow: /seo_landing.html
+Disallow: /vin-results.html
+Disallow: /zid-mock-pay.html
+Disallow: /zid-store-kit.html
+
+Sitemap: https://chinapartsksa.com/sitemap.xml

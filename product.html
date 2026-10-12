@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>تفاصيل القطعة | CHINA PARTS</title>
+    <meta name="description" content="تفاصيل قطعة غيار لسيارة صينية تشمل رقم القطعة والمعلومات المتاحة عنها، مع مراجعة التوافق والتوفر قبل الطلب.">
+    <meta name="robots" content="noindex,follow">
+    <link rel="canonical" href="https://chinapartsksa.com/product.html">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://chinapartsksa.com/product.html">
+    <meta property="og:site_name" content="CHINA PARTS">
+    <meta property="og:locale" content="ar_SA">
+    <meta property="og:title" content="تفاصيل القطعة | CHINA PARTS">
+    <meta property="og:description" content="راجع رقم القطعة والمواصفات المتاحة والتوفر قبل الطلب من CHINA PARTS.">
+    <meta property="og:image" content="https://chinapartsksa.com/images/brand/china-parts-mark.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
+    <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
+    <link rel="stylesheet" href="style.css?v=copy230">
+    <style>
+        .product-page {
+            padding-block: 60px 80px;
+            padding-inline: 20px;
+            min-width: 0;
+        }
+        .product-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 48px;
+            align-items: start;
+        }
+        .product-gallery {
+            background: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            padding: 18px;
+            border: 1px solid var(--color-border);
+            position: sticky;
+            top: 90px;
+        }
+        .gallery-main {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 380px;
+            margin-bottom: 0;
+            background: #10151f;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 12px;
+            cursor: zoom-in;
+        }
+        .gallery-main.has-thumbs { margin-bottom: 14px; }
+        .gallery-main img {
+            max-width: 100%;
+            max-height: 420px;
+            object-fit: contain;
+            border-radius: 8px;
+            transition: opacity .25s ease, transform .25s ease;
+        }
+        .gallery-main:hover img { transform: scale(1.02); }
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(15,18,26,0.78);
+            color: #fff;
+            display: none;
+            place-items: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .gallery-nav.prev { right: 12px; }
+        .gallery-nav.next { left: 12px; }
+        .gallery-main.has-many .gallery-nav { display: grid; }
+        .gallery-zoom-btn,
+        .gallery-counter {
+            position: absolute;
+            z-index: 2;
+            background: rgba(15,18,26,0.78);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            font-size: 0.8rem;
+        }
+        .gallery-zoom-btn {
+            top: 12px;
+            left: 12px;
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+        }
+        .gallery-counter {
+            bottom: 12px;
+            left: 12px;
+            padding: 6px 12px;
+        }
+        .gallery-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .gallery-thumbs.is-single { display: none; }
+        .gallery-thumbs button {
+            width: 74px;
+            height: 74px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 6px;
+            background: #10151f;
+            cursor: pointer;
+        }
+        .gallery-thumbs button.active,
+        .gallery-thumbs button:hover {
+            border-color: var(--color-primary);
+        }
+        .gallery-thumbs img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .product-action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .action-pill {
+            flex: 1;
+            min-width: 140px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--color-border);
+            background: rgba(255,255,255,0.03);
+            color: var(--color-text-main);
+            cursor: pointer;
+            font-weight: 700;
+            transition: all .2s ease;
+        }
+        .action-pill:hover,
+        .action-pill.active {
+            border-color: rgba(31,95,214,0.55);
+            background: rgba(31,95,214,0.12);
+            color: #ffb27a;
+        }
+        .action-pill .action-pill-icon,
+        .action-pill .ui-icon,
+        #btn-add .ui-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .action-pill.active .action-pill-icon,
+        .action-pill.active .ui-icon {
+            color: #ff6b6b;
+        }
+        @media (max-width: 992px) {
+            .product-layout { grid-template-columns: 1fr; gap: 28px; }
+            .product-gallery { position: static; }
+            .policy-grid { grid-template-columns: 1fr; }
+            .gallery-main { min-height: 280px; }
+            .action-pill { min-width: 0; flex: 1 1 calc(50% - 5px); }
+            .fitment-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .product-section-card { padding: 18px 14px; }
+            .product-section-card h2 { font-size: 1.15rem; }
+        }
+        @media (max-width: 480px) {
+            .product-page { padding-block: 28px 56px; padding-inline: 14px; }
+            .product-specs { padding: 14px; }
+            .spec-item { flex-direction: column; gap: 4px; }
+            .add-to-cart-widget { flex-wrap: wrap; }
+            .qty-stepper { height: 48px; }
+            .qty-step, .qty-input, .btn-add-large { height: 48px; }
+            .add-to-cart-actions { width: 100%; }
+            .btn-add-large { width: auto; font-size: 0.92rem; }
+            .action-pill { flex: 1 1 100%; }
+        }
+        .product-info {
+            min-width: 0;
+        }
+        .product-info h1 {
+            font-size: clamp(1.35rem, 3.6vw, 2.2rem);
+            margin-bottom: 12px;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        .product-brand-badge {
+            display: inline-block;
+            max-width: 100%;
+            padding: 5px 15px;
+            background: rgba(255,87,34,0.1);
+            color: var(--color-primary);
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .product-meta-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .meta-chip {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            background: rgba(255,255,255,0.03);
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+        .meta-chip.in-stock { color: #4CAF50; border-color: rgba(76,175,80,.35); }
+        .meta-chip.out-stock { color: #F44336; border-color: rgba(244,67,54,.35); }
+        .product-price-large {
+            font-size: clamp(1.5rem, 4vw, 2.4rem);
+            color: var(--color-primary);
+            font-weight: 800;
+            font-family: var(--font-en);
+            margin: 12px 0 20px;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+        .product-short-desc {
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            margin-bottom: 22px;
+            overflow-wrap: anywhere;
+        }
+        .product-name-en {
+            color: rgba(245,246,250,0.55);
+            margin: -8px 0 14px;
+            font-size: 0.95rem;
+        }
+        .product-brand-badge {
+            position: static;
+            top: auto;
+            inset: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--color-primary);
+            pointer-events: auto;
+        }
+        .product-info .brand-mini-logo,
+        .product-brand-badge .brand-mini-logo {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+        .fitment-summary {
+            color: var(--color-text-muted);
+            margin: -6px 0 14px;
+            font-size: 0.92rem;
+        }
+        .spec-item.is-empty { display: none; }
+        .product-specs {
+            background: var(--color-surface);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--color-border);
+            min-width: 0;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+        }
+        .spec-item:last-child { border-bottom: none; }
+        .spec-label {
+            color: var(--color-text-muted);
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+        .spec-value {
+            font-weight: 600;
+            text-align: start;
+            flex: 1 1 140px;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        .add-to-cart-widget {
+            display: flex;
+            align-items: stretch;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: nowrap;
+        }
+        .qty-stepper {
+            display: inline-flex;
+            align-items: center;
+            height: 52px;
+            flex: 0 0 auto;
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+        }
+        .qty-step {
+            width: 40px;
+            height: 52px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .qty-step:hover { background: rgba(255, 255, 255, 0.06); }
+        .qty-input {
+            width: 36px;
+            height: 52px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: #fff;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .btn-add-large {
+            flex: 1 1 0;
+            min-width: 0;
+            height: 52px;
+            padding: 0 16px;
+            border: 0;
+            border-radius: 14px;
+            font-size: 0.98rem;
+            text-transform: none;
+            letter-spacing: 0;
+            white-space: nowrap;
+            gap: 8px;
+            box-shadow: none;
+        }
+        .btn-add-large .ui-icon {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+        }
+        .add-to-cart-actions {
+            display: flex;
+            flex: 1 1 auto;
+            gap: 10px;
+            min-width: 0;
+        }
+        .btn-buy-now {
+            background: #f4f7fb;
+            color: #0f172a;
+            border: 0;
+        }
+        .btn-buy-now:hover {
+            background: #ffffff;
+            color: #0f172a;
+            transform: none;
+        }
+        .btn-add-large.btn-primary:hover { transform: none; }
+        .product-extra-sections {
+            margin-top: 48px;
+            display: grid;
+            gap: 24px;
+        }
+        .product-section-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+        }
+        .product-section-card h2 {
+            font-size: 1.35rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .fitment-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .fitment-table th,
+        .fitment-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--color-border);
+            text-align: right;
+        }
+        .fitment-table th {
+            color: var(--color-text-muted);
+            font-weight: 600;
+        }
+        .policy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .policy-box {
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            padding: 18px;
+            background: rgba(255,255,255,0.02);
+        }
+        .policy-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+            color: var(--color-primary);
+        }
+        .policy-box p {
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            margin: 0;
+        }
+        .oem-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .oem-pill {
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255,87,34,0.12);
+            color: var(--color-primary);
+            font-family: var(--font-en);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-mark" aria-hidden="true">
+                    <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="96" height="96" alt="">
+                </span>
+                <span class="logo-text">
+                    <strong data-translate="logo_text">CHINA PARTS</strong>
+                    <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                </span>
+            </a>
+            <div class="global-search-container">
+                <div class="global-search-input" style="position: relative;">
+                    <input type="text" id="global-search-input" placeholder="ابحث برقم القطعة (OEM)، الاسم، أو رقم الهيكل (VIN)..." data-translate-placeholder="search_placeholder" autocomplete="off">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div id="global-search-results" class="global-search-results" hidden>
+                    <div id="global-search-loading" class="global-search-loading" hidden>
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> جاري البحث...
+                    </div>
+                    <div id="global-search-vin-notice" class="global-search-vin-notice" hidden>
+                        <i class="fa-solid fa-car"></i> <span id="vin-vehicle-name"></span>
+                    </div>
+                    <div id="global-search-list"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                    <span>واتساب</span>
+                </a>
+                <button class="btn-icon cart-trigger" type="button" aria-label="السلة">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge cart-badge" style="display:none">0</span>
+                </button>
+                <button class="mobile-menu-btn" type="button" aria-label="القائمة"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+        <nav class="header-nav" aria-label="القائمة الرئيسية">
+            <div class="container">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link" data-translate="home">الرئيسية</a>
+                    <div class="dropdown">
+                        <a href="#" class="nav-link"><span data-translate="brands">الماركات</span> <i class="fa-solid fa-chevron-down"></i></a>
+                        <div class="dropdown-menu" id="brands-dropdown-menu"></div>
+                    </div>
+                    <a href="collection.html" class="nav-link" data-translate="all_parts">جميع القطع</a>
+                    <a href="about.html" class="nav-link" data-translate="about">عن المتجر</a>
+                    <a href="contact.html" class="nav-link" data-translate="contact">تواصل معنا</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container product-page">
+        <div class="page-breadcrumb" style="justify-content:flex-start; margin-bottom:22px;">
+            <a href="index.html">الرئيسية</a>
+            <span class="sep">/</span>
+            <a href="collection.html">جميع القطع</a>
+            <span class="sep">/</span>
+            <span id="p-crumb">تفاصيل القطعة</span>
+        </div>
+        <div id="loading-spinner" class="text-center" style="padding: 100px;">
+            <i class="fa-solid fa-spinner fa-spin fa-3x text-muted"></i>
+            <p class="mt-2 text-muted" data-translate="loading_msg">جاري التحميل...</p>
+        </div>
+
+        <div id="error-message" class="empty-state" style="display:none; margin: 40px 0;" hidden>
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <h3 data-translate="error_loading_product">حدث خطأ أثناء تحميل تفاصيل القطعة</h3>
+            <p>قد تكون القطعة غير متاحة حالياً أو الرابط غير صحيح.</p>
+            <a href="collection.html" class="btn btn-outline" data-translate="back_to_search">العودة للبحث</a>
+        </div>
+
+        <div id="product-details" style="display:none;">
+            <div class="product-layout">
+                <div class="product-gallery">
+                    <div class="gallery-main" id="gallery-main">
+                        <button type="button" class="gallery-nav prev" id="gallery-prev" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+                        <img id="p-img" src="" alt="صورة القطعة" width="720" height="720" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.style.opacity='0.25';this.alt='تعذر تحميل الصورة';">
+                        <button type="button" class="gallery-nav next" id="gallery-next" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button type="button" class="gallery-zoom-btn" id="gallery-zoom" aria-label="تكبير"><i class="fa-solid fa-expand"></i></button>
+                        <span class="gallery-counter" id="p-gallery-counter">1 / 1</span>
+                    </div>
+                    <div class="gallery-thumbs" id="p-thumbs"></div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-brand-badge" id="p-brand-wrap">
+                        <span id="p-brand-logo"></span>
+                        <span id="p-brand">ماركة السيارة</span>
+                    </div>
+                    <h1 id="p-title">اسم القطعة</h1>
+                    <p class="product-name-en" id="p-name-en"></p>
+                    <div class="product-meta-chips" id="p-meta-chips"></div>
+                    <div class="product-price-large" id="p-price">0.00 ر.س</div>
+                    <p class="product-short-desc" id="p-short-desc"></p>
+
+                    <div class="product-specs" id="p-quick-specs">
+                        <div class="spec-item"><span class="spec-label" id="p-number-label">رقم المورد (يحتاج توثيق)</span><span class="spec-value" id="p-oem">-</span></div>
+                        <div class="spec-item"><span class="spec-label">رقم SKU</span><span class="spec-value" id="p-sku">-</span></div>
+                        <div class="spec-item"><span class="spec-label">القسم</span><span class="spec-value" id="p-cat">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الماركة</span><span class="spec-value" id="p-brand-spec">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الجهة</span><span class="spec-value" id="p-side">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الموقع</span><span class="spec-value" id="p-position">-</span></div>
+                        <div class="spec-item"><span class="spec-label">بلد المنشأ</span><span class="spec-value" id="p-origin">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الشركة المصنعة</span><span class="spec-value" id="p-manufacturer">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الوزن</span><span class="spec-value" id="p-weight">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الأبعاد</span><span class="spec-value" id="p-dimensions">-</span></div>
+                        <div class="spec-item"><span class="spec-label">المحرك</span><span class="spec-value" id="p-engine">-</span></div>
+                        <div class="spec-item"><span class="spec-label">ناقل الحركة</span><span class="spec-value" id="p-transmission">-</span></div>
+                        <div class="spec-item"><span class="spec-label">سنوات التوافق</span><span class="spec-value" id="p-years">-</span></div>
+                        <div class="spec-item"><span class="spec-label">الضمان</span><span class="spec-value" id="p-warranty-brief">تُؤكد التفاصيل قبل الطلب</span></div>
+                    </div>
+
+                    <div class="add-to-cart-widget">
+                        <div class="qty-stepper">
+                            <button type="button" class="qty-step" id="qty-minus" aria-label="تقليل الكمية">−</button>
+                            <input type="number" id="p-qty" class="qty-input" value="1" min="1" max="10" inputmode="numeric" aria-label="الكمية">
+                            <button type="button" class="qty-step" id="qty-plus" aria-label="زيادة الكمية">+</button>
+                        </div>
+                        <div class="add-to-cart-actions">
+                            <button class="btn btn-primary btn-add-large" id="btn-add" type="button">
+                                <span data-translate="add_to_cart">أضف للسلة</span>
+                            </button>
+                            <button class="btn btn-buy-now btn-add-large" id="btn-buy-now" type="button">
+                                <span>اطلب التحقق</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-action-row">
+                        <button class="action-pill" id="btn-favorite" type="button" title="المفضلة" aria-label="المفضلة" data-translate="wishlist_btn">
+                            <span class="action-pill-icon" aria-hidden="true"></span> <span>المفضلة</span>
+                        </button>
+                        <button class="action-pill" id="btn-compare" type="button" title="المقارنة" aria-label="المقارنة" data-translate="compare_btn">
+                            <span class="action-pill-icon" aria-hidden="true"></span> <span>المقارنة</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-extra-sections">
+                <section class="product-section-card" id="section-description">
+                    <h2><i class="fa-solid fa-align-right"></i> وصف القطعة</h2>
+                    <div id="p-description" style="color: var(--color-text-muted); line-height: 1.9;"></div>
+                </section>
+
+                <section class="product-section-card" id="section-specs">
+                    <h2><i class="fa-solid fa-list-check"></i> المواصفات الفنية الكاملة</h2>
+                    <div id="p-tech-specs"></div>
+                </section>
+
+                <section class="product-section-card" id="section-oem">
+                    <h2><i class="fa-solid fa-barcode"></i> أرقام OEM والبدائل</h2>
+                    <div class="oem-list" id="p-oem-list"></div>
+                </section>
+
+                <section class="product-section-card" id="section-fitments">
+                    <h2><i class="fa-solid fa-car"></i> توافقات المركبات</h2>
+                    <p class="fitment-summary" id="p-fitment-summary"></p>
+                    <div class="table-responsive" style="overflow-x:auto;">
+                        <table class="fitment-table">
+                            <thead>
+                                <tr>
+                                    <th>الماركة</th>
+                                    <th>الموديل</th>
+                                    <th>سنة الصنع</th>
+                                    <th>المحرك</th>
+                                    <th>الفئة / ملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="p-fitments-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="product-section-card">
+                    <h2><i class="fa-solid fa-shield-halved"></i> الضمان وسياسة الإرجاع</h2>
+                    <div class="policy-grid">
+                        <div class="policy-box">
+                            <h3><i class="fa-solid fa-certificate"></i> الضمان</h3>
+                            <p id="p-warranty-full">-</p>
+                        </div>
+                        <div class="policy-box">
+                            <h3><i class="fa-solid fa-rotate-left"></i> سياسة الإرجاع</h3>
+                            <p id="p-return-policy">-</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+                <div class="container footer-shell">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-block">
+                        <a href="index.html" class="logo">
+                            <span class="logo-mark" aria-hidden="true">
+                                <img class="logo-mark-img" src="images/brand/china-parts-mark.png?v=192" width="48" height="48" alt="CHINA PARTS">
+                            </span>
+                            <span class="logo-text">
+                                <strong data-translate="logo_text">CHINA PARTS</strong>
+                                <small data-translate="logo_tagline">قطع الغيار الصينية في السعودية</small>
+                            </span>
+                        </a>
+                        <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
+                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>تسوق</h3>
+                    <ul>
+                        <li><a href="collection.html" data-translate="all_parts">جميع القطع</a></li>
+                        <li><a href="index.html#brands-section">الماركات</a></li>
+                        <li><a href="index.html#categories-section">الأقسام</a></li>
+                        <li><a href="index.html#offers-section">العروض</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>خدمة العملاء</h3>
+                    <ul>
+                        <li><a href="about.html" data-translate="about">عن المتجر</a></li>
+                        <li><a href="contact.html" data-translate="contact">تواصل معنا</a></li>
+                        <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                        <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
+                        <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                        <li><a href="terms.html">الشروط والشحن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>تواصل</h3>
+                    <ul>
+                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
+                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-copy" data-translate="copyright">&copy; 2026 CHINA PARTS — جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> <span data-translate="cart_title">سلة المشتريات</span></h3>
+            <button class="close-drawer"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-translate="total">المجموع:</span>
+                <span id="cart-total-price">0.00 ر.س</span>
+            </div>
+            <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()" data-translate="checkout_btn">إرسال طلب التحقق</button>
+        </div>
+    </div>
+
+    <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
+    <script src="ads-tracker.js?v=ads2" defer></script>
+    <script src="app.js?v=copy231" defer></script>
+    <script>
+        function setSeoTag(selector, attribute, value) {
+            if (!value) return;
+            const el = document.querySelector(selector);
+            if (el) el.setAttribute(attribute, value);
+        }
+
+        function applyProductSeo(seo) {
+            if (!seo) return;
+            const title = seo.title || seo.meta_title_ar;
+            const desc = seo.meta_description || seo.meta_description_ar;
+            const image = seo.open_graph?.image || seo.og_image;
+            if (title) document.title = title;
+            setSeoTag('meta[name="description"]', 'content', desc);
+            setSeoTag('link[rel="canonical"]', 'href', seo.canonical_url);
+            setSeoTag('meta[property="og:url"]', 'content', seo.canonical_url || seo.open_graph?.url);
+            setSeoTag('meta[property="og:title"]', 'content', seo.open_graph?.title || title);
+            setSeoTag('meta[property="og:description"]', 'content', seo.open_graph?.description || desc);
+            setSeoTag('meta[property="og:image"]', 'content', image);
+
+            if (seo.structured_data) {
+                document.getElementById('product-jsonld')?.remove();
+                const script = document.createElement('script');
+                script.id = 'product-jsonld';
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(seo.structured_data);
+                document.head.appendChild(script);
+            }
+        }
+
+        let galleryImages = [];
+        let galleryIndex = 0;
+
+        function setMainImage(url, alt) {
+            const img = document.getElementById('p-img');
+            img.style.opacity = '0.4';
+            img.src = url;
+            img.alt = alt || 'صورة القطعة';
+            img.onload = () => { img.style.opacity = '1'; };
+        }
+
+        function updateGalleryUi() {
+            const main = document.getElementById('gallery-main');
+            const counter = document.getElementById('p-gallery-counter');
+            const thumbs = document.getElementById('p-thumbs');
+            if (!galleryImages.length) return;
+            const current = galleryImages[galleryIndex];
+            setMainImage(current.url, current.alt_ar || current.alt || '');
+            if (counter) counter.textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
+            main?.classList.toggle('has-many', galleryImages.length > 1);
+            thumbs?.querySelectorAll('button').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === galleryIndex);
+            });
+        }
+
+        function goGallery(delta) {
+            if (galleryImages.length <= 1) return;
+            galleryIndex = (galleryIndex + delta + galleryImages.length) % galleryImages.length;
+            updateGalleryUi();
+        }
+
+        function renderGallery(product) {
+            galleryImages = Array.isArray(product.images) && product.images.length
+                ? product.images.map(img => ({ url: img.url, alt_ar: img.alt_ar || product.name_ar }))
+                : (product.image_url ? [{ url: product.image_url, alt_ar: product.name_ar }] : []);
+            galleryIndex = 0;
+
+            const thumbs = document.getElementById('p-thumbs');
+            const main = document.getElementById('gallery-main');
+            thumbs.innerHTML = '';
+            thumbs.classList.toggle('is-single', galleryImages.length <= 1);
+            main?.classList.toggle('has-thumbs', galleryImages.length > 1);
+            if (!galleryImages.length) return;
+
+            galleryImages.forEach((image, index) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = index === 0 ? 'active' : '';
+                btn.innerHTML = `<img src="${image.url}" alt="${image.alt_ar || product.name_ar}">`;
+                btn.addEventListener('click', () => {
+                    galleryIndex = index;
+                    updateGalleryUi();
+                });
+                thumbs.appendChild(btn);
+            });
+
+            updateGalleryUi();
+
+            document.getElementById('gallery-prev')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goGallery(-1);
+            });
+            document.getElementById('gallery-next')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goGallery(1);
+            });
+            const openZoom = () => openLightbox(galleryImages, galleryIndex);
+            document.getElementById('gallery-zoom')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openZoom();
+            });
+            main?.addEventListener('click', openZoom);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                document.getElementById('loading-spinner').style.display = 'none';
+                const errEl = document.getElementById('error-message');
+                errEl.style.display = 'block';
+                errEl.hidden = false;
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/storefront/products/${productId}`);
+                if (!res.ok) throw new Error('Not found');
+                const payload = await res.json();
+                const p = payload.data;
+                if (!p) throw new Error('Product not found');
+                const escapeHtml = window.escapeHtml || ((value) => String(value ?? '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;'));
+
+                fetch(`${API_BASE}/seo-products/${productId}`)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(payload => applyProductSeo(payload?.data))
+                    .catch(() => {});
+
+                let currentProductData = p;
+                cacheProductSnapshot(p);
+                if (typeof window.trackAdsEvent === 'function') {
+                    window.trackAdsEvent('view_item', {
+                        content_ids: [String(p.id)],
+                        content_name: p.name_ar || p.name_en || '',
+                        content_type: 'product',
+                        value: Number(p.price) || 0,
+                        currency: 'SAR',
+                    });
+                }
+
+                const setText = (id, value, fallback = '-') => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    const text = (value === null || value === undefined || String(value).trim() === '') ? fallback : String(value);
+                    el.innerText = text;
+                    const row = el.closest('.spec-item');
+                    if (row) row.classList.toggle('is-empty', text === fallback || text === '-');
+                };
+
+                window.renderCurrentPageProducts = () => {
+                    if (!currentProductData) return;
+                    const cp = currentProductData;
+                    const brandLabel = cp.brand
+                        ? (cp.brand.name_ar || cp.brand.name_en || getTranslation('default_brand'))
+                        : getTranslation('default_brand');
+                    document.getElementById('p-title').innerText = cp.name_ar || getLocalizedName(cp, 'name');
+                    document.getElementById('p-brand').innerText = brandLabel;
+                    const priceVal = cp.price_amount || cp.price;
+                    document.getElementById('p-price').innerText = priceVal
+                        ? `${parseFloat(priceVal).toFixed(2)} ${getTranslation('currency_sar')}`
+                        : getTranslation('price_on_request');
+                    setText('p-oem', cp.oem_number);
+                    setText('p-cat', cp.category ? (cp.category.name_ar || cp.category.name_en) : null);
+                    setText('p-brand-spec', brandLabel);
+                };
+
+                window.renderCurrentPageProducts();
+                const crumb = document.getElementById('p-crumb');
+                if (crumb) crumb.innerText = p.name_ar || 'تفاصيل القطعة';
+                document.title = `${p.name_ar || 'تفاصيل القطعة'} | CHINA PARTS`;
+                renderGallery(p);
+
+                const brandSlug = p.brand?.slug || '';
+                const brandLogoEl = document.getElementById('p-brand-logo');
+                if (brandLogoEl && typeof brandLogoMarkup === 'function') {
+                    brandLogoEl.innerHTML = brandLogoMarkup(brandSlug, { sizeClass: 'is-card' });
+                }
+
+                document.getElementById('p-name-en').innerText = p.name_en || '';
+                document.getElementById('p-name-en').style.display = p.name_en ? 'block' : 'none';
+                document.getElementById('p-short-desc').innerText = p.short_description_ar || p.short_description_en || '';
+
+                setText('p-number-label', p.part_number_label || 'رقم المورد (يحتاج توثيق)');
+                setText('p-oem', p.oem_number);
+                setText('p-sku', p.sku || p.oem_number);
+                setText('p-side', p.side);
+                setText('p-position', p.position);
+                setText('p-origin', p.country_of_origin || p.origin);
+                setText('p-manufacturer', p.manufacturer
+                    ? (p.manufacturer.name_ar || p.manufacturer.name_en)
+                    : null);
+                setText('p-weight', p.weight);
+                setText('p-dimensions', p.dimensions);
+                setText('p-engine', p.engine);
+                setText('p-transmission', p.transmission);
+                const years = Array.isArray(p.compatible_years) && p.compatible_years.length
+                    ? (p.compatible_years.length > 1
+                        ? `${p.compatible_years[0]} - ${p.compatible_years[p.compatible_years.length - 1]}`
+                        : String(p.compatible_years[0]))
+                    : null;
+                setText('p-years', years);
+
+                const chips = document.getElementById('p-meta-chips');
+                const partTypeLabel = 'الأصالة تحتاج تأكيد';
+                const stockLabel = p.in_stock === true
+                    ? getTranslation('in_stock')
+                    : (p.in_stock === false ? getTranslation('out_of_stock') : 'التوفر يحتاج تأكيد');
+                const stockClass = p.in_stock === true ? 'in-stock' : (p.in_stock === false ? 'out-stock' : '');
+                chips.innerHTML = `
+                    <span class="meta-chip">${escapeHtml(partTypeLabel)}</span>
+                    <span class="meta-chip ${stockClass}">${escapeHtml(stockLabel)}</span>
+                    ${p.category ? `<span class="meta-chip">${escapeHtml(p.category.name_ar || p.category.name_en || '')}</span>` : ''}
+                    ${p.side ? `<span class="meta-chip">${escapeHtml(p.side)}</span>` : ''}
+                    ${p.position ? `<span class="meta-chip">${escapeHtml(p.position)}</span>` : ''}
+                    ${p.checkout_enabled === true && p.can_checkout === true && p.in_stock === true && ((window.ZID_LIVE && p.zid_product_id) || (window.SALLA_LIVE && p.salla_product_id))
+                        ? `<span class="meta-chip">${window.ZID_LIVE && p.zid_product_id ? 'جاهز للدفع عبر زد' : 'جاهز للدفع عبر سلة'}</span>`
+                        : '<span class="meta-chip">يمكن طلب التحقق والتوفير</span>'}
+                `;
+
+                const warrantyText = p.warranty_text || 'تُؤكد تفاصيل الضمان الخاصة بهذه القطعة قبل الطلب.';
+                const warrantyBrief = document.getElementById('p-warranty-brief');
+                warrantyBrief.replaceChildren();
+                const warrantyIcon = document.createElement('i');
+                warrantyIcon.className = 'fa-solid fa-shield-check';
+                warrantyIcon.setAttribute('aria-hidden', 'true');
+                warrantyBrief.append(warrantyIcon, document.createTextNode(` ${warrantyText}`));
+                document.getElementById('p-warranty-full').innerText = warrantyText;
+                document.getElementById('p-return-policy').innerText = p.return_policy
+                    || 'تُؤكد مدة وشروط الإرجاع الخاصة بهذه القطعة قبل الطلب. راجع صفحة سياسة الاسترجاع أو تواصل معنا.';
+
+                const description = p.description || p.description_html || '';
+                const descriptionEl = document.getElementById('p-description');
+                descriptionEl.textContent = description || 'لا يوجد وصف تفصيلي حالياً.';
+                descriptionEl.style.whiteSpace = 'pre-line';
+                descriptionEl.classList.toggle('text-muted', !description);
+
+                const specsEl = document.getElementById('p-tech-specs');
+                if (Array.isArray(p.specs) && p.specs.length) {
+                    specsEl.innerHTML = `<div class="product-specs" style="margin:0;border:none;padding:0;">${p.specs.map(spec => `
+                        <div class="spec-item">
+                            <span class="spec-label">${escapeHtml(spec.label || spec.key || '-')}</span>
+                            <span class="spec-value">${escapeHtml(spec.value || '-')}${spec.unit ? ' ' + escapeHtml(spec.unit) : ''}</span>
+                        </div>
+                    `).join('')}</div>`;
+                } else {
+                    document.getElementById('section-specs').style.display = 'none';
+                }
+
+                const oemList = document.getElementById('p-oem-list');
+                if (Array.isArray(p.oem_numbers) && p.oem_numbers.length) {
+                    oemList.innerHTML = p.oem_numbers.map(oem => {
+                        const number = typeof oem === 'string' ? oem : (oem?.number || oem?.oem_number || '');
+                        const relRaw = typeof oem === 'string' ? 'primary' : (oem?.relation_type || 'alternate');
+                        const rel = relRaw === 'primary' ? 'أساسي' : (relRaw || 'بديل');
+                        const statusLabels = {official_published_reference: 'منشور لدى الوكيل', supplier_reference: 'مرجع المورد', verified: 'يحتاج مراجعة المصدر', pending_review: 'قيد المراجعة'};
+                        const status = (!oem || typeof oem === 'string' || !oem.verification_status) ? '' : ` · ${statusLabels[oem.verification_status] || 'يحتاج توثيق'}`;
+                        return `<span class="oem-pill">${escapeHtml(number)} · ${escapeHtml(rel)}${escapeHtml(status)}</span>`;
+                    }).join('');
+                } else if (p.oem_number) {
+                    oemList.innerHTML = `<span class="oem-pill">${escapeHtml(p.oem_number)} · أساسي</span>`;
+                } else {
+                    document.getElementById('section-oem').style.display = 'none';
+                }
+
+                const fitmentBody = document.getElementById('p-fitments-body');
+                const fitmentSummary = document.getElementById('p-fitment-summary');
+                if (Array.isArray(p.fitments) && p.fitments.length) {
+                    if (fitmentSummary) {
+                        const models = [...new Set(p.fitments.map(f => f.model || f.model_name_ar).filter(Boolean))];
+                        fitmentSummary.textContent = `${p.fitments.length} توافق مسجّل` +
+                            (models.length ? ` · الموديلات: ${models.slice(0, 8).join('، ')}` : '') +
+                            (years ? ` · السنوات: ${years}` : '');
+                    }
+                    fitmentBody.innerHTML = p.fitments.map(f => `
+                        <tr>
+                            <td>${escapeHtml(f.brand || f.brand_name_ar || '-')}</td>
+                            <td>${escapeHtml(f.model || f.model_name_ar || '-')}</td>
+                            <td>${escapeHtml(f.year || '-')}</td>
+                            <td>${escapeHtml(f.engine || f.engine_code || '-')}</td>
+                            <td>${escapeHtml(f.trim || f.notes || '-')}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    if (fitmentSummary) fitmentSummary.textContent = '';
+                    fitmentBody.innerHTML = `<tr><td colspan="5" class="text-muted">لم يتم توثيق توافق هذه القطعة بعد. يلزم التأكد من كتالوج الشركة باستخدام رقم الهيكل.</td></tr>`;
+                }
+
+                const addButton = document.getElementById('btn-add');
+                const buyNowButton = document.getElementById('btn-buy-now');
+                const favoriteButton = document.getElementById('btn-favorite');
+                const compareButton = document.getElementById('btn-compare');
+
+                favoriteButton.dataset.favoriteProduct = p.id;
+                compareButton.dataset.compareProduct = p.id;
+                if (typeof uiIcon === 'function') {
+                    const favIcon = favoriteButton.querySelector('.action-pill-icon');
+                    const cmpIcon = compareButton.querySelector('.action-pill-icon');
+                    if (favIcon) favIcon.innerHTML = uiIcon('heartOutline');
+                    if (cmpIcon) cmpIcon.innerHTML = uiIcon('compare');
+                }
+                favoriteButton.addEventListener('click', () => toggleFavorite(p.id, p));
+                compareButton.addEventListener('click', () => toggleComparison(p.id, p));
+
+                const canBuyOnline = Boolean(
+                    p.checkout_enabled === true
+                    && p.can_checkout === true
+                    && p.in_stock === true
+                    && (
+                        (window.ZID_LIVE && p.zid_product_id)
+                        || (window.SALLA_LIVE && p.salla_product_id)
+                    )
+                );
+                const buyLabel = canBuyOnline
+                    ? ((typeof getTranslation === 'function' && getTranslation('buy_now')) || 'شراء الآن')
+                    : 'اطلب التحقق';
+                if (!canBuyOnline) {
+                    addButton.innerHTML = (typeof uiIcon === 'function' ? uiIcon('cartPlus') : '') + ' <span>أضف للطلب</span>';
+                } else {
+                    addButton.innerHTML = (typeof uiIcon === 'function' ? uiIcon('cartPlus') : '') + ' <span data-translate="add_to_cart">أضف للسلة</span>';
+                }
+                if (buyNowButton) {
+                    buyNowButton.innerHTML = (typeof uiIcon === 'function' ? uiIcon('bolt') : '') + ' <span>' + buyLabel + '</span>';
+                    buyNowButton.setAttribute('aria-label', buyLabel);
+                }
+
+                // Add to cart / inquiry list
+                addButton.addEventListener('click', () => {
+                    const qty = parseInt(document.getElementById('p-qty').value, 10) || 1;
+                    addToCart(p, qty);
+                });
+                buyNowButton?.addEventListener('click', () => {
+                    const qty = parseInt(document.getElementById('p-qty').value, 10) || 1;
+                    buyNow(p, qty);
+                });
+
+                document.getElementById('loading-spinner').style.display = 'none';
+                document.getElementById('product-details').style.display = 'block';
+                const errEl = document.getElementById('error-message');
+                errEl.style.display = 'none';
+                errEl.hidden = true;
+                refreshInteractionButtons();
+            } catch (err) {
+                console.error('API Error:', err);
+                document.getElementById('loading-spinner').style.display = 'none';
+                const errEl = document.getElementById('error-message');
+                errEl.style.display = 'block';
+                errEl.hidden = false;
+            }
+        });
+
+        (function bindQtyStepper() {
+            const input = document.getElementById('p-qty');
+            const minus = document.getElementById('qty-minus');
+            const plus = document.getElementById('qty-plus');
+            if (!input || !minus || !plus) return;
+            const clamp = (value) => Math.min(10, Math.max(1, value || 1));
+            minus.addEventListener('click', () => {
+                input.value = String(clamp((parseInt(input.value, 10) || 1) - 1));
+            });
+            plus.addEventListener('click', () => {
+                input.value = String(clamp((parseInt(input.value, 10) || 1) + 1));
+            });
+            input.addEventListener('change', () => {
+                input.value = String(clamp(parseInt(input.value, 10)));
+            });
+        })();
+    </script>
+<script src="store-motion.js?v=1" defer></script>
+<script src="store-experience.js?v=1" defer></script>
+</body>
+</html>
