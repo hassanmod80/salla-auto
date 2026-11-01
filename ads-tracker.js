@@ -638,9 +638,11 @@
 
     bindContactClicks();
 
-    const apiBase = (window.location && /^https?:$/i.test(window.location.protocol))
-        ? window.location.origin + '/api'
-        : '/api';
+    const apiBase = (typeof window.API_BASE === 'string' && window.API_BASE.trim())
+        ? window.API_BASE.trim().replace(/\/$/, '')
+        : ((window.location && /^https?:$/i.test(window.location.protocol))
+            ? window.location.origin + '/api'
+            : '/api');
 
     fetch(apiBase + '/storefront/ads-config', {
         method: 'GET',

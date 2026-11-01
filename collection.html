@@ -7,19 +7,19 @@
     <title>جميع القطع | CHINA PARTS</title>
     <meta name="description" content="تصفح قطع غيار السيارات الصينية وابحث بالاسم أو رقم القطعة أو الماركة والموديل، ثم راجع التوافق والتوفر قبل الطلب.">
     <meta name="robots" content="index,follow">
-    <link rel="canonical" href="https://chinapartsksa.com/collection.html">
+    <link rel="canonical" href="https://chinesecar1parts.com/collection.html">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://chinapartsksa.com/collection.html">
+    <meta property="og:url" content="https://chinesecar1parts.com/collection.html">
     <meta property="og:site_name" content="CHINA PARTS">
     <meta property="og:locale" content="ar_SA">
     <meta property="og:title" content="جميع القطع | CHINA PARTS">
     <meta property="og:description" content="كتالوج قطع غيار السيارات الصينية مع بحث بالاسم ورقم القطعة وبيانات المركبة.">
-    <meta property="og:image" content="https://chinapartsksa.com/images/brand/china-parts-mark.png">
+    <meta property="og:image" content="https://chinesecar1parts.com/images/brand/china-parts-mark.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
     <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
-    <link rel="stylesheet" href="style.css?v=copy230">
+    <link rel="stylesheet" href="style.css?v=tools065">
     <style>
         .page-header {
             padding: 60px 0 40px;
@@ -704,7 +704,7 @@
                 </div>
             </div>
             <div class="header-actions">
-                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                <a class="header-wa-link" href="https://wa.me/966554930989" target="_blank" rel="noopener" aria-label="واتساب">
                     <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     <span>واتساب</span>
                 </a>
@@ -767,7 +767,7 @@
             </div>
 
             <div class="filter-group">
-                <div class="filter-group-title">الأقسام</div>
+                <div class="filter-group-title">الفئات</div>
                 <ul class="filter-list" id="filter-categories">
                     <li data-translate="loading_msg">جاري التحميل...</li>
                 </ul>
@@ -877,7 +877,7 @@
                             </span>
                         </a>
                         <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
-                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                        <a class="footer-wa" href="https://wa.me/966554930989" target="_blank" rel="noopener">
                             <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
                         </a>
                     </div>
@@ -900,13 +900,14 @@
                         <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
                         <li><a href="privacy.html">سياسة الخصوصية</a></li>
                         <li><a href="terms.html">الشروط والشحن</a></li>
+                        <li><a href="admin-dashboard.html">لوحة الإدارة</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>تواصل</h3>
                     <ul>
-                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
-                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li><a href="mailto:info@chinesecar1parts.com">info@chinesecar1parts.com</a></li>
+                        <li><a href="https://wa.me/966554930989" target="_blank" rel="noopener">واتساب 055 493 0989</a></li>
                         <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
                     </ul>
                 </div>
@@ -933,11 +934,12 @@
 
         <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
     <script src="ads-tracker.js?v=ads2" defer></script>
-    <script src="app.js?v=copy232" defer></script>
+    <script src="app.js?v=tools071" defer></script>
     <script>
         let currentCollectionProducts = [];
         let currentCollectionMeta = null;
         let currentPage = 1;
+        let productsRequestSeq = 0;
         let filterDebounceTimer = null;
         let brandsCache = [];
         let categoriesCache = [];
@@ -988,11 +990,13 @@
             if (!extra && cleanState.brand && !cleanState.category && !cleanState.model) {
                 const brand = brandsCache.find((item) => String(item.id) === String(cleanState.brand));
                 if (brand && brand.slug) {
-                    return page > 1 ? `/brands/${brand.slug}/page/${page}/` : `/brands/${brand.slug}/`;
+                    const brandSlug = encodeURIComponent(String(brand.slug));
+                    return page > 1 ? `/brands/${brandSlug}/page/${page}/` : `/brands/${brandSlug}/`;
                 }
             }
             if (!extra && cleanState.category && !cleanState.brand && !cleanState.model && !/^\d+$/.test(String(cleanState.category))) {
-                return page > 1 ? `/categories/${cleanState.category}/page/${page}/` : `/categories/${cleanState.category}/`;
+                const categorySlug = encodeURIComponent(String(cleanState.category));
+                return page > 1 ? `/categories/${categorySlug}/page/${page}/` : `/categories/${categorySlug}/`;
             }
             if (!extra && cleanState.model && !cleanState.brand && !cleanState.category) {
                 return page > 1 ? `/models/${cleanState.model}/page/${page}/` : `/models/${cleanState.model}/`;
@@ -1423,6 +1427,7 @@
         }
 
         async function fetchProductsAjax(updateHistory = true) {
+            const requestSeq = ++productsRequestSeq;
             const state = collectFilterState();
             if (updateHistory) syncUrl(state);
 
@@ -1471,8 +1476,11 @@
                         sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: payload }));
                     } catch (e) {}
                 }
+                // Ignore late responses from older filter changes.
+                if (requestSeq !== productsRequestSeq) return;
                 renderProductsGrid(payload.data || [], payload.meta || null);
             } catch (err) {
+                if (requestSeq !== productsRequestSeq) return;
                 console.error(err);
                 grid.innerHTML = `
                     <div class="empty-state">
@@ -1483,7 +1491,7 @@
                     </div>`;
                 document.getElementById('pagination-bar').innerHTML = '';
             } finally {
-                grid.classList.remove('is-loading');
+                if (requestSeq === productsRequestSeq) grid.classList.remove('is-loading');
             }
         }
 
@@ -1495,13 +1503,25 @@
             products = products.filter(p => p.image_url || p.image);
             document.getElementById('results-count').innerText = `${getTranslation('parts_found')} (${meta ? meta.total : products.length})`;
 
+            const hasOtherPages = Boolean(meta && Number(meta.last_page) > 1);
+            if (products.length === 0 && hasOtherPages) {
+                // This page only had products without images; keep pagination usable.
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-images"></i>
+                        <p>لا توجد صور لمنتجات هذه الصفحة، جرّب الصفحة التالية.</p>
+                    </div>`;
+                renderPagination(meta);
+                return;
+            }
+
             if (products.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
                         <i class="fa-solid fa-box-open"></i>
                         <h3>${getTranslation('no_parts_found')}</h3>
                         <p>مش لاقي قطعتك؟ تواصل معنا ونساعدك نجيبها. أرسل اسمها أو صورتها وبيانات السيارة، ونوضح لك السعر ومدة التوفير قبل تأكيد الطلب.</p>
-                        <a class="btn btn-primary" href="https://wa.me/966563156460?text=${encodeURIComponent('مرحباً CHINA PARTS، لم أجد القطعة وأرغب في توفيرها.\nبحثت عن: ' + (new URLSearchParams(location.search).get('q') || '') + '\nالسيارة والموديل:\nرقم الهيكل إن توفر:')}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
+                        <a class="btn btn-primary" href="https://wa.me/966554930989?text=${encodeURIComponent('مرحباً CHINA PARTS، لم أجد القطعة وأرغب في توفيرها.\nبحثت عن: ' + (new URLSearchParams(location.search).get('q') || '') + '\nالسيارة والموديل:\nرقم الهيكل إن توفر:')}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
                         <button class="btn btn-outline" type="button" onclick="resetFilters()">إعادة ضبط الفلاتر</button>
                     </div>`;
                 document.getElementById('pagination-bar').innerHTML = '';
