@@ -1459,6 +1459,8 @@ def calculated_price_floor(control) -> Decimal | None:
     return max(floors).quantize(Decimal("0.01")) if floors else None
 
 
+PUBLIC_TEXT_FILES = {'robots.txt', 'ads.txt', 'app-ads.txt', 'llms.txt'}
+
 READY_WHERE = """
 p.status = 'published'
 AND p.description IS NOT NULL AND trim(p.description) != ''
@@ -6062,6 +6064,9 @@ class Handler(BaseHTTPRequestHandler):
             if len(relative.parts) > 1 and relative.parts[0] not in {'images', 'storage'}:
                 continue
             if resolved.suffix.lower() not in {'.html','.js','.css','.png','.jpg','.jpeg','.webp','.avif','.svg','.ico','.txt','.xml','.woff','.woff2'}:
+                continue
+            # Stray notes/exports at the site root (e.g. requirements.txt, copied snippets) must not leak.
+            if resolved.suffix.lower() == '.txt' and str(relative).lower() not in PUBLIC_TEXT_FILES:
                 continue
             data = resolved.read_bytes()
             ctype = mimetypes.guess_type(str(resolved))[0] or "application/octet-stream"

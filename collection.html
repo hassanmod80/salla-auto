@@ -1230,6 +1230,7 @@
                 }).join('');
 
                 initPriceFilter(urlParams.get('min_price'), urlParams.get('max_price'));
+                await loadVehicleModelName();
                 updatePageHeading(urlParams);
                 bindFilterEvents();
                 await fetchProductsAjax(false);
@@ -1416,6 +1417,7 @@
             document.getElementById('filter-brands').addEventListener('change', (event) => {
                 if (event.target.classList.contains('chk-brand')) {
                     enforceSingleCheck('.chk-brand', event.target);
+                    clearVehicleParams();
                 }
                 currentPage = 1;
                 fetchProductsAjax(true);
@@ -1491,7 +1493,8 @@
                 );
                 const name = (b && b.name_ar) || landingName;
                 if (name) {
-                    document.getElementById('page-title').innerText = `قطع غيار ${name}`;
+                    const vehicle = (modelId || year) ? selectedVehicleLabel() : '';
+                    document.getElementById('page-title').innerText = `قطع غيار ${vehicle || name}`;
                     document.getElementById('page-desc').innerText = getTranslation('page_all_parts_desc');
                     if (crumb) crumb.innerText = name;
                     return;
@@ -1597,15 +1600,59 @@
             }
         }
 
-        function buildPartRequestCardHtml() {
+        // Selected vehicle (brand / model / year) for headings and WhatsApp requests.
+        let vehicleModelName = '';
+        async function loadVehicleModelName() {
+            const params = new URLSearchParams(location.search);
+            const modelId = params.get('model') || parseLandingFromPath().id || '';
+            const brandId = document.querySelector('.chk-brand:checked')?.value || params.get('brand') || '';
+            vehicleModelName = '';
+            if (!modelId || !brandId) return;
+            try {
+                const models = await fetch(`${API_BASE}/models/${encodeURIComponent(brandId)}`).then(r => r.ok ? r.json() : []);
+                const m = (Array.isArray(models) ? models : []).find(x => String(x.id) === String(modelId));
+                vehicleModelName = m ? (m.name_ar || m.name_en || '') : '';
+            } catch (_) { vehicleModelName = ''; }
+        }
+
+        function selectedVehicleLabel() {
+            const params = new URLSearchParams(location.search);
+            const brandId = document.querySelector('.chk-brand:checked')?.value || params.get('brand') || '';
+            const b = brandId ? brandsCache.find(x => String(x.id) === String(brandId)) : null;
+            const parts = [];
+            if (b) parts.push(b.name_ar || b.name_en || '');
+            if (vehicleModelName) parts.push(vehicleModelName);
+            const year = params.get('year');
+            if (year && /^\d{4}$/.test(year)) parts.push(year);
+            return parts.filter(Boolean).join(' ');
+        }
+
+        // Drop model/year/vehicle when the brand changes or filters reset, so stale selections never linger.
+        function clearVehicleParams() {
+            const p = new URLSearchParams(location.search);
+            ['model', 'year', 'vehicle_id'].forEach(k => p.delete(k));
+            const path = parseLandingFromPath().kind === 'model' ? '/collection.html' : location.pathname;
+            const qs = p.toString();
+            window.history.replaceState({}, '', path + (qs ? `?${qs}` : ''));
+            vehicleModelName = '';
+        }
+
+        function partRequestWhatsAppHref() {
             const params = new URLSearchParams(location.search);
             const pageTitle = (document.getElementById('page-title')?.textContent || '').trim();
             const query = (params.get('q') || '').trim();
+            const vehicle = selectedVehicleLabel();
             const lines = ['مرحباً CHINA PARTS، لم أجد القطعة التي أبحث عنها وأرغب في توفيرها.'];
             if (pageTitle && pageTitle !== 'جميع القطع' && !query) lines.push('الصفحة: ' + pageTitle);
             if (query) lines.push('بحثت عن: ' + query);
-            lines.push('اسم القطعة:', 'السيارة والموديل والسنة:', 'رقم الهيكل (VIN) إن توفر:');
-            const href = `https://wa.me/966554930989?text=${encodeURIComponent(lines.join('\n'))}`;
+            lines.push('اسم القطعة:');
+            lines.push('السيارة والموديل والسنة: ' + vehicle);
+            lines.push('رقم الهيكل (VIN) إن توفر:');
+            return `https://wa.me/966554930989?text=${encodeURIComponent(lines.join('\n'))}`;
+        }
+
+        function buildPartRequestCardHtml() {
+            const href = partRequestWhatsAppHref();
             return `
                 <div class="part-request-card" id="part-request-card">
                     <div class="prc-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div>
@@ -1664,7 +1711,7 @@
                         <i class="fa-solid fa-box-open"></i>
                         <h3>${getTranslation('no_parts_found')}</h3>
                         <p>مش لاقي قطعتك؟ تواصل معنا ونساعدك نجيبها. أرسل اسمها أو صورتها وبيانات السيارة، ونوضح لك السعر ومدة التوفير قبل تأكيد الطلب.</p>
-                        <a class="btn btn-primary" href="https://wa.me/966554930989?text=${encodeURIComponent('مرحباً CHINA PARTS، لم أجد القطعة وأرغب في توفيرها.\nبحثت عن: ' + (new URLSearchParams(location.search).get('q') || '') + '\nالسيارة والموديل:\nرقم الهيكل إن توفر:')}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
+                        <a class="btn btn-primary" href="${partRequestWhatsAppHref()}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
                         <button class="btn btn-outline" type="button" onclick="resetFilters()">إعادة ضبط الفلاتر</button>
                     </div>`;
                 document.getElementById('pagination-bar').innerHTML = '';
@@ -1753,6 +1800,7 @@
             document.querySelectorAll('.chk-brand, .chk-cat').forEach(cb => { cb.checked = false; });
             const stockAll = document.querySelector('input[name="stock"][value=""]');
             if (stockAll) stockAll.checked = true;
+            clearVehicleParams();
             currentPage = 1;
             fetchProductsAjax(true);
             if (window.innerWidth <= 992) {

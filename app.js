@@ -3023,6 +3023,17 @@ function initCart() {
         try { cart = JSON.parse(saved); } catch (e) { cart = []; }
     }
     cart = Array.isArray(cart) ? cart.filter(item => item && item.id != null) : [];
+    // A "buy now" left unfinished (tab closed / reloaded) must not wipe the earlier cart:
+    // bring the earlier items back and keep the buy-now item alongside them.
+    let pendingPrevious = null;
+    try { pendingPrevious = JSON.parse(localStorage.getItem('qetaa_cart_before_buynow') || 'null'); } catch (e) { pendingPrevious = null; }
+    if (Array.isArray(pendingPrevious)) {
+        const merged = pendingPrevious.filter(item => item && item.id != null).map(item => ({ ...item }));
+        cart.forEach((item) => {
+            if (!merged.some(candidate => String(candidate.id) === String(item.id))) merged.push(item);
+        });
+        cart = merged;
+    }
     // Quantities/prices restored from storage may be strings ("1" + 1 = "11").
     cart.forEach((item) => {
         item.quantity = Math.max(1, parseInt(item.quantity, 10) || 1);
@@ -3035,6 +3046,8 @@ function initCart() {
 function saveCart() {
     try {
         localStorage.setItem('qetaa_cart', JSON.stringify(cart));
+        if (buyNowPreviousCart) localStorage.setItem('qetaa_cart_before_buynow', JSON.stringify(buyNowPreviousCart));
+        else localStorage.removeItem('qetaa_cart_before_buynow');
     } catch (e) {
         // Storage can be full or blocked (private mode); keep the in-memory cart.
     }
