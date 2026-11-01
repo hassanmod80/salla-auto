@@ -19,16 +19,22 @@ function resolveApiBase() {
 const API_BASE = resolveApiBase();
 const SALLA_CART_URL = window.SALLA_CART_URL || localStorage.getItem('qetaa_salla_cart_url') || '';
 const WHATSAPP_NUMBER = (() => {
-    const preferred = String(window.WHATSAPP_NUMBER || '966563156460').replace(/\D/g, '');
-    const cached = String(localStorage.getItem('qetaa_whatsapp') || '').replace(/\D/g, '');
-    // Drop stale wrong number if it was saved earlier.
-    if (cached && cached !== '966503156460' && cached !== '0503156460' && cached !== '503156460') {
-        return cached;
+    const preferred = String(window.WHATSAPP_NUMBER || '966554930989').replace(/\D/g, '') || '966554930989';
+    const stale = new Set([
+        '966503156460', '0503156460', '503156460',
+        '966563156460', '0563156460', '563156460',
+    ]);
+    let cached = '';
+    try {
+        cached = String(localStorage.getItem('qetaa_whatsapp') || '').replace(/\D/g, '');
+    } catch (e) {
+        cached = '';
     }
-    if (cached === '966503156460' || cached === '0503156460' || cached === '503156460') {
-        localStorage.setItem('qetaa_whatsapp', preferred);
+    if (!cached || stale.has(cached)) {
+        try { localStorage.setItem('qetaa_whatsapp', preferred); } catch (e) {}
+        return preferred;
     }
-    return preferred || '966563156460';
+    return cached;
 })();
 let SALLA_LIVE = false;
 let ZID_LIVE = window.ZID_LIVE === true || (window.ZID_LIVE !== false && localStorage.getItem('qetaa_zid_live') === '1');
@@ -97,8 +103,8 @@ const UI_ICON = {
     heart: `<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 20.25S3.75 14.9 3.75 9.6A4.35 4.35 0 0 1 8.2 5.2c1.45 0 2.72.66 3.8 1.9 1.08-1.24 2.35-1.9 3.8-1.9a4.35 4.35 0 0 1 4.45 4.4c0 5.3-8.25 10.65-8.25 10.65Z"/></svg>`,
     heartOutline: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12.001 20.25S3.75 14.9 3.75 9.6A4.35 4.35 0 0 1 8.2 5.2c1.45 0 2.72.66 3.8 1.9 1.08-1.24 2.35-1.9 3.8-1.9a4.35 4.35 0 0 1 4.45 4.4c0 5.3-8.25 10.65-8.25 10.65Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
     heartCard: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 20.2S4 14.9 4 9.7A4.2 4.2 0 0 1 8.3 5.4c1.4 0 2.6.65 3.7 1.9 1.1-1.25 2.3-1.9 3.7-1.9A4.2 4.2 0 0 1 20 9.7c0 5.2-8 10.5-8 10.5Z" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-    compare: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M7 19V9M12 19V5M17 19v-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 19h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-    compareCard: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M7 19V10M12 19V5M17 19v-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M4.5 19h15" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>`,
+    compare: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="7" height="14" rx="1.4" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="5" width="7" height="14" rx="1.4" stroke="currentColor" stroke-width="1.7"/></svg>`,
+    compareCard: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><rect x="3.2" y="4.5" width="7.4" height="15" rx="1.5" stroke="currentColor" stroke-width="2.1"/><rect x="13.4" y="4.5" width="7.4" height="15" rx="1.5" stroke="currentColor" stroke-width="2.1"/></svg>`,
     bag: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6.4 8.5h11.2l-.85 10.1a1.4 1.4 0 0 1-1.39 1.25H8.64a1.4 1.4 0 0 1-1.39-1.25L6.4 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.2 8.5V7.4A2.8 2.8 0 0 1 12 4.6a2.8 2.8 0 0 1 2.8 2.8v1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
     cartPlus: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3.6 4.5h1.55l1.55 9.55a1.35 1.35 0 0 0 1.33 1.12h8.05a1.35 1.35 0 0 0 1.33-1.1L18.8 8.2H7.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.4" cy="19.1" r="1.15" fill="currentColor"/><circle cx="16" cy="19.1" r="1.15" fill="currentColor"/><path d="M14.1 4.8v3.6M12.3 6.6h3.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
     bolt: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M13 2.8 5.8 13.2h5.1L10.2 21.2 18.2 10h-5.4L13 2.8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
@@ -109,7 +115,7 @@ const UI_ICON = {
     car: `<svg class="ui-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4.2 14.2 5.5 9.7A1.8 1.8 0 0 1 7.25 8.4h9.5a1.8 1.8 0 0 1 1.75 1.3l1.3 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4.8 14.2h14.4a1.3 1.3 0 0 1 1.3 1.35v1a.9.9 0 0 1-.9.9h-.85a2 2 0 0 1-3.9 0H9.15a2 2 0 0 1-3.9 0h-.85a.9.9 0 0 1-.9-.9v-1a1.3 1.3 0 0 1 1.3-1.35Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
 };
 
-const UI_ICON_VERSION = 'v4';
+const UI_ICON_VERSION = 'v5';
 
 function uiIcon(name) {
     return UI_ICON[name] || '';
@@ -148,7 +154,7 @@ function polishHeaderChromeIcons() {
                 return;
             }
             const badge = el.querySelector('.badge');
-            const label = el.querySelector('.lang-label');
+            const label = el.querySelector('.lang-label, .header-tool-label');
             el.innerHTML = uiIcon(icon) + (label ? label.outerHTML : '') + (badge ? badge.outerHTML : '');
             el.querySelector('.ui-icon')?.setAttribute('data-ui', `${UI_ICON_VERSION}:${icon}`);
         });
@@ -163,34 +169,12 @@ const CHINESE_BRANDS_CATALOG = [
     { slug: 'haval', name_ar: 'هافال', name_en: 'Haval', domain: 'haval.com', logoFile: 'haval-logo.png' },
     { slug: 'mg', name_ar: 'إم جي', name_en: 'MG', domain: 'mg.co.uk', logoFile: 'mg-logo.png' },
     { slug: 'chery', name_ar: 'شيري', name_en: 'Chery', domain: 'cheryinternational.com', logoFile: 'chery-logo.png' },
-    { slug: 'byd', name_ar: 'بي واي دي', name_en: 'BYD', domain: 'byd.com', logoFile: 'byd-logo.png' },
     { slug: 'tank', name_ar: 'تانك', name_en: 'Tank', domain: 'haval.com', logoFile: 'great-wall-logo.png' },
     { slug: 'jetour', name_ar: 'جيتور', name_en: 'Jetour', domain: 'jetourglobal.com', logoFile: null },
-    { slug: 'exeed', name_ar: 'إكسيد', name_en: 'Exeed', domain: 'exeedcars.com', logoFile: 'exeed-logo.png' },
-    { slug: 'omoda', name_ar: 'أومودا', name_en: 'Omoda', domain: 'omodacars.com', logoFile: null },
-    { slug: 'jaecoo', name_ar: 'جايكو', name_en: 'Jaecoo', domain: 'jaecoo.com', logoFile: null },
     { slug: 'gac', name_ar: 'جي أيه سي', name_en: 'GAC', domain: 'gac-motor.com', logoFile: 'gac-logo.png' },
     { slug: 'jac', name_ar: 'جاك', name_en: 'JAC', domain: 'jac.com.cn', logoFile: 'jac-logo.png' },
     { slug: 'maxus', name_ar: 'ماكسوس', name_en: 'Maxus', domain: 'saicmaxus.com', logoFile: 'maxus-logo.png' },
-    { slug: 'great-wall', name_ar: 'جريت وول', name_en: 'Great Wall', domain: 'gwm.com.cn', logoFile: 'great-wall-logo.png' },
     { slug: 'gwm', name_ar: 'جي دبليو إم', name_en: 'GWM', domain: 'gwm.com.cn', logoFile: 'great-wall-logo.png' },
-    { slug: 'baic', name_ar: 'بايك', name_en: 'BAIC', domain: 'baicgroup.com', logoFile: 'baic-logo.png' },
-    { slug: 'dongfeng', name_ar: 'دونغفينغ', name_en: 'Dongfeng', domain: 'dfmc.com.cn', logoFile: 'dongfeng-logo.png' },
-    { slug: 'bestune', name_ar: 'بيستون', name_en: 'Bestune', domain: 'bestune.com', logoFile: 'bestune-logo.png' },
-    { slug: 'forthing', name_ar: 'فورثينغ', name_en: 'Forthing', domain: 'forthingmotor.com', logoFile: null },
-    { slug: 'hongqi', name_ar: 'هونغتشي', name_en: 'Hongqi', domain: 'hongqi-auto.com', logoFile: 'hongqi-logo.png' },
-    { slug: 'zeekr', name_ar: 'زيكر', name_en: 'Zeekr', domain: 'zeekr.com', logoFile: 'zeekr-logo.png' },
-    { slug: 'lynk-co', name_ar: 'لينك آند كو', name_en: 'Lynk & Co', domain: 'lynkco.com', logoFile: 'lynk-co.png' },
-    { slug: 'leapmotor', name_ar: 'ليب موتور', name_en: 'Leapmotor', domain: 'leapmotor.com', logoFile: 'leapmotor-logo.png' },
-    { slug: 'wuling', name_ar: 'وولينغ', name_en: 'Wuling', domain: 'sgmw.com.cn', logoFile: 'wuling-logo.png' },
-    { slug: 'kaiyi', name_ar: 'كايي', name_en: 'Kaiyi', domain: 'kaiyimotor.com', logoFile: null },
-    { slug: 'swm', name_ar: 'إس دبليو إم', name_en: 'SWM', domain: 'swmmotors.com', logoFile: null },
-    { slug: 'foton', name_ar: 'فوتون', name_en: 'Foton', domain: 'foton-global.com', logoFile: 'foton-logo.png' },
-    { slug: 'dfsk', name_ar: 'دي إف إس كيه', name_en: 'DFSK', domain: 'dfsk.com', logoFile: null },
-    { slug: 'soueast', name_ar: 'ساوث إيست', name_en: 'SOUEAST', domain: 'soueast-motor.com', logoFile: 'soueast-logo.png' },
-    { slug: 'jmc', name_ar: 'جي إم سي', name_en: 'JMC', domain: 'jmc.com.cn', logoFile: null },
-    { slug: 'zotye', name_ar: 'زوتي', name_en: 'Zotye', domain: 'zotye.com', logoFile: 'zotye-logo.png' },
-    { slug: 'lifan', name_ar: 'ليفان', name_en: 'Lifan', domain: 'lifan.com', logoFile: 'lifan-logo.png' },
 ];
 
 const HOME_BRANDS_INITIAL = 12;
@@ -698,6 +682,11 @@ function enhanceSelect(select, { logos = false, searchable = false } = {}) {
         });
     }
 
+    if (!select.dataset.uiSelectChangeBound) {
+        select.dataset.uiSelectChangeBound = '1';
+        select.addEventListener('change', () => syncUiSelect(select));
+    }
+
     syncUiSelect(select);
 }
 
@@ -705,13 +694,11 @@ function enhanceStorefrontSelects() {
     const brand = document.getElementById('search-brand');
     const model = document.getElementById('search-model');
     const year = document.getElementById('search-year');
-    const category = document.getElementById('search-category');
     const sort = document.getElementById('sort-select');
 
     if (brand) enhanceSelect(brand, { logos: true, searchable: true });
-    if (model) enhanceSelect(model);
+    if (model) enhanceSelect(model, { searchable: true });
     if (year) enhanceSelect(year);
-    if (category) enhanceSelect(category);
     if (sort) enhanceSelect(sort);
 }
 
@@ -744,8 +731,12 @@ function isZidReadyForCart(cartItems = cart) {
     ));
 }
 
+function sallaCheckoutAllowed() {
+    return localStorage.getItem('qetaa_salla_live') !== '0';
+}
+
 function isSallaReadyForCart(cartItems = cart) {
-    if (!SALLA_LIVE) return false;
+    if (!sallaCheckoutAllowed()) return false;
     // Prefer Zid when both are live.
     if (ZID_LIVE && cartItems.some(item => item.zid_product_id)) return false;
     return cartItems.length > 0 && cartItems.every(item => (
@@ -777,13 +768,13 @@ const TRANSLATIONS = {
     tab_vehicle: "بالمركبة",
     tab_vin: "برقم الهيكل",
     select_brand: "اختر الماركة",
-    select_model: "اختر الموديل",
+    select_model: "اختر الفئة",
     select_year: "اختر السنة",
-    select_engine: "كل الأقسام",
+    select_engine: "كل الفئات",
     search_parts_btn: "ابحث",
     vin_input_placeholder: "رقم الهيكل المكوّن من 17 خانة",
     vin_btn: "ابحث",
-    finder_hint: "اختيار المركبة يساعدك في التصفح؛ تأكيد التوافق النهائي برقم القطعة والهيكل.",
+    finder_hint: "رقم الهيكل أدق — إن لم يتوفر اختر الماركة والفئة والسنة.",
     feat_shipping_title: "توصيل داخل السعودية",
     feat_shipping_desc: "نوضح خيار الشحن وتكلفته قبل تأكيد الطلب.",
     feat_fitment_title: "اختيار مدروس",
@@ -810,11 +801,11 @@ const TRANSLATIONS = {
     copyright: "جميع الحقوق محفوظة لـ CHINA PARTS © 2026",
     page_all_parts: "جميع القطع",
     inquire_whatsapp: "اطلب عبر واتساب",
-    cart_hint_wa: "إرفاق رقم الهيكل أو صورة الاستمارة اختياري، ويساعدنا في مراجعة بيانات المركبة.",
+    cart_hint_wa: "صورة السيارة وصورة رقم الهيكل مهمتان عشان نأكد إن القطعة تناسب سيارتك قبل إتمام الطلب.",
     checkout_btn_photo: "إتمام الطلب",
     vin_checkout_confirm_pay: "تأكيد الطلب والمتابعة للدفع",
     vin_checkout_title: "إتمام الطلب",
-    vin_checkout_desc: "أدخل بيانات التواصل والعنوان. يمكنك إرفاق صور المركبة لمساعدتنا في مراجعة الطلب.",
+    vin_checkout_desc: "رقم الجوال وصورة السيارة وصورة رقم الهيكل مهمة. الصور تساعدنا نأكد إن القطعة تناسب سيارتك قبل إكمال الطلب.",
     checkout_name_label: "الاسم",
     checkout_phone_label: "رقم الجوال",
     checkout_name_ph: "اسمك الكامل",
@@ -828,20 +819,22 @@ const TRANSLATIONS = {
     checkout_location_hint: "أسهل طريقة: اضغط الزر ويحدد المدينة والعنوان تلقائيًا",
     vin_checkout_input_label: "رقم الهيكل (اختياري)",
     vin_checkout_input_ph: "17 خانة إن كان متوفراً لديك",
-    vin_checkout_photo_benefit: "الصور اختيارية، وتساعد فريقنا في مراجعة بيانات المركبة قبل تأكيد الطلب.",
-    vin_checkout_photo_label: "صورة الرخصة أو رقم الهيكل",
-    vin_checkout_photo_hint: "ارفع صورة واضحة",
-    vin_checkout_photo_required: "صور المركبة اختيارية",
-    vin_checkout_car_label: "صورة السيارة (اختياري)",
-    vin_checkout_car_hint: "صورة واضحة للسيارة من الخارج",
-    vin_checkout_istimara_label: "صورة الاستمارة (اختياري)",
-    vin_checkout_istimara_hint: "صورة واضحة لاستمارة المركبة",
+    vin_checkout_photo_benefit: "مهم: صورة السيارة وصورة رقم الهيكل عشان نراجع توافق القطعة مع سيارتك قبل ما يتم الطلب.",
+    vin_checkout_photo_label: "صورة رقم الهيكل",
+    vin_checkout_photo_hint: "صوّر رقم الهيكل بوضوح",
+    vin_checkout_photo_required: "صورة السيارة وصورة رقم الهيكل مطلوبتان",
+    vin_checkout_car_label: "صورة السيارة",
+    vin_checkout_car_hint: "ارفع صورة من الجوال أو صوّرها الآن",
+    vin_checkout_istimara_label: "صورة رقم الهيكل",
+    vin_checkout_istimara_hint: "ارفع صورة رقم الهيكل أو صوّرها بوضوح",
+    vin_checkout_upload: "رفع من الجوال",
+    vin_checkout_camera: "تصوير",
     vin_checkout_kind_vin: "صورة رقم الهيكل",
     vin_checkout_kind_license: "صورة الرخصة / الاستمارة",
     vin_checkout_ack: "أتعهد أن الصورتين واضحتان وتخصان نفس السيارة",
     vin_checkout_confirm: "تأكيد الطلب",
     vin_checkout_back: "رجوع",
-    vin_checkout_step1: "أدخل بياناتك، وأرفق صور المركبة إن توفرت",
+    vin_checkout_step1: "أدخل رقم جوالك ثم أرفق صورة السيارة وصورة رقم الهيكل",
     vin_checkout_step2: "نحتفظ بالطلب والصور عندنا",
     vin_checkout_step3: "نكمل الدفع أو نتواصل معك",
     vin_checkout_uploading: "جاري رفع الصور...",
@@ -880,7 +873,7 @@ const TRANSLATIONS = {
     error_loading_product: "حدث خطأ أثناء تحميل تفاصيل القطعة",
     back_to_search: "العودة للبحث",
     oem_label: "رقم القطعة (OEM)",
-    category_label: "القسم",
+    category_label: "الفئة",
     warranty_label: "بيانات القطعة",
     warranty_value: "بحسب البيانات المتاحة",
     wishlist_btn: "المفضلة",
@@ -936,7 +929,7 @@ const TRANSLATIONS = {
     search_parts_btn: "Search",
     vin_input_placeholder: "17-character VIN",
     vin_btn: "Search",
-    finder_hint: "VIN is most accurate — otherwise choose brand, model, and year.",
+    finder_hint: "VIN is most accurate — otherwise choose brand, category, and year.",
     feat_shipping_title: "Shipping details before checkout",
     feat_shipping_desc: "We confirm the available shipping option and cost before the order is finalized.",
     feat_fitment_title: "Help choosing your part",
@@ -958,11 +951,11 @@ const TRANSLATIONS = {
     total: "Total",
     copyright: "All Rights Reserved for CHINA PARTS © 2026",
     page_all_parts: "All Spare Parts",
-    cart_hint_wa: "VIN or registration photos are optional and help us review the vehicle details.",
+    cart_hint_wa: "The car photo and VIN photo matter: we use them to confirm the part fits your car before the order is completed.",
     checkout_btn_photo: "Complete order",
     vin_checkout_confirm_pay: "Confirm order and continue to payment",
     vin_checkout_title: "Complete order",
-    vin_checkout_desc: "Enter your contact details and address. Vehicle photos are optional and can help us review your request.",
+    vin_checkout_desc: "Your phone number, car photo, and VIN photo are important. The photos help us confirm the part fits your car before the order is completed.",
     checkout_name_label: "Name",
     checkout_phone_label: "Phone",
     checkout_name_ph: "Your full name",
@@ -976,14 +969,16 @@ const TRANSLATIONS = {
     checkout_location_hint: "Easiest: tap the button to auto-fill city and address",
     vin_checkout_input_label: "VIN (optional)",
     vin_checkout_input_ph: "17 characters if you have it",
-    vin_checkout_photo_benefit: "Photos are optional and help our team review the vehicle details before confirming the request.",
-    vin_checkout_photo_label: "License or VIN photo",
-    vin_checkout_photo_hint: "Upload a clear photo",
-    vin_checkout_photo_required: "Vehicle photos are optional",
-    vin_checkout_car_label: "Car photo (optional)",
-    vin_checkout_car_hint: "Clear exterior photo of the vehicle",
-    vin_checkout_istimara_label: "Registration photo (optional)",
-    vin_checkout_istimara_hint: "Clear photo of the vehicle registration",
+    vin_checkout_photo_benefit: "Important: the car photo and VIN photo let us check that the part fits your car before the order is completed.",
+    vin_checkout_photo_label: "VIN photo",
+    vin_checkout_photo_hint: "Photograph the VIN clearly",
+    vin_checkout_photo_required: "Car and VIN photos are required",
+    vin_checkout_car_label: "Car photo",
+    vin_checkout_car_hint: "Upload a photo from your phone or take one now",
+    vin_checkout_istimara_label: "VIN photo",
+    vin_checkout_istimara_hint: "Upload a VIN photo or take one clearly",
+    vin_checkout_upload: "Upload from phone",
+    vin_checkout_camera: "Take photo",
     vin_checkout_kind_vin: "VIN photo",
     vin_checkout_kind_license: "Registration / license photo",
     vin_checkout_ack: "I confirm both photos are clear and for the same vehicle",
@@ -1771,7 +1766,7 @@ function createProductCardHtml(p) {
         && p.in_stock !== false
         && (
             (ZID_LIVE && p.zid_product_id && p.in_stock === true)
-            || (SALLA_LIVE && p.salla_product_id)
+            || (sallaCheckoutAllowed() && p.salla_product_id)
         )
     );
     const addLabel = canBuy ? getTranslation('add_to_cart') : (getTranslation('add_inquiry') || 'أضف للطلب');
@@ -1792,7 +1787,7 @@ function createProductCardHtml(p) {
         : (stockState === 'unavailable'
             ? `<span class="product-stock is-out">${escapeHtml(getTranslation('out_of_stock') || 'غير متوفر')}</span>`
             : `<span class="product-stock is-check">${escapeHtml(getTranslation('stock_needs_confirmation') || 'التوفر يحتاج تأكيد')}</span>`);
-    const productArg = JSON.stringify(p).replace(/'/g, "&#39;");
+    const productArg = JSON.stringify(p).replace(/&/g, '&amp;').replace(/'/g, '&#39;');
     const primaryAction = canBuy
         ? `<div class="product-cta-row">
                 <button class="product-cta" type="button" onclick='addToCart(${productArg})'>
@@ -1856,8 +1851,10 @@ function createProductCardHtml(p) {
 
 function handleProductImageError(img) {
     if (!img) return;
+    img.onerror = null;
     img.style.display = 'none';
     img.removeAttribute('src');
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
     const fb = img.nextElementSibling;
     if (fb && fb.classList.contains('img-fallback')) {
         fb.hidden = false;
@@ -2674,8 +2671,6 @@ function injectFloatingWhatsApp() {
 }
 
 function renderHeaderAndFooterData() {
-    if (!cachedBrands.length && !cachedCategories.length) return;
-
     // Populate Brands Dropdown Menu in Navbar
     const menu = document.getElementById('brands-dropdown-menu');
     if (menu) {
@@ -2723,19 +2718,6 @@ function renderHeaderAndFooterData() {
             opt.textContent = getLocalizedName(brand);
             if (brand.slug) opt.dataset.slug = brand.slug;
             brandSelect.appendChild(opt);
-        });
-    }
-
-    // Populate Homepage Search Categories (featured only — avoid 500+ noise)
-    const catSelect = document.getElementById('search-category');
-    if (catSelect) {
-        catSelect.innerHTML = `<option value="">${getTranslation('select_engine')}</option>`;
-        HOME_FEATURED_CATEGORIES.forEach(featured => {
-            const opt = document.createElement('option');
-            opt.value = featured.key;
-            opt.dataset.categoryKey = featured.key;
-            opt.textContent = currentLang === 'ar' ? featured.name_ar : featured.name_en;
-            catSelect.appendChild(opt);
         });
     }
 
@@ -3041,16 +3023,44 @@ function initCart() {
         try { cart = JSON.parse(saved); } catch (e) { cart = []; }
     }
     cart = Array.isArray(cart) ? cart.filter(item => item && item.id != null) : [];
+    // A "buy now" left unfinished (tab closed / reloaded) must not wipe the earlier cart:
+    // bring the earlier items back and keep the buy-now item alongside them.
+    let pendingPrevious = null;
+    try { pendingPrevious = JSON.parse(localStorage.getItem('qetaa_cart_before_buynow') || 'null'); } catch (e) { pendingPrevious = null; }
+    if (Array.isArray(pendingPrevious)) {
+        const merged = pendingPrevious.filter(item => item && item.id != null).map(item => ({ ...item }));
+        cart.forEach((item) => {
+            if (!merged.some(candidate => String(candidate.id) === String(item.id))) merged.push(item);
+        });
+        cart = merged;
+    }
+    // Quantities/prices restored from storage may be strings ("1" + 1 = "11").
+    cart.forEach((item) => {
+        item.quantity = Math.max(1, parseInt(item.quantity, 10) || 1);
+        const price = parseFloat(item.price);
+        item.price = Number.isFinite(price) ? price : 0;
+    });
     saveCart();
 }
 
 function saveCart() {
-    localStorage.setItem('qetaa_cart', JSON.stringify(cart));
+    try {
+        localStorage.setItem('qetaa_cart', JSON.stringify(cart));
+        if (buyNowPreviousCart) localStorage.setItem('qetaa_cart_before_buynow', JSON.stringify(buyNowPreviousCart));
+        else localStorage.removeItem('qetaa_cart_before_buynow');
+    } catch (e) {
+        // Storage can be full or blocked (private mode); keep the in-memory cart.
+    }
+}
+
+function sameCartId(a, b) {
+    return String(a) === String(b);
 }
 
 function buildCartItem(product, quantity = 1) {
     const image = product.image_url || product.image || (Array.isArray(product.images) && product.images.length ? (product.images[0].url || product.images[0]) : null) || '';
-    const price = product.price !== null && product.price !== undefined ? parseFloat(product.price) : 0;
+    const rawPrice = product.price_amount ?? product.price;
+    const price = rawPrice !== null && rawPrice !== undefined && rawPrice !== '' ? parseFloat(rawPrice) : 0;
     return {
         id: product.id,
         title: product.title || product.name_ar || product.name_en,
@@ -3077,9 +3087,9 @@ function addToCart(product, quantity = 1) {
     const image = product.image_url || product.image || (Array.isArray(product.images) && product.images.length ? (product.images[0].url || product.images[0]) : null) || '';
     const qty = Math.max(1, parseInt(quantity, 10) || 1);
 
-    const itemIndex = cart.findIndex(item => item.id === product.id);
+    const itemIndex = cart.findIndex(item => sameCartId(item.id, product.id));
     if (itemIndex > -1) {
-        cart[itemIndex].quantity += qty;
+        cart[itemIndex].quantity = (parseInt(cart[itemIndex].quantity, 10) || 0) + qty;
         if (!cart[itemIndex].image && image) cart[itemIndex].image = image;
     } else {
         cart.push(buildCartItem(product, qty));
@@ -3089,7 +3099,7 @@ function addToCart(product, quantity = 1) {
     renderCart();
     showToast(`تم إضافة "${product.title || product.name_ar}" للطلب`);
     if (typeof window.trackAdsEvent === 'function') {
-        const price = Number(product.price || product.price_amount || 0);
+        const price = parseFloat(product.price_amount ?? product.price ?? 0);
         window.trackAdsEvent('add_to_cart', {
             content_ids: [String(product.id)],
             content_name: product.name_ar || product.title || '',
@@ -3158,8 +3168,8 @@ function buyNow(product, quantity = 1) {
 }
 
 function removeFromCart(id) {
-    const removed = cart.find(item => item.id === id);
-    cart = cart.filter(item => item.id !== id);
+    const removed = cart.find(item => sameCartId(item.id, id));
+    cart = cart.filter(item => !sameCartId(item.id, id));
     saveCart();
     renderCart();
     if (removed && typeof window.trackAdsEvent === 'function') {
@@ -3173,9 +3183,9 @@ function removeFromCart(id) {
 }
 
 function updateQuantity(id, change) {
-    const item = cart.find(i => i.id === id);
+    const item = cart.find(i => sameCartId(i.id, id));
     if (item) {
-        item.quantity += change;
+        item.quantity = (parseInt(item.quantity, 10) || 0) + change;
         if (item.quantity <= 0) removeFromCart(id);
         else {
             saveCart();
@@ -3286,10 +3296,10 @@ function renderCart() {
                         <div class="cart-item-title">${escapeHtml(item.title)}</div>
                         <div class="cart-item-price">${((item.price || 0) * item.quantity).toFixed(2)} ر.س</div>
                         <div class="cart-qty-ctrl">
-                            <button class="cart-qty-btn" type="button" onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <button class="cart-qty-btn" type="button" onclick='updateQuantity(${escapeHtml(JSON.stringify(item.id))}, -1)'>-</button>
                             <span>${item.quantity}</span>
-                            <button class="cart-qty-btn" type="button" onclick="updateQuantity(${item.id}, 1)">+</button>
-                            <button class="cart-remove" type="button" onclick="removeFromCart(${item.id})" style="margin-right:auto; margin-left:5px;"><i class="fa-solid fa-trash"></i></button>
+                            <button class="cart-qty-btn" type="button" onclick='updateQuantity(${escapeHtml(JSON.stringify(item.id))}, 1)'>+</button>
+                            <button class="cart-remove" type="button" onclick='removeFromCart(${escapeHtml(JSON.stringify(item.id))})' style="margin-right:auto; margin-left:5px;"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
@@ -3303,7 +3313,7 @@ function renderCart() {
     const checkoutBtn = document.querySelector('.btn-checkout');
     if (hint) {
         hint.textContent = getTranslation('cart_hint_wa')
-            || 'يمكنك إرفاق رقم الهيكل أو صورة الاستمارة اختيارياً لمساعدتنا في مراجعة الطلب.';
+            || 'صورة السيارة وصورة رقم الهيكل مهمتان عشان نأكد إن القطعة تناسب سيارتك قبل إتمام الطلب.';
     }
     if (checkoutBtn && !checkoutBtn.dataset.originalText) {
         checkoutBtn.dataset.originalText = checkoutBtn.innerHTML;
@@ -3455,16 +3465,14 @@ function syncInteractionAliases() {
 }
 
 function updateInteractionBadges() {
-    const favBadge = document.querySelector('.fav-badge');
-    const cmpBadge = document.querySelector('.cmp-badge');
-    if (favBadge) {
+    document.querySelectorAll('.fav-badge').forEach((favBadge) => {
         favBadge.textContent = String(favoriteItems.length);
         favBadge.style.display = favoriteItems.length ? 'flex' : 'none';
-    }
-    if (cmpBadge) {
+    });
+    document.querySelectorAll('.cmp-badge').forEach((cmpBadge) => {
         cmpBadge.textContent = String(comparisonItems.length);
         cmpBadge.style.display = comparisonItems.length ? 'flex' : 'none';
-    }
+    });
     updateCompareDock();
 }
 
@@ -3511,11 +3519,15 @@ function rewritePublicAssetUrl(url) {
     if (!url) return '';
     const raw = String(url);
     try {
-        const parsed = new URL(raw, typeof location !== 'undefined' ? location.origin : 'https://chinapartsksa.com');
-        if (parsed.hostname.endsWith('.up.railway.app')) {
-            const origin = typeof location !== 'undefined' && location.origin
-                ? location.origin
-                : 'https://chinapartsksa.com';
+        const parsed = new URL(raw, typeof location !== 'undefined' ? location.origin : 'https://chinesecar1parts.com');
+        const origin = typeof location !== 'undefined' && location.origin
+            ? location.origin
+            : 'https://chinesecar1parts.com';
+        if (
+            parsed.hostname.endsWith('.up.railway.app')
+            || parsed.hostname === 'chinapartsksa.com'
+            || parsed.hostname === 'www.chinapartsksa.com'
+        ) {
             return `${origin}${parsed.pathname}${parsed.search}`;
         }
         return raw;
@@ -3600,7 +3612,7 @@ function renderComparePanel() {
         { key: 'name', label: 'الاسم' },
         { key: 'brand', label: 'الماركة' },
         { key: 'oem', label: 'رقم OEM' },
-        { key: 'category', label: 'القسم' },
+        { key: 'category', label: 'الفئة' },
         { key: 'price', label: 'السعر' },
         { key: 'actions', label: 'إجراء' },
     ];
@@ -3658,17 +3670,38 @@ function injectInteractionUI() {
         const wrap = document.createElement('div');
         wrap.className = 'header-utility-btns';
         wrap.innerHTML = `
-            <button class="btn-icon favorites-trigger" type="button" title="المفضلة" aria-label="المفضلة">
+            <button class="btn-icon header-tool favorites-trigger" type="button" title="المفضلة" aria-label="المفضلة">
                 ${uiIcon('heartOutline')}
+                <span class="header-tool-label">المفضلة</span>
                 <span class="badge fav-badge" style="display:none">0</span>
             </button>
-            <button class="btn-icon compare-trigger" type="button" title="المقارنة" aria-label="المقارنة">
+            <button class="btn-icon header-tool compare-trigger" type="button" title="المقارنة" aria-label="المقارنة">
                 ${uiIcon('compare')}
+                <span class="header-tool-label">المقارنة</span>
                 <span class="badge cmp-badge" style="display:none">0</span>
             </button>`;
         const cartBtn = actions.querySelector('.cart-trigger');
         if (cartBtn) actions.insertBefore(wrap, cartBtn);
         else actions.appendChild(wrap);
+        const header = actions.closest('.site-header');
+        if (header && !header.querySelector('.mobile-utility-bar')) {
+            const bar = document.createElement('div');
+            bar.className = 'mobile-utility-bar';
+            bar.innerHTML = `
+                <button class="favorites-trigger" type="button">
+                    ${uiIcon('heartOutline')}
+                    <span>المفضلة</span>
+                    <span class="badge fav-badge" style="display:none">0</span>
+                </button>
+                <button class="compare-trigger" type="button">
+                    ${uiIcon('compare')}
+                    <span>المقارنة</span>
+                    <span class="badge cmp-badge" style="display:none">0</span>
+                </button>`;
+            const nav = header.querySelector('.header-nav');
+            if (nav) header.insertBefore(bar, nav);
+            else header.appendChild(bar);
+        }
     } else if (actions) {
         document.querySelectorAll('.header-wa-trigger').forEach((el) => el.remove());
     }
@@ -3990,10 +4023,6 @@ async function proceedToCheckout() {
         showToast(currentLang === 'ar' ? 'السلة فارغة!' : 'Your cart is empty!', 'error');
         return;
     }
-    if (isOnlineCheckoutReadyForCart()) {
-        await startOnlineCheckout();
-        return;
-    }
     openCheckoutVerificationModal();
 }
 
@@ -4073,7 +4102,9 @@ function ensureCheckoutVerificationModal() {
             !modal.querySelector('#checkout-use-location')
             || !modal.querySelector('#checkout-vin-close')
             || !modal.querySelector('#checkout-car-photo')
-            || !modal.querySelector('#checkout-istimara-photo')
+            || !modal.querySelector('#checkout-car-camera')
+            || !modal.querySelector('#checkout-vinplate-photo')
+            || !modal.querySelector('#checkout-vinplate-camera')
             || modal.dataset.eventsBound !== '1'
         ) {
             modal.remove();
@@ -4092,10 +4123,10 @@ function ensureCheckoutVerificationModal() {
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <h3 class="checkout-modal-title" id="vin-checkout-title">إتمام الطلب</h3>
-            <p class="checkout-modal-desc" id="vin-checkout-desc">أدخل بيانات التواصل والعنوان. صور المركبة اختيارية.</p>
+            <p class="checkout-modal-desc" id="vin-checkout-desc">رقم الجوال وصورة السيارة وصورة رقم الهيكل مهمة. الصور تساعدنا نأكد إن القطعة تناسب سيارتك قبل إكمال الطلب.</p>
 
             <ol class="checkout-steps" id="checkout-steps" aria-label="خطوات إتمام الطلب">
-                <li class="checkout-step is-active" data-step="1"><span>1</span><em>الشحن</em></li>
+                <li class="checkout-step is-active" data-step="1"><span>1</span><em>بياناتك</em></li>
                 <li class="checkout-step" data-step="2"><span>2</span><em>المركبة</em></li>
                 <li class="checkout-step" data-step="3"><span>3</span><em>المراجعة</em></li>
             </ol>
@@ -4151,34 +4182,56 @@ function ensureCheckoutVerificationModal() {
             </div>
 
             <div class="checkout-step-panel" data-step-panel="2" hidden>
-                <p class="checkout-photo-benefit" id="checkout-photo-benefit">الصور اختيارية، وتساعد فريقنا في مراجعة بيانات المركبة.</p>
+                <p class="checkout-photo-benefit" id="checkout-photo-benefit">مهم: صورة السيارة وصورة رقم الهيكل عشان نراجع توافق القطعة مع سيارتك قبل ما يتم الطلب.</p>
 
                 <div class="checkout-photo-grid">
                     <div class="checkout-photo-slot" data-photo-slot="car">
-                        <label class="vin-checkout-label" id="checkout-car-label">صورة السيارة (اختياري)</label>
-                        <label class="vin-photo-drop" id="checkout-car-drop" for="checkout-car-photo">
-                            <input type="file" id="checkout-car-photo" accept="image/*" capture="environment" hidden>
+                        <label class="vin-checkout-label" id="checkout-car-label">صورة السيارة <span class="req-star" aria-hidden="true">*</span></label>
+                        <div class="vin-photo-drop" id="checkout-car-drop">
                             <div class="vin-photo-placeholder" id="checkout-car-placeholder">
                                 <i class="fa-solid fa-car"></i>
-                                <strong id="checkout-car-title">صورة السيارة (اختياري)</strong>
-                                <small id="checkout-car-hint">صورة واضحة للسيارة من الخارج</small>
+                                <strong id="checkout-car-title">صورة السيارة</strong>
+                                <small id="checkout-car-hint">ارفع صورة من الجوال أو صوّرها الآن</small>
                             </div>
                             <img class="vin-photo-preview" id="checkout-car-preview" alt="" hidden>
-                        </label>
+                        </div>
+                        <div class="vin-photo-actions">
+                            <label class="vin-photo-action">
+                                <input type="file" id="checkout-car-photo" accept="image/*" hidden>
+                                <i class="fa-solid fa-image" aria-hidden="true"></i>
+                                <span id="checkout-car-upload-label">رفع من الجوال</span>
+                            </label>
+                            <label class="vin-photo-action">
+                                <input type="file" id="checkout-car-camera" accept="image/*" capture="environment" hidden>
+                                <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                                <span id="checkout-car-camera-label">تصوير</span>
+                            </label>
+                        </div>
                         <button type="button" class="vin-photo-remove" id="checkout-car-remove" hidden>إزالة الصورة</button>
                     </div>
-                    <div class="checkout-photo-slot" data-photo-slot="istimara">
-                        <label class="vin-checkout-label" id="checkout-istimara-label">صورة الاستمارة (اختياري)</label>
-                        <label class="vin-photo-drop" id="checkout-istimara-drop" for="checkout-istimara-photo">
-                            <input type="file" id="checkout-istimara-photo" accept="image/*" capture="environment" hidden>
-                            <div class="vin-photo-placeholder" id="checkout-istimara-placeholder">
-                                <i class="fa-solid fa-id-card"></i>
-                                <strong id="checkout-istimara-title">صورة الاستمارة (اختياري)</strong>
-                                <small id="checkout-istimara-hint">صورة واضحة لاستمارة المركبة</small>
+                    <div class="checkout-photo-slot" data-photo-slot="vinplate">
+                        <label class="vin-checkout-label" id="checkout-vinplate-label">صورة رقم الهيكل <span class="req-star" aria-hidden="true">*</span></label>
+                        <div class="vin-photo-drop" id="checkout-vinplate-drop">
+                            <div class="vin-photo-placeholder" id="checkout-vinplate-placeholder">
+                                <i class="fa-solid fa-barcode"></i>
+                                <strong id="checkout-vinplate-title">صورة رقم الهيكل</strong>
+                                <small id="checkout-vinplate-hint">ارفع صورة رقم الهيكل أو صوّرها بوضوح</small>
                             </div>
-                            <img class="vin-photo-preview" id="checkout-istimara-preview" alt="" hidden>
-                        </label>
-                        <button type="button" class="vin-photo-remove" id="checkout-istimara-remove" hidden>إزالة الصورة</button>
+                            <img class="vin-photo-preview" id="checkout-vinplate-preview" alt="" hidden>
+                        </div>
+                        <div class="vin-photo-actions">
+                            <label class="vin-photo-action">
+                                <input type="file" id="checkout-vinplate-photo" accept="image/*" hidden>
+                                <i class="fa-solid fa-image" aria-hidden="true"></i>
+                                <span id="checkout-vinplate-upload-label">رفع من الجوال</span>
+                            </label>
+                            <label class="vin-photo-action">
+                                <input type="file" id="checkout-vinplate-camera" accept="image/*" capture="environment" hidden>
+                                <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                                <span id="checkout-vinplate-camera-label">تصوير</span>
+                            </label>
+                        </div>
+                        <button type="button" class="vin-photo-remove" id="checkout-vinplate-remove" hidden>إزالة الصورة</button>
                     </div>
                 </div>
 
@@ -4215,11 +4268,12 @@ function ensureCheckoutVerificationModal() {
 function clearCheckoutPhotoSlot(modal, slot) {
     const root = modal || document.getElementById('checkout-verification-modal');
     if (!root || !slot) return;
-    const fileInput = root.querySelector(`#checkout-${slot}-photo`);
     const preview = root.querySelector(`#checkout-${slot}-preview`);
     const placeholder = root.querySelector(`#checkout-${slot}-placeholder`);
     const removeBtn = root.querySelector(`#checkout-${slot}-remove`);
-    if (fileInput) fileInput.value = '';
+    root.querySelectorAll(`[data-photo-slot="${slot}"] input[type="file"]`).forEach((fileInput) => {
+        fileInput.value = '';
+    });
     if (preview) {
         if (preview.dataset.objectUrl) URL.revokeObjectURL(preview.dataset.objectUrl);
         preview.removeAttribute('src');
@@ -4229,14 +4283,14 @@ function clearCheckoutPhotoSlot(modal, slot) {
     if (placeholder) placeholder.hidden = false;
     if (removeBtn) removeBtn.hidden = true;
     if (slot === 'car') root._carPhotoFile = null;
-    if (slot === 'istimara') root._istimaraPhotoFile = null;
+    if (slot === 'vinplate') root._vinPlatePhotoFile = null;
 }
 
 function clearCheckoutVehiclePhoto(modal) {
     const root = modal || document.getElementById('checkout-verification-modal');
     if (!root) return;
     clearCheckoutPhotoSlot(root, 'car');
-    clearCheckoutPhotoSlot(root, 'istimara');
+    clearCheckoutPhotoSlot(root, 'vinplate');
     root._vehiclePhotoFile = null;
 }
 
@@ -4256,7 +4310,7 @@ function setCheckoutPhotoFile(modal, slot, file) {
     if (placeholder) placeholder.hidden = true;
     if (removeBtn) removeBtn.hidden = false;
     if (slot === 'car') root._carPhotoFile = file;
-    if (slot === 'istimara') root._istimaraPhotoFile = file;
+    if (slot === 'vinplate') root._vinPlatePhotoFile = file;
 }
 
 function closeCheckoutVerificationModal(options = {}) {
@@ -4351,11 +4405,22 @@ function validateCheckoutStep(step) {
     }
 
     if (step === 2) {
+        const modal = document.getElementById('checkout-verification-modal');
+        const carFile = modal?._carPhotoFile || document.getElementById('checkout-car-photo')?.files?.[0];
+        const vinPhoto = modal?._vinPlatePhotoFile || document.getElementById('checkout-vinplate-photo')?.files?.[0];
+        if (!carFile) {
+            showToast(currentLang === 'ar' ? 'صورة السيارة مطلوبة قبل إتمام الطلب' : 'A car photo is required before checkout', 'error');
+            return false;
+        }
+        if (!vinPhoto) {
+            showToast(currentLang === 'ar' ? 'صورة رقم الهيكل مطلوبة قبل إتمام الطلب' : 'A VIN photo is required before checkout', 'error');
+            return false;
+        }
         const vinRaw = (document.getElementById('checkout-vin-input')?.value || '').trim().toUpperCase();
         if (vinRaw && !/^[A-HJ-NPR-Z0-9]{17}$/.test(vinRaw)) {
             showToast(currentLang === 'ar'
-                ? 'رقم الهيكل غير صحيح — 17 خانة أو اتركه فارغاً'
-                : 'Invalid VIN — 17 characters or leave empty', 'error');
+                ? 'رقم الهيكل المكتوب غير صحيح — 17 خانة أو اتركه فارغاً'
+                : 'Invalid typed VIN — 17 characters or leave empty', 'error');
             document.getElementById('checkout-vin-input')?.focus();
             return false;
         }
@@ -4375,7 +4440,7 @@ function renderCheckoutReview(modal) {
     const lng = (document.getElementById('checkout-customer-lng')?.value || '').trim();
     const vin = (document.getElementById('checkout-vin-input')?.value || '').trim().toUpperCase();
     const carFile = modal?._carPhotoFile;
-    const istimaraFile = modal?._istimaraPhotoFile;
+    const vinPhotoFile = modal?._vinPlatePhotoFile;
     const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
     const itemsHtml = cart.map((item) => `
         <li>
@@ -4383,12 +4448,14 @@ function renderCheckoutReview(modal) {
             <span>× ${item.quantity} — ${Number(item.price || 0).toFixed(2)} ر.س</span>
         </li>
     `).join('');
-    const payNote = (isZidReadyForCart() || isSallaReadyForCart())
-        ? 'بعد التأكيد ستنتقل لبوابة الدفع الإلكتروني إن توفّرت.'
-        : 'بعد التأكيد يُسجَّل طلبك ونتواصل معك لإتمام الدفع والتوصيل.';
+    const payNote = isSallaReadyForCart()
+        ? 'بعد التأكيد تنتقل إلى سلة لاختيار شركة الشحن وإتمام الدفع. سعر التوصيل يظهر هناك قبل الدفع.'
+        : ((isZidReadyForCart())
+            ? 'بعد التأكيد ستنتقل لبوابة الدفع الإلكتروني إن توفّرت.'
+            : 'بعد التأكيد يُسجَّل طلبك ونتواصل معك لإتمام الدفع والتوصيل.');
     const photosLabel = [
         carFile ? (currentLang === 'ar' ? 'صورة السيارة' : 'Car photo') : null,
-        istimaraFile ? (currentLang === 'ar' ? 'صورة الاستمارة' : 'Registration photo') : null,
+        vinPhotoFile ? (currentLang === 'ar' ? 'صورة رقم الهيكل' : 'VIN photo') : null,
     ].filter(Boolean).join(' + ');
 
     box.innerHTML = `
@@ -4399,7 +4466,7 @@ function renderCheckoutReview(modal) {
         </div>
         <div class="checkout-review-block">
             <h4>المركبة</h4>
-            <p>${photosLabel ? `مرفقة: ${photosLabel}` : (currentLang === 'ar' ? 'لم تُرفق صور (اختياري)' : 'No photos attached (optional)')}${vin ? ` · VIN: ${escapeHtml(vin)}` : ''}</p>
+            <p>${photosLabel ? `مرفقة: ${photosLabel}` : (currentLang === 'ar' ? 'الصور المطلوبة غير مكتملة' : 'Required photos are missing')}${vin ? ` · VIN: ${escapeHtml(vin)}` : ''}</p>
         </div>
         <div class="checkout-review-block">
             <h4>ملخص الطلب (${cart.length})</h4>
@@ -4467,9 +4534,9 @@ function bindCheckoutVerificationModalEvents(modal) {
         e.preventDefault();
         clearCheckoutPhotoSlot(modal, 'car');
     });
-    modal.querySelector('#checkout-istimara-remove')?.addEventListener('click', (e) => {
+    modal.querySelector('#checkout-vinplate-remove')?.addEventListener('click', (e) => {
         e.preventDefault();
-        clearCheckoutPhotoSlot(modal, 'istimara');
+        clearCheckoutPhotoSlot(modal, 'vinplate');
     });
 
     const vinInput = modal.querySelector('#checkout-vin-input');
@@ -4478,20 +4545,21 @@ function bindCheckoutVerificationModalEvents(modal) {
     });
 
     const bindPhotoInput = (slot) => {
-        const fileInput = modal.querySelector(`#checkout-${slot}-photo`);
-        fileInput?.addEventListener('change', () => {
-            const file = fileInput.files && fileInput.files[0];
-            if (!file) return;
-            if (!String(file.type || '').startsWith('image/')) {
-                showToast(currentLang === 'ar' ? 'اختر صورة فقط' : 'Please choose an image file', 'error');
-                fileInput.value = '';
-                return;
-            }
-            setCheckoutPhotoFile(modal, slot, file);
+        modal.querySelectorAll(`[data-photo-slot="${slot}"] input[type="file"]`).forEach((fileInput) => {
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files && fileInput.files[0];
+                if (!file) return;
+                if (!String(file.type || '').startsWith('image/')) {
+                    showToast(currentLang === 'ar' ? 'اختر صورة فقط' : 'Please choose an image file', 'error');
+                    fileInput.value = '';
+                    return;
+                }
+                setCheckoutPhotoFile(modal, slot, file);
+            });
         });
     };
     bindPhotoInput('car');
-    bindPhotoInput('istimara');
+    bindPhotoInput('vinplate');
 
     if (!window.__checkoutEscBound) {
         window.__checkoutEscBound = true;
@@ -4538,14 +4606,14 @@ function openCheckoutVerificationModal() {
     const photoBenefit = modal.querySelector('#checkout-photo-benefit');
     const carTitle = modal.querySelector('#checkout-car-title');
     const carHint = modal.querySelector('#checkout-car-hint');
-    const istimaraTitle = modal.querySelector('#checkout-istimara-title');
-    const istimaraHint = modal.querySelector('#checkout-istimara-hint');
+    const vinPlateTitle = modal.querySelector('#checkout-vinplate-title');
+    const vinPlateHint = modal.querySelector('#checkout-vinplate-hint');
     const carRemove = modal.querySelector('#checkout-car-remove');
-    const istimaraRemove = modal.querySelector('#checkout-istimara-remove');
+    const vinPlateRemove = modal.querySelector('#checkout-vinplate-remove');
 
     const reqStar = ' <span class="req-star" aria-hidden="true">*</span>';
     if (title) title.textContent = getTranslation('vin_checkout_title') || 'إتمام الطلب';
-    if (desc) desc.textContent = getTranslation('vin_checkout_desc') || 'أدخل بيانات التواصل والعنوان. صور المركبة اختيارية.';
+    if (desc) desc.textContent = getTranslation('vin_checkout_desc') || 'رقم الجوال وصورة السيارة وصورة رقم الهيكل مهمة. الصور تساعدنا نأكد إن القطعة تناسب سيارتك قبل إكمال الطلب.';
     if (ackText) ackText.textContent = getTranslation('vin_checkout_ack') || '';
     if (vinLabel) vinLabel.textContent = getTranslation('vin_checkout_input_label') || 'رقم الهيكل (اختياري)';
     if (nameLabel) nameLabel.innerHTML = `${getTranslation('checkout_name_label') || 'الاسم'}${reqStar}`;
@@ -4556,14 +4624,18 @@ function openCheckoutVerificationModal() {
     if (locationHint) locationHint.textContent = getTranslation('checkout_location_hint') || 'أسهل طريقة: اضغط الزر ويحدد المدينة والعنوان تلقائيًا';
     if (photoBenefit) {
         photoBenefit.textContent = getTranslation('vin_checkout_photo_benefit')
-            || 'الصور اختيارية، وتساعد فريقنا في مراجعة بيانات المركبة.';
+            || 'مهم: صورة السيارة وصورة رقم الهيكل عشان نراجع توافق القطعة مع سيارتك قبل ما يتم الطلب.';
     }
-    if (carTitle) carTitle.textContent = getTranslation('vin_checkout_car_label') || 'صورة السيارة (اختياري)';
-    if (carHint) carHint.textContent = getTranslation('vin_checkout_car_hint') || 'صورة واضحة للسيارة من الخارج';
-    if (istimaraTitle) istimaraTitle.textContent = getTranslation('vin_checkout_istimara_label') || 'صورة الاستمارة (اختياري)';
-    if (istimaraHint) istimaraHint.textContent = getTranslation('vin_checkout_istimara_hint') || 'صورة واضحة لاستمارة المركبة';
+    if (carTitle) carTitle.textContent = getTranslation('vin_checkout_car_label') || 'صورة السيارة';
+    if (carHint) carHint.textContent = getTranslation('vin_checkout_car_hint') || 'ارفع صورة من الجوال أو صوّرها الآن';
+    if (vinPlateTitle) vinPlateTitle.textContent = getTranslation('vin_checkout_istimara_label') || 'صورة رقم الهيكل';
+    if (vinPlateHint) vinPlateHint.textContent = getTranslation('vin_checkout_istimara_hint') || 'ارفع صورة رقم الهيكل أو صوّرها بوضوح';
+    const uploadLabel = getTranslation('vin_checkout_upload') || 'رفع من الجوال';
+    const cameraLabel = getTranslation('vin_checkout_camera') || 'تصوير';
+    modal.querySelectorAll('[id$="-upload-label"]').forEach((el) => { el.textContent = uploadLabel; });
+    modal.querySelectorAll('[id$="-camera-label"]').forEach((el) => { el.textContent = cameraLabel; });
     if (carRemove) carRemove.textContent = getTranslation('vin_checkout_remove_photo') || 'إزالة الصورة';
-    if (istimaraRemove) istimaraRemove.textContent = getTranslation('vin_checkout_remove_photo') || 'إزالة الصورة';
+    if (vinPlateRemove) vinPlateRemove.textContent = getTranslation('vin_checkout_remove_photo') || 'إزالة الصورة';
     if (cancelBtn) cancelBtn.textContent = getTranslation('vin_checkout_back') || 'رجوع';
     if (vinInput) {
         vinInput.value = '';
@@ -4714,7 +4786,7 @@ function buildWhatsAppOrderMessage(vinCode = '', photoUrl = '', photoKind = 'vin
     const kindLabel = photoKind === 'license' ? 'صورة الرخصة / الاستمارة' : 'صورة رقم الهيكل';
     const photoLine = photoUrl
         ? `\n\n📷 ${kindLabel}:\n${photoUrl}`
-        : '\n\nℹ️ لم تُرفق صورة المركبة (اختياري).';
+        : '\n\nصورة السيارة وصورة رقم الهيكل مطلوبتان قبل إتمام الطلب.';
     return `مرحباً CHINA PARTS، أود تأكيد الطلب التالي:\n\n${lines}\n\nالإجمالي التقريبي: ${total.toFixed(2)} ر.س${vinLine}${photoLine}\n\n${photoUrl ? '✅ أرفقت صورة المركبة لمساعدتكم في مراجعة بيانات الطلب.' : '✅ بانتظار تأكيدكم للطلب.'}`;
 }
 
@@ -4792,7 +4864,7 @@ async function confirmCheckoutOrder() {
     const modal = document.getElementById('checkout-verification-modal');
     const confirmBtn = document.getElementById('checkout-vin-confirm');
     const carFile = modal?._carPhotoFile || document.getElementById('checkout-car-photo')?.files?.[0];
-    const istimaraFile = modal?._istimaraPhotoFile || document.getElementById('checkout-istimara-photo')?.files?.[0];
+    const vinPhotoFile = modal?._vinPlatePhotoFile || document.getElementById('checkout-vinplate-photo')?.files?.[0];
     const customerName = (document.getElementById('checkout-customer-name')?.value || '').trim();
     const customerPhone = (document.getElementById('checkout-customer-phone')?.value || '').trim();
     const customerCity = getCheckoutCityValue();
@@ -4818,6 +4890,16 @@ async function confirmCheckoutOrder() {
         showToast(currentLang === 'ar' ? 'اكتب تفاصيل العنوان أو استخدم موقعك الحالي' : 'Enter address details or use your current location', 'error');
         return;
     }
+    if (!carFile) {
+        showToast(currentLang === 'ar' ? 'صورة السيارة مطلوبة قبل إتمام الطلب' : 'A car photo is required before checkout', 'error');
+        setCheckoutStep(modal, 2);
+        return;
+    }
+    if (!vinPhotoFile) {
+        showToast(currentLang === 'ar' ? 'صورة رقم الهيكل مطلوبة قبل إتمام الطلب' : 'A VIN photo is required before checkout', 'error');
+        setCheckoutStep(modal, 2);
+        return;
+    }
     const vinRaw = (document.getElementById('checkout-vin-input')?.value || '').trim().toUpperCase();
     if (vinRaw && !/^[A-HJ-NPR-Z0-9]{17}$/.test(vinRaw)) {
         showToast(currentLang === 'ar'
@@ -4832,13 +4914,16 @@ async function confirmCheckoutOrder() {
     }
 
     try {
-        const [carUpload, istimaraUpload] = await Promise.all([
-            carFile ? uploadCheckoutVehiclePhoto(carFile, 'car') : Promise.resolve(null),
-            istimaraFile ? uploadCheckoutVehiclePhoto(istimaraFile, 'istimara') : Promise.resolve(null),
+        const [carUpload, vinPlateUpload] = await Promise.all([
+            uploadCheckoutVehiclePhoto(carFile, 'car'),
+            uploadCheckoutVehiclePhoto(vinPhotoFile, 'vin'),
         ]);
         const carPhotoPath = carUpload?.path || carUpload?.url || '';
-        const istimaraPhotoPath = istimaraUpload?.path || istimaraUpload?.url || '';
-        const photoPath = istimaraPhotoPath || carPhotoPath;
+        const vinPlatePhotoPath = vinPlateUpload?.path || vinPlateUpload?.url || '';
+        if (!carPhotoPath || !vinPlatePhotoPath) {
+            throw new Error(currentLang === 'ar' ? 'تعذر حفظ صور السيارة أو رقم الهيكل' : 'Could not save the car or VIN photo');
+        }
+        const photoPath = vinPlatePhotoPath;
 
         const items = cart.map((item) => ({
             id: item.id,
@@ -4862,10 +4947,8 @@ async function confirmCheckoutOrder() {
                 vin_code: vinRaw,
                 vin_photo_path: photoPath,
                 car_photo_path: carPhotoPath,
-                istimara_photo_path: istimaraPhotoPath,
-                photo_kind: carPhotoPath && istimaraPhotoPath
-                    ? 'car_istimara'
-                    : (carPhotoPath ? 'car' : (istimaraPhotoPath ? 'istimara' : null)),
+                vin_plate_photo_path: vinPlatePhotoPath,
+                photo_kind: 'car_vin',
                 items,
                 total_amount: total,
             }),
@@ -4923,8 +5006,7 @@ async function confirmWhatsAppCheckout() {
 }
 
 function confirmSallaCheckout() {
-    closeCheckoutVerificationModal();
-    startOnlineCheckout();
+    openCheckoutVerificationModal();
 }
 
 // --- Favorites & Comparison ---
@@ -5101,7 +5183,7 @@ async function initHomePage() {
         };
 
         const resetModels = () => {
-            modelSelect.innerHTML = `<option value="">${getTranslation('select_model') || 'اختر الموديل'}</option>`;
+            modelSelect.innerHTML = `<option value="">${getTranslation('select_model') || 'اختر الفئة'}</option>`;
             modelSelect.value = '';
             modelSelect.disabled = true;
             syncUiSelect(modelSelect);
@@ -5114,9 +5196,14 @@ async function initHomePage() {
             const brandId = String(brandSelect.value || '').trim();
             if (!brandId) return;
 
+            modelSelect.innerHTML = `<option value="">${currentLang === 'ar' ? 'جاري التحميل...' : 'Loading...'}</option>`;
+            modelSelect.disabled = true;
+            syncUiSelect(modelSelect);
+
             try {
                 const models = await fetch(`${API_BASE}/models/${encodeURIComponent(brandId)}`).then((r) => r.json());
                 const list = Array.isArray(models) ? models : (models.data || []);
+                modelSelect.innerHTML = `<option value="">${getTranslation('select_model') || 'اختر الفئة'}</option>`;
                 list.forEach((model) => {
                     const opt = document.createElement('option');
                     opt.value = model.id;
@@ -5125,11 +5212,14 @@ async function initHomePage() {
                 });
                 modelSelect.disabled = list.length === 0;
                 syncUiSelect(modelSelect);
+                requestAnimationFrame(() => syncUiSelect(modelSelect));
                 if (!list.length) {
-                    showToast(currentLang === 'ar' ? 'لا توجد موديلات لهذه الماركة' : 'No models for this brand', 'error');
+                    showToast(currentLang === 'ar' ? 'لا توجد فئات لهذه الماركة' : 'No classes for this brand', 'error');
                 }
             } catch (e) {
                 console.error(e);
+                modelSelect.innerHTML = `<option value="">${getTranslation('select_model') || 'اختر الفئة'}</option>`;
+                modelSelect.disabled = true;
                 syncUiSelect(modelSelect);
             }
         });
@@ -5140,9 +5230,13 @@ async function initHomePage() {
                 syncUiSelect(modelSelect);
                 const modelId = String(modelSelect.value || '').trim();
                 if (!modelId) return;
+                yearSelect.innerHTML = `<option value="">${currentLang === 'ar' ? 'جاري التحميل...' : 'Loading...'}</option>`;
+                yearSelect.disabled = true;
+                syncUiSelect(yearSelect);
                 try {
                     const years = await fetch(`${API_BASE}/years/${encodeURIComponent(modelId)}`).then((r) => r.json());
                     const list = Array.isArray(years) ? years : (years.data || []);
+                    yearSelect.innerHTML = `<option value="">${getTranslation('select_year') || 'اختر السنة'}</option>`;
                     list.forEach((year) => {
                         const value = typeof year === 'object' ? (year.year || year.id) : year;
                         if (value == null || value === '') return;
@@ -5153,11 +5247,14 @@ async function initHomePage() {
                     });
                     yearSelect.disabled = list.length === 0;
                     syncUiSelect(yearSelect);
+                    requestAnimationFrame(() => syncUiSelect(yearSelect));
                     if (!list.length) {
-                        showToast(currentLang === 'ar' ? 'لا توجد سنوات لهذا الموديل' : 'No years for this model', 'error');
+                        showToast(currentLang === 'ar' ? 'لا توجد سنوات لهذه الفئة' : 'No years for this class', 'error');
                     }
                 } catch (e) {
                     console.error(e);
+                    yearSelect.innerHTML = `<option value="">${getTranslation('select_year') || 'اختر السنة'}</option>`;
+                    yearSelect.disabled = true;
                     syncUiSelect(yearSelect);
                 }
             });
@@ -5170,18 +5267,13 @@ async function initHomePage() {
             const brand = document.getElementById('search-brand')?.value;
             const model = document.getElementById('search-model')?.value;
             const year = document.getElementById('search-year')?.value;
-            const category = document.getElementById('search-category')?.value;
-            if (!brand && !category) {
-                showToast('اختر الماركة أو القسم أولاً للبحث', 'error');
+            if (!brand && !model) {
+                showToast('اختر الماركة أو الفئة أولاً للبحث', 'error');
                 return;
             }
             if (brand) params.set('brand', brand);
             if (model) params.set('model', model);
             if (year) params.set('year', year);
-            if (category) {
-                if (/^\d+$/.test(String(category))) params.set('category', category);
-                else params.set('category_key', category);
-            }
             window.location.href = `collection.html?${params.toString()}`;
         };
 

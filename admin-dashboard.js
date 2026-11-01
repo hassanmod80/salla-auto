@@ -8,13 +8,14 @@ const API_BASE = (() => {
     return '/api';
 })();
 
-const WHATSAPP_NUMBER = '966563156460';
-const STORE_URL = typeof location !== 'undefined' ? location.origin : 'https://qetaa-store-production.up.railway.app';
+const WHATSAPP_NUMBER = '966554930989';
+const STORE_URL = typeof location !== 'undefined' ? location.origin : 'https://chinesecar1parts.com';
 
 let adminToken = sessionStorage.getItem('qetaa_admin_token') || '';
 let currentTab = 'orders';
 let productSearchTimer = null;
 let privateImageObjectUrls = [];
+const privateImageCache = new Map();
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!adminToken) {
@@ -22,6 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     renderApp();
+    const sallaResult = new URLSearchParams(location.search).get('salla');
+    if (sallaResult) {
+        switchTab('salla');
+        toast(sallaResult === 'connected' ? 'تم ربط سلة بنجاح' : 'لم يكتمل ربط سلة، حاول مرة أخرى');
+        history.replaceState({}, '', location.pathname);
+        return;
+    }
     switchTab('orders');
 });
 
@@ -67,20 +75,51 @@ async function fetchJson(path, options = {}) {
     return data;
 }
 
+function thumbPhotoUrl(url) {
+    if (!url) return '';
+    return `${url}${url.includes('?') ? '&' : '?'}thumb=1`;
+}
+
 async function fetchPrivateImage(url) {
     if (!url || !adminToken) return '';
-    try {
-        const response = await fetch(url, {
-            headers: { Authorization: `Bearer ${adminToken}` },
-            cache: 'no-store',
-        });
-        if (!response.ok) return '';
-        const objectUrl = URL.createObjectURL(await response.blob());
-        privateImageObjectUrls.push(objectUrl);
-        return objectUrl;
-    } catch (_error) {
-        return '';
-    }
+    if (privateImageCache.has(url)) return privateImageCache.get(url);
+    const pending = (async () => {
+        try {
+            const response = await fetch(url, {
+                headers: { Authorization: `Bearer ${adminToken}` },
+            });
+            if (!response.ok) return '';
+            const objectUrl = URL.createObjectURL(await response.blob());
+            privateImageObjectUrls.push(objectUrl);
+            return objectUrl;
+        } catch (_error) {
+            return '';
+        }
+    })();
+    privateImageCache.set(url, pending);
+    const resolved = await pending;
+    privateImageCache.set(url, resolved);
+    return resolved;
+}
+
+async function fillOrderPhotos(list) {
+    const slots = [...list.querySelectorAll('[data-photo-url]')];
+    let cursor = 0;
+    const worker = async () => {
+        while (cursor < slots.length) {
+            const slot = slots[cursor++];
+            const source = slot.getAttribute('data-photo-url') || '';
+            const label = slot.getAttribute('data-photo-label') || '';
+            const objectUrl = await fetchPrivateImage(thumbPhotoUrl(source));
+            if (!objectUrl || !slot.isConnected) continue;
+            slot.outerHTML = `
+                <a href="${escapeHtml(objectUrl)}" target="_blank" rel="noopener" title="${escapeHtml(label)}">
+                    <img class="order-photo" src="${escapeHtml(objectUrl)}" alt="${escapeHtml(label)}">
+                    <span class="order-photo-label">${escapeHtml(label)}</span>
+                </a>`;
+        }
+    };
+    await Promise.all([worker(), worker(), worker()]);
 }
 
 function renderLogin() {
@@ -120,6 +159,7 @@ async function adminLogin(event) {
             body: JSON.stringify(payload),
             skipAuth: true,
         });
+        if (!data.token) throw new Error(data.message || 'تعذر تسجيل الدخول.');
         adminToken = data.token;
         sessionStorage.setItem('qetaa_admin_token', adminToken);
         renderApp();
@@ -132,11 +172,8 @@ async function adminLogin(event) {
 async function adminLogout() {
     try {
         await fetchJson('/admin/auth/logout', { method: 'POST' });
-    } catch (error) {
-        if (adminToken) {
-            toast(error.message);
-            return;
-        }
+    } catch (_error) {
+        // Even if the server call fails, always end the local session.
     }
     sessionStorage.removeItem('qetaa_admin_token');
     adminToken = '';
@@ -149,7 +186,7 @@ function renderApp() {
             <aside class="admin-side">
                 <div class="admin-brand">
                     <i class="fa-solid fa-car-side"></i>
-                    <span>قطع الجنوب</span>
+                    <span>CHINA PARTS</span>
                 </div>
                 <nav class="admin-nav">
                     <button id="nav-orders" type="button" onclick="switchTab('orders')">
@@ -189,7 +226,7 @@ function renderApp() {
                     <div class="admin-head">
                         <div>
                             <h1>الطلبات</h1>
-                            <p>طلبات العملاء مع صورة الرخصة أو رقم الهيكل.</p>
+                            <p>طلبات الموقع وطلبات سلة. الدفع والشحن يكتملان في سلة، والتفاصيل تظهر هنا.</p>
                         </div>
                         <button class="btn" type="button" onclick="loadOrders()">
                             <i class="fa-solid fa-rotate"></i> تحديث
@@ -197,7 +234,16 @@ function renderApp() {
                     </div>
                     <div class="panel">
                         <div class="panel-head">
-                            <h2>أحدث الطلبات</h2>
+                            <h2>طلبات سلة</h2>
+                            <span id="salla-orders-count" class="badge">0</span>
+                        </div>
+                        <div id="salla-orders-list" class="orders-list">
+                            <div class="empty">جاري التحميل...</div>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h2>طلبات الموقع</h2>
                             <span id="orders-count" class="badge">0</span>
                         </div>
                         <div id="orders-list" class="orders-list">
@@ -210,7 +256,7 @@ function renderApp() {
                     <div class="admin-head">
                         <div>
                             <h1>المنتجات</h1>
-                            <p>ابحث بالاسم أو رقم OEM وتأكد من الصور والأسعار.</p>
+                            <p>نفس أسماء المنتجات والماركات الظاهرة في الموقع.</p>
                         </div>
                         <button class="btn" type="button" onclick="loadProducts()">
                             <i class="fa-solid fa-rotate"></i> تحديث
@@ -255,7 +301,7 @@ function renderApp() {
                     <div class="admin-head">
                         <div>
                             <h1>الماركات</h1>
-                            <p>الماركات الظاهرة في الموقع.</p>
+                            <p>الماركات النشطة على الموقع، بنفس الترتيب والشعار.</p>
                         </div>
                         <button class="btn" type="button" onclick="loadBrands()">
                             <i class="fa-solid fa-rotate"></i> تحديث
@@ -277,8 +323,8 @@ function renderApp() {
                         <div id="salla-status" class="simple-box">جارٍ فحص الاتصال.</div>
                         <div class="toolbar">
                             <button class="btn" type="button" onclick="probeSalla()">فحص الاتصال</button>
-                            <button class="btn" type="button" onclick="syncSalla()">إعادة المزامنة</button>
-                            <a class="btn btn-ghost" href="/api/salla/oauth/start">إعادة ربط الحساب</a>
+                            <button class="btn" type="button" onclick="syncSalla()">ربط كل المنتجات</button>
+                            <button class="btn btn-ghost" type="button" onclick="startSallaOauth()">تفويض سلة ثم الربط التلقائي</button>
                         </div>
                     </div>
                 </section>
@@ -306,8 +352,7 @@ function renderApp() {
                         </div>
                         <div class="simple-box">
                             <strong>بيانات الدخول</strong><br>
-                            الإيميل: admin@qetaa-aljanoob.sa<br>
-                            كلمة السر الحالية: 12345678
+                            ادخل بالإيميل وكلمة المرور الخاصة بلوحة الموقع.
                         </div>
                     </div>
                     <div class="simple-box">
@@ -331,8 +376,8 @@ function renderApp() {
                     </div>
                     <div class="stats">
                         <div class="stat"><div class="label">الطلبات</div><div class="value" id="stat-orders">-</div></div>
-                        <div class="stat"><div class="label">المنتجات</div><div class="value" id="stat-products">-</div></div>
-                        <div class="stat"><div class="label">المنشور</div><div class="value" id="stat-published">-</div></div>
+                        <div class="stat"><div class="label">منتجات الموقع</div><div class="value" id="stat-products">-</div></div>
+                        <div class="stat"><div class="label">ظاهر في الموقع</div><div class="value" id="stat-published">-</div></div>
                         <div class="stat"><div class="label">الرسائل</div><div class="value" id="stat-messages">-</div></div>
                     </div>
                     <div class="simple-box">
@@ -369,9 +414,9 @@ function renderSallaStatus(data) {
         <strong>المتجر:</strong> ${escapeHtml(data.store_domain || '-')} · رقم الإعداد: ${data.store_id_configured ? 'موجود' : 'غير موجود'}<br>
         <strong>آخر نجاح:</strong> ${escapeHtml(data.last_success_at || 'لا يوجد')}<br>
         <strong>انتهاء التفويض:</strong> ${escapeHtml(data.access_expires_at || 'غير متصل')}<br>
-        <strong>منتجات منشورة:</strong> ${data.published_products} · <strong>مرتبطة:</strong> ${data.linked_products} · <strong>غير مرتبطة:</strong> ${data.unlinked_products}<br>
-        <strong>تعارض سعر:</strong> ${data.price_conflicts} · <strong>مخزون نفد في الربط:</strong> ${data.out_of_stock_linked} · <strong>من سلة بلا مقابل:</strong> ${data.unmatched_remote_products}<br>
-        <strong>آخر مزامنة:</strong> ${escapeHtml(last.status || 'لم تبدأ')} ${escapeHtml(last.finished_at || '')}<br>
+        <strong>منتجات منشورة:</strong> ${Number(data.published_products ?? 0)} · <strong>جاهزة للدفع:</strong> ${Number(data.checkout_linked_products ?? data.linked_products ?? 0)} · <strong>مزامنة رسمية:</strong> ${Number(data.linked_products ?? 0)} · <strong>بانتظار إنشاء في سلة:</strong> ${Number(data.unlinked_products ?? 0)}<br>
+        <strong>تعارض سعر:</strong> ${Number(data.price_conflicts ?? 0)} · <strong>مخزون نفد في الربط:</strong> ${Number(data.out_of_stock_linked ?? 0)} · <strong>من سلة بلا مقابل:</strong> ${Number(data.unmatched_remote_products ?? 0)}<br>
+        <strong>آخر مزامنة:</strong> ${escapeHtml(last.status || 'لم تبدأ')} ${escapeHtml(last.finished_at || '')} · أُنشئ: ${last.created ?? 0} · فشل: ${last.failed ?? 0}<br>
         <strong>رابط العودة المطلوب في شركاء سلة:</strong> ${escapeHtml(data.redirect_uri || '')}<br>
         <strong>السبب:</strong> ${escapeHtml(data.reason || data.last_error || 'لا يوجد')}
     `;
@@ -399,20 +444,25 @@ async function probeSalla() {
 async function syncSalla() {
     try {
         const res = await fetchJson('/admin/salla/sync', { method: 'POST', body: '{}' });
-        toast(res.started ? 'بدأت المزامنة' : 'تعذر بدء المزامنة');
+        toast(res.started ? 'بدأ ربط كل المنتجات في الخلفية' : 'تعذر بدء الربط');
     } catch (error) {
         toast(error.message || 'تعذر بدء المزامنة');
     }
     setTimeout(loadSallaIntegration, 1500);
 }
 
+async function startSallaOauth() {
+    try {
+        window.location.href = `${API_BASE}/salla/oauth/start`;
+    } catch (error) {
+        toast(error.message || 'تعذر بدء تفويض سلة');
+    }
+}
+
 function formatDate(value) {
     if (!value) return '';
-    try {
-        return new Date(value).toLocaleString('ar-SA');
-    } catch (_) {
-        return String(value);
-    }
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleString('ar-SA');
 }
 
 function formatItems(items) {
@@ -427,8 +477,18 @@ function formatItems(items) {
     }).join('<br>');
 }
 
+function safeHttpUrl(value) {
+    if (!value) return '';
+    try {
+        const url = new URL(String(value || ''), location.href);
+        return /^https?:$/i.test(url.protocol) ? url.href : '';
+    } catch (_) {
+        return '';
+    }
+}
+
 function waLinkFromPhone(phone) {
-    const digits = String(phone || '').replace(/\D/g, '');
+    const digits = String(phone || '').replace(/\D/g, '').replace(/^00/, '');
     if (!digits) return '';
     const normalized = digits.startsWith('966') ? digits : (`966${digits.replace(/^0/, '')}`);
     return `<a class="btn btn-ghost" style="padding:8px 12px;font-size:0.82rem" href="https://wa.me/${normalized}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> واتساب</a>`;
@@ -444,43 +504,73 @@ function productImage(product) {
     return `<img class="product-thumb" src="${escapeHtml(img)}" alt="">`;
 }
 
+function renderSallaOrders(orders) {
+    const list = document.getElementById('salla-orders-list');
+    const countEl = document.getElementById('salla-orders-count');
+    if (!list) return;
+    const rows = Array.isArray(orders) ? orders : [];
+    if (countEl) countEl.textContent = String(rows.length);
+    if (!rows.length) {
+        list.innerHTML = '<div class="empty">ما فيه طلبات سلة وصلت بعد. لما يكتمل الدفع والشحن في سلة يظهر الطلب هنا ويوصلك تنبيه واتساب.</div>';
+        return;
+    }
+    list.innerHTML = rows.map((order) => {
+        const phone = order.customer_phone || '';
+        const phoneLink = phone ? `<a href="tel:${escapeHtml(phone)}">${escapeHtml(phone)}</a>` : '-';
+        const items = Array.isArray(order.items) ? order.items : [];
+        const itemsHtml = items.length
+            ? items.map((item) => `${escapeHtml(item.name || item.sku || 'قطعة')} × ${escapeHtml(item.quantity || 1)}`).join('<br>')
+            : 'تفاصيل المنتجات تصل مع إشعار سلة';
+        return `
+            <article class="order-card">
+                <div class="order-photo-empty">سلة</div>
+                <div class="order-main">
+                    <h3>#${escapeHtml(order.reference_id || order.salla_order_id)} — ${escapeHtml(order.customer_name || 'عميل')}</h3>
+                    <div class="meta">
+                        الجوال: ${phoneLink}<br>
+                        المدينة: ${escapeHtml(order.customer_city || '-')}<br>
+                        العنوان: ${escapeHtml(order.customer_address || '-')}<br>
+                        الشحن: ${escapeHtml(order.shipping_company || 'يُحدد في سلة')}<br>
+                        الدفع: ${escapeHtml(order.payment_method || '-')} / ${escapeHtml(order.payment_status || order.status_name || '-')}<br>
+                        التاريخ: ${escapeHtml(formatDate(order.updated_at))}
+                    </div>
+                    <div class="order-items">${itemsHtml}</div>
+                </div>
+                <div class="order-side">
+                    <span class="badge">${escapeHtml(order.payment_status || order.status_name || 'سلة')}</span>
+                    <div class="price">${Number(order.total_amount || 0).toLocaleString('ar-SA')} ر.س</div>
+                    ${waLinkFromPhone(phone)}
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
 async function loadOrders() {
     const list = document.getElementById('orders-list');
     const countEl = document.getElementById('orders-count');
     if (!list) return;
     list.innerHTML = '<div class="empty">جاري التحميل...</div>';
     try {
-        const data = await fetchJson('/admin/orders?per_page=100');
+        const data = await fetchJson('/admin/orders?per_page=40');
         const orders = data.data || [];
-        if (countEl) countEl.textContent = String(orders.length);
+        renderSallaOrders(data.salla_orders || []);
+        if (countEl) countEl.textContent = String(data.meta?.total || orders.length);
         if (!orders.length) {
             list.innerHTML = '<div class="empty">ما فيه طلبات بعد.</div>';
             return;
         }
-        privateImageObjectUrls.forEach((url) => URL.revokeObjectURL(url));
-        privateImageObjectUrls = [];
-        const protectedUrls = [...new Set(orders.flatMap((order) => [
-            order.car_photo_url,
-            order.istimara_photo_url,
-            order.vin_photo_url,
-        ]).filter(Boolean))];
-        const resolvedPhotos = new Map(await Promise.all(
-            protectedUrls.map(async (url) => [url, await fetchPrivateImage(url)])
-        ));
         list.innerHTML = orders.map((order) => {
-            const carPhoto = resolvedPhotos.get(order.car_photo_url) || '';
-            const istimaraPhoto = resolvedPhotos.get(order.istimara_photo_url) || '';
-            const legacyPhoto = resolvedPhotos.get(order.vin_photo_url) || '';
             const photos = [];
+            const carPhoto = order.car_photo_url || '';
+            const vinPlatePhoto = order.vin_plate_photo_url || order.vin_photo_url || '';
+            const istimaraPhoto = order.istimara_photo_url || '';
             if (carPhoto) photos.push({ url: carPhoto, label: 'السيارة' });
-            if (istimaraPhoto) photos.push({ url: istimaraPhoto, label: 'الاستمارة' });
-            if (!photos.length && legacyPhoto) photos.push({ url: legacyPhoto, label: 'مركبة' });
+            if (vinPlatePhoto && vinPlatePhoto !== carPhoto) photos.push({ url: vinPlatePhoto, label: 'رقم الهيكل' });
+            if (istimaraPhoto && istimaraPhoto !== vinPlatePhoto && istimaraPhoto !== carPhoto) photos.push({ url: istimaraPhoto, label: 'الاستمارة' });
             const photoHtml = photos.length
                 ? `<div class="order-photos">${photos.map((p) => `
-                    <a href="${escapeHtml(p.url)}" target="_blank" rel="noopener" title="${escapeHtml(p.label)}">
-                        <img class="order-photo" src="${escapeHtml(p.url)}" alt="${escapeHtml(p.label)}">
-                        <span class="order-photo-label">${escapeHtml(p.label)}</span>
-                    </a>`).join('')}</div>`
+                    <span class="order-photo-empty" data-photo-url="${escapeHtml(p.url)}" data-photo-label="${escapeHtml(p.label)}">${escapeHtml(p.label)}</span>`).join('')}</div>`
                 : '<div class="order-photo-empty">بدون<br>صور</div>';
             const phone = order.customer_phone || '';
             const phoneLink = phone ? `<a href="tel:${escapeHtml(phone)}">${escapeHtml(phone)}</a>` : '-';
@@ -493,7 +583,7 @@ async function loadOrders() {
                             الجوال: ${phoneLink}<br>
                             المدينة: ${escapeHtml(order.customer_city || '-')}<br>
                             العنوان: ${escapeHtml(order.customer_address || '-')}<br>
-                            ${order.maps_url ? `الموقع: <a href="${escapeHtml(order.maps_url)}" target="_blank" rel="noopener">فتح على الخريطة</a><br>` : ''}
+                            ${safeHttpUrl(order.maps_url) ? `الموقع: <a href="${escapeHtml(safeHttpUrl(order.maps_url))}" target="_blank" rel="noopener">فتح على الخريطة</a><br>` : ''}
                             رقم الهيكل: ${escapeHtml(order.vin_code || 'غير مذكور')}<br>
                             التاريخ: ${escapeHtml(formatDate(order.created_at))}
                         </div>
@@ -510,8 +600,10 @@ async function loadOrders() {
                 </article>
             `;
         }).join('');
+        fillOrderPhotos(list);
     } catch (error) {
         list.innerHTML = `<div class="empty">${escapeHtml(error.message)}</div>`;
+        renderSallaOrders([]);
         toast(error.message);
     }
 }
@@ -539,10 +631,11 @@ async function loadProducts() {
         }
         list.innerHTML = products.map((p) => {
             const title = p.name_ar || p.name_en || p.title || `منتج #${p.id}`;
-            const oem = p.oem_number || p.oem || '-';
+            const oem = p.oem_number || p.manufacturer_number || p.oem || '-';
             const price = Number(p.price || 0).toLocaleString('ar-SA');
-            const status = p.status || '-';
-            const statusClass = status === 'published' ? 'badge ok' : 'badge';
+            const onSite = p.storefront_visible !== false;
+            const status = onSite ? 'ظاهر في الموقع' : (p.status || '-');
+            const statusClass = onSite ? 'badge ok' : 'badge';
             return `
                 <article class="product-row">
                     ${productImage(p)}
@@ -557,7 +650,7 @@ async function loadProducts() {
                         <span class="${statusClass}">${escapeHtml(status)}</span>
                         <div class="price">${price} ر.س</div>
                         <a class="btn btn-ghost" style="padding:8px 12px;font-size:0.82rem" href="product.html?id=${encodeURIComponent(p.id)}" target="_blank" rel="noopener">عرض</a>
-                        <button class="btn btn-ghost" style="padding:8px 12px;font-size:0.82rem;color:#ff8d8d;border-color:rgba(255,100,100,0.35)" type="button" onclick="deleteProduct(${Number(p.id)}, '${escapeHtml(title).replace(/'/g, '')}')">
+                        <button class="btn btn-ghost" style="padding:8px 12px;font-size:0.82rem;color:#ff8d8d;border-color:rgba(255,100,100,0.35)" type="button" data-title="${escapeHtml(title)}" onclick="deleteProduct(${Number(p.id)}, this.dataset.title)">
                             <i class="fa-solid fa-trash"></i> حذف
                         </button>
                     </div>
@@ -622,13 +715,14 @@ async function loadBrands() {
         list.innerHTML = brands.map((b) => {
             const name = b.name_ar || b.name_en || b.slug || `ماركة #${b.id}`;
             const logo = b.logo_url || b.logo || '';
+            const count = Number(b.products_count || 0);
             const logoHtml = logo
                 ? `<img src="${escapeHtml(logo)}" alt="${escapeHtml(name)}">`
                 : `<i class="fa-solid fa-car" style="color:var(--muted);font-size:1.4rem"></i>`;
             return `
                 <div class="brand-chip">
                     ${logoHtml}
-                    <span>${escapeHtml(name)}</span>
+                    <span>${escapeHtml(name)}${count ? ` · ${count.toLocaleString('ar-SA')}` : ''}</span>
                 </div>
             `;
         }).join('');
@@ -707,3 +801,4 @@ window.onProductSearch = onProductSearch;
 window.deleteMessage = deleteMessage;
 window.deleteProduct = deleteProduct;
 window.deleteOrder = deleteOrder;
+window.startSallaOauth = startSallaOauth;

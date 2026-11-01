@@ -6,19 +6,19 @@
     <title>تفاصيل القطعة | CHINA PARTS</title>
     <meta name="description" content="تفاصيل قطعة غيار لسيارة صينية تشمل رقم القطعة والمعلومات المتاحة عنها، مع مراجعة التوافق والتوفر قبل الطلب.">
     <meta name="robots" content="noindex,follow">
-    <link rel="canonical" href="https://chinapartsksa.com/product.html">
+    <link rel="canonical" href="https://chinesecar1parts.com/product.html">
     <meta property="og:type" content="product">
-    <meta property="og:url" content="https://chinapartsksa.com/product.html">
+    <meta property="og:url" content="https://chinesecar1parts.com/product.html">
     <meta property="og:site_name" content="CHINA PARTS">
     <meta property="og:locale" content="ar_SA">
     <meta property="og:title" content="تفاصيل القطعة | CHINA PARTS">
     <meta property="og:description" content="راجع رقم القطعة والمواصفات المتاحة والتوفر قبل الطلب من CHINA PARTS.">
-    <meta property="og:image" content="https://chinapartsksa.com/images/brand/china-parts-mark.png">
+    <meta property="og:image" content="https://chinesecar1parts.com/images/brand/china-parts-mark.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
     <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
-    <link rel="stylesheet" href="style.css?v=copy230">
+    <link rel="stylesheet" href="style.css?v=tools065">
     <style>
         .product-page {
             padding-block: 60px 80px;
@@ -171,7 +171,8 @@
             color: #ff6b6b;
         }
         @media (max-width: 992px) {
-            .product-layout { grid-template-columns: 1fr; gap: 28px; }
+            .product-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+            .product-layout > * { min-width: 0; }
             .product-gallery { position: static; }
             .policy-grid { grid-template-columns: 1fr; }
             .gallery-main { min-height: 280px; }
@@ -396,8 +397,10 @@
         .product-extra-sections {
             margin-top: 48px;
             display: grid;
+            grid-template-columns: minmax(0, 1fr);
             gap: 24px;
         }
+        .product-extra-sections > * { min-width: 0; }
         .product-section-card {
             background: var(--color-surface);
             border: 1px solid var(--color-border);
@@ -491,7 +494,7 @@
                 </div>
             </div>
             <div class="header-actions">
-                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                <a class="header-wa-link" href="https://wa.me/966554930989" target="_blank" rel="noopener" aria-label="واتساب">
                     <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     <span>واتساب</span>
                 </a>
@@ -672,7 +675,7 @@
                             </span>
                         </a>
                         <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
-                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                        <a class="footer-wa" href="https://wa.me/966554930989" target="_blank" rel="noopener">
                             <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
                         </a>
                     </div>
@@ -695,13 +698,14 @@
                         <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
                         <li><a href="privacy.html">سياسة الخصوصية</a></li>
                         <li><a href="terms.html">الشروط والشحن</a></li>
+                        <li><a href="admin-dashboard.html">لوحة الإدارة</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>تواصل</h3>
                     <ul>
-                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
-                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li><a href="mailto:info@chinesecar1parts.com">info@chinesecar1parts.com</a></li>
+                        <li><a href="https://wa.me/966554930989" target="_blank" rel="noopener">واتساب <bdi dir="ltr">055 493 0989</bdi></a></li>
                         <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
                     </ul>
                 </div>
@@ -728,7 +732,7 @@
 
     <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
     <script src="ads-tracker.js?v=ads2" defer></script>
-    <script src="app.js?v=copy232" defer></script>
+    <script src="app.js?v=tools071" defer></script>
     <script>
         function setSeoTag(selector, attribute, value) {
             if (!value) return;
@@ -838,14 +842,14 @@
             const productId = urlParams.get('id');
 
             if (!productId) {
-                document.getElementById('loading-spinner').style.display = 'none';
-                const errEl = document.getElementById('error-message');
-                errEl.style.display = 'block';
-                errEl.hidden = false;
+                window.location.replace('collection.html');
                 return;
             }
 
             try {
+                if (typeof window.refreshSallaLiveFlag === 'function') {
+                    try { await window.refreshSallaLiveFlag(); } catch (e) {}
+                }
                 const res = await fetch(`${API_BASE}/storefront/products/${productId}`);
                 if (!res.ok) throw new Error('Not found');
                 const payload = await res.json();
@@ -937,6 +941,7 @@
                     : null;
                 setText('p-years', years);
 
+                const sallaAllowed = localStorage.getItem('qetaa_salla_live') !== '0';
                 const chips = document.getElementById('p-meta-chips');
                 const partTypeLabel = 'الأصالة تحتاج تأكيد';
                 const stockLabel = p.in_stock === true
@@ -946,10 +951,10 @@
                 chips.innerHTML = `
                     <span class="meta-chip">${escapeHtml(partTypeLabel)}</span>
                     <span class="meta-chip ${stockClass}">${escapeHtml(stockLabel)}</span>
-                    ${p.category ? `<span class="meta-chip">${escapeHtml(p.category.name_ar || p.category.name_en || '')}</span>` : ''}
+                    ${p.category && (p.category.name_ar || p.category.name_en) ? `<span class="meta-chip">${escapeHtml(p.category.name_ar || p.category.name_en || '')}</span>` : ''}
                     ${p.side ? `<span class="meta-chip">${escapeHtml(p.side)}</span>` : ''}
                     ${p.position ? `<span class="meta-chip">${escapeHtml(p.position)}</span>` : ''}
-                    ${p.checkout_enabled === true && p.can_checkout === true && p.in_stock === true && ((window.ZID_LIVE && p.zid_product_id) || (window.SALLA_LIVE && p.salla_product_id))
+                    ${p.checkout_enabled === true && p.can_checkout === true && p.in_stock !== false && ((window.ZID_LIVE && p.zid_product_id) || (sallaAllowed && p.salla_product_id))
                         ? `<span class="meta-chip">${window.ZID_LIVE && p.zid_product_id ? 'جاهز للدفع عبر زد' : 'جاهز للدفع عبر سلة'}</span>`
                         : '<span class="meta-chip">يمكن طلب التحقق والتوفير</span>'}
                 `;
@@ -1044,7 +1049,7 @@
                     && p.in_stock !== false
                     && (
                         (window.ZID_LIVE && p.zid_product_id && p.in_stock === true)
-                        || (window.SALLA_LIVE && p.salla_product_id)
+                        || (sallaAllowed && p.salla_product_id)
                     )
                 );
                 const buyLabel = canBuyOnline

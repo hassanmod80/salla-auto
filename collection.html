@@ -7,19 +7,19 @@
     <title>جميع القطع | CHINA PARTS</title>
     <meta name="description" content="تصفح قطع غيار السيارات الصينية وابحث بالاسم أو رقم القطعة أو الماركة والموديل، ثم راجع التوافق والتوفر قبل الطلب.">
     <meta name="robots" content="index,follow">
-    <link rel="canonical" href="https://chinapartsksa.com/collection.html">
+    <link rel="canonical" href="https://chinesecar1parts.com/collection.html">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://chinapartsksa.com/collection.html">
+    <meta property="og:url" content="https://chinesecar1parts.com/collection.html">
     <meta property="og:site_name" content="CHINA PARTS">
     <meta property="og:locale" content="ar_SA">
     <meta property="og:title" content="جميع القطع | CHINA PARTS">
     <meta property="og:description" content="كتالوج قطع غيار السيارات الصينية مع بحث بالاسم ورقم القطعة وبيانات المركبة.">
-    <meta property="og:image" content="https://chinapartsksa.com/images/brand/china-parts-mark.png">
+    <meta property="og:image" content="https://chinesecar1parts.com/images/brand/china-parts-mark.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="images/brand/favicon.png?v=192" type="image/png">
     <link rel="apple-touch-icon" href="images/brand/china-parts-mark.png?v=192">
-    <link rel="stylesheet" href="style.css?v=copy230">
+    <link rel="stylesheet" href="style.css?v=tools065">
     <style>
         .page-header {
             padding: 60px 0 40px;
@@ -673,6 +673,108 @@
             color: var(--color-text-muted);
             user-select: none;
         }
+        /* "Can't find your part?" WhatsApp card: fills the empty part of the last grid row */
+        .part-request-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 14px;
+            min-height: 260px;
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid rgba(37, 211, 102, 0.28);
+            background:
+                radial-gradient(120% 140% at 100% 0%, rgba(37, 211, 102, 0.16) 0%, transparent 55%),
+                linear-gradient(160deg, #111827 0%, #0b1220 100%);
+            overflow: hidden;
+        }
+        .part-request-card::after {
+            content: "";
+            position: absolute;
+            inset-inline-start: -40px;
+            bottom: -40px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(37, 211, 102, 0.06);
+            pointer-events: none;
+        }
+        .part-request-card .prc-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+            color: #25d366;
+            background: rgba(37, 211, 102, 0.12);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+        .part-request-card .prc-eyebrow {
+            font-size: 13px;
+            color: #4ade80;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+        .part-request-card h3 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.5;
+            color: #f8fafc;
+        }
+        .part-request-card p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 14.5px;
+            line-height: 1.8;
+            max-width: 560px;
+        }
+        .part-request-card .prc-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            margin: 2px 0 4px;
+            padding: 0;
+            list-style: none;
+            color: #cbd5e1;
+            font-size: 13.5px;
+        }
+        .part-request-card .prc-steps li::before {
+            content: "✓";
+            color: #25d366;
+            margin-inline-end: 6px;
+            font-weight: 700;
+        }
+        .part-request-card .prc-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 22px;
+            border-radius: 12px;
+            background: #25d366;
+            color: #06210f;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            transition: transform .2s ease, box-shadow .2s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .part-request-card .prc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(37, 211, 102, 0.25);
+        }
+        .part-request-card .prc-btn i { font-size: 20px; }
+        .part-request-card.is-compact { padding: 20px; min-height: 0; }
+        .part-request-card.is-compact h3 { font-size: 18px; }
+        .part-request-card.is-compact .prc-steps { display: none; }
+        @media (max-width: 640px) {
+            .part-request-card { padding: 20px; min-height: 0; }
+            .part-request-card h3 { font-size: 18px; }
+            .part-request-card .prc-btn { align-self: stretch; justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -704,7 +806,7 @@
                 </div>
             </div>
             <div class="header-actions">
-                <a class="header-wa-link" href="https://wa.me/966563156460" target="_blank" rel="noopener" aria-label="واتساب">
+                <a class="header-wa-link" href="https://wa.me/966554930989" target="_blank" rel="noopener" aria-label="واتساب">
                     <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                     <span>واتساب</span>
                 </a>
@@ -767,7 +869,7 @@
             </div>
 
             <div class="filter-group">
-                <div class="filter-group-title">الأقسام</div>
+                <div class="filter-group-title">الفئات</div>
                 <ul class="filter-list" id="filter-categories">
                     <li data-translate="loading_msg">جاري التحميل...</li>
                 </ul>
@@ -877,7 +979,7 @@
                             </span>
                         </a>
                         <p class="footer-tag">متجر متخصص في قطع غيار السيارات الصينية، مع مساعدة في مراجعة رقم القطعة والتوافق والتوفر قبل الطلب.</p>
-                        <a class="footer-wa" href="https://wa.me/966563156460" target="_blank" rel="noopener">
+                        <a class="footer-wa" href="https://wa.me/966554930989" target="_blank" rel="noopener">
                             <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> تواصل عبر واتساب
                         </a>
                     </div>
@@ -900,13 +1002,14 @@
                         <li><a href="policy.html" data-translate="footer_policy_return">سياسة الاسترجاع</a></li>
                         <li><a href="privacy.html">سياسة الخصوصية</a></li>
                         <li><a href="terms.html">الشروط والشحن</a></li>
+                        <li><a href="admin-dashboard.html">لوحة الإدارة</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>تواصل</h3>
                     <ul>
-                        <li><a href="mailto:info@chinapartsksa.com">info@chinapartsksa.com</a></li>
-                        <li><a href="https://wa.me/966563156460" target="_blank" rel="noopener">واتساب 056 315 6460</a></li>
+                        <li><a href="mailto:info@chinesecar1parts.com">info@chinesecar1parts.com</a></li>
+                        <li><a href="https://wa.me/966554930989" target="_blank" rel="noopener">واتساب <bdi dir="ltr">055 493 0989</bdi></a></li>
                         <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
                     </ul>
                 </div>
@@ -933,11 +1036,12 @@
 
         <script>window.ZID_LIVE = false; window.SALLA_LIVE = false;</script>
     <script src="ads-tracker.js?v=ads2" defer></script>
-    <script src="app.js?v=copy232" defer></script>
+    <script src="app.js?v=tools071" defer></script>
     <script>
         let currentCollectionProducts = [];
         let currentCollectionMeta = null;
         let currentPage = 1;
+        let productsRequestSeq = 0;
         let filterDebounceTimer = null;
         let brandsCache = [];
         let categoriesCache = [];
@@ -988,11 +1092,13 @@
             if (!extra && cleanState.brand && !cleanState.category && !cleanState.model) {
                 const brand = brandsCache.find((item) => String(item.id) === String(cleanState.brand));
                 if (brand && brand.slug) {
-                    return page > 1 ? `/brands/${brand.slug}/page/${page}/` : `/brands/${brand.slug}/`;
+                    const brandSlug = encodeURIComponent(String(brand.slug));
+                    return page > 1 ? `/brands/${brandSlug}/page/${page}/` : `/brands/${brandSlug}/`;
                 }
             }
             if (!extra && cleanState.category && !cleanState.brand && !cleanState.model && !/^\d+$/.test(String(cleanState.category))) {
-                return page > 1 ? `/categories/${cleanState.category}/page/${page}/` : `/categories/${cleanState.category}/`;
+                const categorySlug = encodeURIComponent(String(cleanState.category));
+                return page > 1 ? `/categories/${categorySlug}/page/${page}/` : `/categories/${categorySlug}/`;
             }
             if (!extra && cleanState.model && !cleanState.brand && !cleanState.category) {
                 return page > 1 ? `/models/${cleanState.model}/page/${page}/` : `/models/${cleanState.model}/`;
@@ -1124,6 +1230,7 @@
                 }).join('');
 
                 initPriceFilter(urlParams.get('min_price'), urlParams.get('max_price'));
+                await loadVehicleModelName();
                 updatePageHeading(urlParams);
                 bindFilterEvents();
                 await fetchProductsAjax(false);
@@ -1310,6 +1417,7 @@
             document.getElementById('filter-brands').addEventListener('change', (event) => {
                 if (event.target.classList.contains('chk-brand')) {
                     enforceSingleCheck('.chk-brand', event.target);
+                    clearVehicleParams();
                 }
                 currentPage = 1;
                 fetchProductsAjax(true);
@@ -1385,7 +1493,8 @@
                 );
                 const name = (b && b.name_ar) || landingName;
                 if (name) {
-                    document.getElementById('page-title').innerText = `قطع غيار ${name}`;
+                    const vehicle = (modelId || year) ? selectedVehicleLabel() : '';
+                    document.getElementById('page-title').innerText = `قطع غيار ${vehicle || name}`;
                     document.getElementById('page-desc').innerText = getTranslation('page_all_parts_desc');
                     if (crumb) crumb.innerText = name;
                     return;
@@ -1423,6 +1532,7 @@
         }
 
         async function fetchProductsAjax(updateHistory = true) {
+            const requestSeq = ++productsRequestSeq;
             const state = collectFilterState();
             if (updateHistory) syncUrl(state);
 
@@ -1471,8 +1581,11 @@
                         sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: payload }));
                     } catch (e) {}
                 }
+                // Ignore late responses from older filter changes.
+                if (requestSeq !== productsRequestSeq) return;
                 renderProductsGrid(payload.data || [], payload.meta || null);
             } catch (err) {
+                if (requestSeq !== productsRequestSeq) return;
                 console.error(err);
                 grid.innerHTML = `
                     <div class="empty-state">
@@ -1483,9 +1596,94 @@
                     </div>`;
                 document.getElementById('pagination-bar').innerHTML = '';
             } finally {
-                grid.classList.remove('is-loading');
+                if (requestSeq === productsRequestSeq) grid.classList.remove('is-loading');
             }
         }
+
+        // Selected vehicle (brand / model / year) for headings and WhatsApp requests.
+        let vehicleModelName = '';
+        async function loadVehicleModelName() {
+            const params = new URLSearchParams(location.search);
+            const modelId = params.get('model') || parseLandingFromPath().id || '';
+            const brandId = document.querySelector('.chk-brand:checked')?.value || params.get('brand') || '';
+            vehicleModelName = '';
+            if (!modelId || !brandId) return;
+            try {
+                const models = await fetch(`${API_BASE}/models/${encodeURIComponent(brandId)}`).then(r => r.ok ? r.json() : []);
+                const m = (Array.isArray(models) ? models : []).find(x => String(x.id) === String(modelId));
+                vehicleModelName = m ? (m.name_ar || m.name_en || '') : '';
+            } catch (_) { vehicleModelName = ''; }
+        }
+
+        function selectedVehicleLabel() {
+            const params = new URLSearchParams(location.search);
+            const brandId = document.querySelector('.chk-brand:checked')?.value || params.get('brand') || '';
+            const b = brandId ? brandsCache.find(x => String(x.id) === String(brandId)) : null;
+            const parts = [];
+            if (b) parts.push(b.name_ar || b.name_en || '');
+            if (vehicleModelName) parts.push(vehicleModelName);
+            const year = params.get('year');
+            if (year && /^\d{4}$/.test(year)) parts.push(year);
+            return parts.filter(Boolean).join(' ');
+        }
+
+        // Drop model/year/vehicle when the brand changes or filters reset, so stale selections never linger.
+        function clearVehicleParams() {
+            const p = new URLSearchParams(location.search);
+            ['model', 'year', 'vehicle_id'].forEach(k => p.delete(k));
+            const path = parseLandingFromPath().kind === 'model' ? '/collection.html' : location.pathname;
+            const qs = p.toString();
+            window.history.replaceState({}, '', path + (qs ? `?${qs}` : ''));
+            vehicleModelName = '';
+        }
+
+        function partRequestWhatsAppHref() {
+            const params = new URLSearchParams(location.search);
+            const pageTitle = (document.getElementById('page-title')?.textContent || '').trim();
+            const query = (params.get('q') || '').trim();
+            const vehicle = selectedVehicleLabel();
+            const lines = ['مرحباً CHINA PARTS، لم أجد القطعة التي أبحث عنها وأرغب في توفيرها.'];
+            if (pageTitle && pageTitle !== 'جميع القطع' && !query) lines.push('الصفحة: ' + pageTitle);
+            if (query) lines.push('بحثت عن: ' + query);
+            lines.push('اسم القطعة:');
+            lines.push('السيارة والموديل والسنة: ' + vehicle);
+            lines.push('رقم الهيكل (VIN) إن توفر:');
+            return `https://wa.me/966554930989?text=${encodeURIComponent(lines.join('\n'))}`;
+        }
+
+        function buildPartRequestCardHtml() {
+            const href = partRequestWhatsAppHref();
+            return `
+                <div class="part-request-card" id="part-request-card">
+                    <div class="prc-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div>
+                    <span class="prc-eyebrow">خدمة توفير القطع</span>
+                    <h3>لم تجد القطعة التي تبحث عنها؟</h3>
+                    <p>أرسل لنا اسم القطعة أو صورتها مع بيانات سيارتك، وسيتولى فريقنا البحث عنها وتأكيد السعر ومدة التوفير قبل أي التزام.</p>
+                    <ul class="prc-steps">
+                        <li>رد سريع من فريق متخصص</li>
+                        <li>تأكيد التوافق برقم الهيكل</li>
+                        <li>توفير من موردين معتمدين</li>
+                    </ul>
+                    <a class="prc-btn" href="${href}" target="_blank" rel="noopener">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        تواصل معنا عبر واتساب
+                    </a>
+                </div>`;
+        }
+
+        // Stretch the request card over the empty cells of the last grid row.
+        function fitPartRequestCard() {
+            const grid = document.getElementById('products-grid');
+            const card = document.getElementById('part-request-card');
+            if (!grid || !card) return;
+            const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+            const count = grid.querySelectorAll('.product-card').length;
+            const free = cols - (count % cols);
+            const span = (free === 0 || cols <= 2) ? cols : free;
+            card.style.gridColumn = `span ${span}`;
+            card.classList.toggle('is-compact', span === 1 && cols > 1);
+        }
+        window.addEventListener('resize', fitPartRequestCard);
 
         function renderProductsGrid(products, meta = null) {
             currentCollectionProducts = products;
@@ -1495,20 +1693,33 @@
             products = products.filter(p => p.image_url || p.image);
             document.getElementById('results-count').innerText = `${getTranslation('parts_found')} (${meta ? meta.total : products.length})`;
 
+            const hasOtherPages = Boolean(meta && Number(meta.last_page) > 1);
+            if (products.length === 0 && hasOtherPages) {
+                // This page only had products without images; keep pagination usable.
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-images"></i>
+                        <p>لا توجد صور لمنتجات هذه الصفحة، جرّب الصفحة التالية.</p>
+                    </div>`;
+                renderPagination(meta);
+                return;
+            }
+
             if (products.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
                         <i class="fa-solid fa-box-open"></i>
                         <h3>${getTranslation('no_parts_found')}</h3>
                         <p>مش لاقي قطعتك؟ تواصل معنا ونساعدك نجيبها. أرسل اسمها أو صورتها وبيانات السيارة، ونوضح لك السعر ومدة التوفير قبل تأكيد الطلب.</p>
-                        <a class="btn btn-primary" href="https://wa.me/966563156460?text=${encodeURIComponent('مرحباً CHINA PARTS، لم أجد القطعة وأرغب في توفيرها.\nبحثت عن: ' + (new URLSearchParams(location.search).get('q') || '') + '\nالسيارة والموديل:\nرقم الهيكل إن توفر:')}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
+                        <a class="btn btn-primary" href="${partRequestWhatsAppHref()}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> اطلب توفير قطعتك</a>
                         <button class="btn btn-outline" type="button" onclick="resetFilters()">إعادة ضبط الفلاتر</button>
                     </div>`;
                 document.getElementById('pagination-bar').innerHTML = '';
                 return;
             }
 
-            grid.innerHTML = products.map(createProductCardHtml).join('');
+            grid.innerHTML = products.map(createProductCardHtml).join('') + buildPartRequestCardHtml();
+            fitPartRequestCard();
             refreshInteractionButtons();
             renderPagination(meta);
         }
@@ -1589,6 +1800,7 @@
             document.querySelectorAll('.chk-brand, .chk-cat').forEach(cb => { cb.checked = false; });
             const stockAll = document.querySelector('input[name="stock"][value=""]');
             if (stockAll) stockAll.checked = true;
+            clearVehicleParams();
             currentPage = 1;
             fetchProductsAjax(true);
             if (window.innerWidth <= 992) {
