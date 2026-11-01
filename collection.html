@@ -673,6 +673,108 @@
             color: var(--color-text-muted);
             user-select: none;
         }
+        /* "Can't find your part?" WhatsApp card: fills the empty part of the last grid row */
+        .part-request-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 14px;
+            min-height: 260px;
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid rgba(37, 211, 102, 0.28);
+            background:
+                radial-gradient(120% 140% at 100% 0%, rgba(37, 211, 102, 0.16) 0%, transparent 55%),
+                linear-gradient(160deg, #111827 0%, #0b1220 100%);
+            overflow: hidden;
+        }
+        .part-request-card::after {
+            content: "";
+            position: absolute;
+            inset-inline-start: -40px;
+            bottom: -40px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(37, 211, 102, 0.06);
+            pointer-events: none;
+        }
+        .part-request-card .prc-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+            color: #25d366;
+            background: rgba(37, 211, 102, 0.12);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+        .part-request-card .prc-eyebrow {
+            font-size: 13px;
+            color: #4ade80;
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+        .part-request-card h3 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.5;
+            color: #f8fafc;
+        }
+        .part-request-card p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 14.5px;
+            line-height: 1.8;
+            max-width: 560px;
+        }
+        .part-request-card .prc-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            margin: 2px 0 4px;
+            padding: 0;
+            list-style: none;
+            color: #cbd5e1;
+            font-size: 13.5px;
+        }
+        .part-request-card .prc-steps li::before {
+            content: "✓";
+            color: #25d366;
+            margin-inline-end: 6px;
+            font-weight: 700;
+        }
+        .part-request-card .prc-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 22px;
+            border-radius: 12px;
+            background: #25d366;
+            color: #06210f;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            transition: transform .2s ease, box-shadow .2s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .part-request-card .prc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(37, 211, 102, 0.25);
+        }
+        .part-request-card .prc-btn i { font-size: 20px; }
+        .part-request-card.is-compact { padding: 20px; min-height: 0; }
+        .part-request-card.is-compact h3 { font-size: 18px; }
+        .part-request-card.is-compact .prc-steps { display: none; }
+        @media (max-width: 640px) {
+            .part-request-card { padding: 20px; min-height: 0; }
+            .part-request-card h3 { font-size: 18px; }
+            .part-request-card .prc-btn { align-self: stretch; justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -907,7 +1009,7 @@
                     <h3>تواصل</h3>
                     <ul>
                         <li><a href="mailto:info@chinesecar1parts.com">info@chinesecar1parts.com</a></li>
-                        <li><a href="https://wa.me/966554930989" target="_blank" rel="noopener">واتساب 055 493 0989</a></li>
+                        <li><a href="https://wa.me/966554930989" target="_blank" rel="noopener">واتساب <bdi dir="ltr">055 493 0989</bdi></a></li>
                         <li>تُؤكد تفاصيل الشحن قبل الطلب</li>
                     </ul>
                 </div>
@@ -1495,6 +1597,47 @@
             }
         }
 
+        function buildPartRequestCardHtml() {
+            const params = new URLSearchParams(location.search);
+            const pageTitle = (document.getElementById('page-title')?.textContent || '').trim();
+            const query = (params.get('q') || '').trim();
+            const lines = ['مرحباً CHINA PARTS، لم أجد القطعة التي أبحث عنها وأرغب في توفيرها.'];
+            if (pageTitle && pageTitle !== 'جميع القطع' && !query) lines.push('الصفحة: ' + pageTitle);
+            if (query) lines.push('بحثت عن: ' + query);
+            lines.push('اسم القطعة:', 'السيارة والموديل والسنة:', 'رقم الهيكل (VIN) إن توفر:');
+            const href = `https://wa.me/966554930989?text=${encodeURIComponent(lines.join('\n'))}`;
+            return `
+                <div class="part-request-card" id="part-request-card">
+                    <div class="prc-icon"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></div>
+                    <span class="prc-eyebrow">خدمة توفير القطع</span>
+                    <h3>لم تجد القطعة التي تبحث عنها؟</h3>
+                    <p>أرسل لنا اسم القطعة أو صورتها مع بيانات سيارتك، وسيتولى فريقنا البحث عنها وتأكيد السعر ومدة التوفير قبل أي التزام.</p>
+                    <ul class="prc-steps">
+                        <li>رد سريع من فريق متخصص</li>
+                        <li>تأكيد التوافق برقم الهيكل</li>
+                        <li>توفير من موردين معتمدين</li>
+                    </ul>
+                    <a class="prc-btn" href="${href}" target="_blank" rel="noopener">
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        تواصل معنا عبر واتساب
+                    </a>
+                </div>`;
+        }
+
+        // Stretch the request card over the empty cells of the last grid row.
+        function fitPartRequestCard() {
+            const grid = document.getElementById('products-grid');
+            const card = document.getElementById('part-request-card');
+            if (!grid || !card) return;
+            const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+            const count = grid.querySelectorAll('.product-card').length;
+            const free = cols - (count % cols);
+            const span = (free === 0 || cols <= 2) ? cols : free;
+            card.style.gridColumn = `span ${span}`;
+            card.classList.toggle('is-compact', span === 1 && cols > 1);
+        }
+        window.addEventListener('resize', fitPartRequestCard);
+
         function renderProductsGrid(products, meta = null) {
             currentCollectionProducts = products;
             currentCollectionMeta = meta;
@@ -1528,7 +1671,8 @@
                 return;
             }
 
-            grid.innerHTML = products.map(createProductCardHtml).join('');
+            grid.innerHTML = products.map(createProductCardHtml).join('') + buildPartRequestCardHtml();
+            fitPartRequestCard();
             refreshInteractionButtons();
             renderPagination(meta);
         }
